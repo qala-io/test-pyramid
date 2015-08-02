@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="pyramid">
 <head>
-    <title></title>
+  <title></title>
+  <script type="text/javascript" src="/static/js/vendor/angular.min.js"></script>
+  <script type="text/javascript" src="/static/js/app.js"></script>
 </head>
-<body>
-    Hello
+<body ng-controller="PyramidCtrl">
+  Hello, {{name}}
 </body>
 </html>
