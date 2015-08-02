@@ -11,7 +11,7 @@ module.exports = function(config){
       'src/test/js/PyramidControllerTest.js'
     ],
     frameworks: ['jasmine'],
-    browsers : ['PhantomJS'],
+    browsers : ['Firefox'],
     plugins : [
       'karma-phantomjs-launcher',
       'karma-chrome-launcher',
