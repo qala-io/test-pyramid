@@ -5,14 +5,13 @@ module.exports = function(config){
     singleRun: true,
     reporters: ['progress', 'junit', 'allure'],
     files : [
-      'src/main/resources/js/lib/angular.min.js',
+      'src/main/webapp/js/vendor/angular.min.js',
       'src/test/js/angular-mocks.js',
-      'src/main/resources/js/controllers.js',
-      'src/test/js/KarmaConfigurationTest.js',
-      'src/test/js/UserRatingTest.js'
+      'src/main/webapp/js/app.js',
+      'src/test/js/PyramidControllerTest.js'
     ],
     frameworks: ['jasmine'],
-    browsers : ['PhantomJS'], //can be phantomJS
+    browsers : ['PhantomJS'],
     plugins : [
       'karma-phantomjs-launcher',
       'karma-chrome-launcher',
