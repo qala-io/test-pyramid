@@ -5,21 +5,28 @@ module.exports = function(config){
     singleRun: true,
     reporters: ['progress', 'junit', 'allure'],
     files : [
-      'src/main/webapp/js/vendor/angular.min.js',
+      'src/main/webapp/js/vendor/angular.js',
       'src/test/js/angular-mocks.js',
       'src/main/webapp/js/app.js',
-      'src/test/js/PyramidControllerTest.js'
+      'src/test/js/PyramidController.spec.js'
     ],
-    frameworks: ['jasmine'],
-    browsers : ['Firefox'],
+    frameworks: ['jasmine', 'browserify'],
+    browsers : ['Chrome'],
     plugins : [
       'karma-phantomjs-launcher',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-jasmine',
       'karma-junit-reporter',
-      'karma-allure-reporter'
+      'karma-allure-reporter',
+      'karma-browserify'
     ],
+    preprocessors: {
+      'src/test/js/*.spec.js': [ 'browserify' ]
+    },
+    browserify: {
+      debug: true
+    },
     junitReporter : {
       outputFile: 'target/surefire-reports/js-unit.xml',
       suite: 'unit'

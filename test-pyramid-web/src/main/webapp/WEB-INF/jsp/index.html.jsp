@@ -1,11 +1,37 @@
 <!DOCTYPE html>
-<html ng-app="pyramid">
+<html data-ng-app="pyramid">
 <head>
-  <title></title>
-  <script type="text/javascript" src="/js/vendor/angular.min.js"></script>
-  <script type="text/javascript" src="/js/app.js"></script>
+  <title>Test Pyramid | Pyramids Collection</title>
+  <link href="${pageContext.request.contextPath}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/vendor/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/vendor/angular.min.js"></script>
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/app.js"></script>
+  <%--<script type="text/javascript" src="${pageContext.request.contextPath}/vendor/bootstrap/js/bootstrap.min.js"></script>--%>
 </head>
-<body ng-controller="PyramidCtrl">
-  Hello, {{name}}
+<body data-ng-controller="PyramidCtrl">
+<div class="content">
+  <form>
+    <div class="">
+      <label for="project-name">Project Name</label>
+      <input id="project-name">
+      </div>
+    <div class="">
+      <label for="n-of-unit-tests">Number of Unit Tests</label>
+      <input id="n-of-unit-tests" data-ng-model="unitTests.count" data-ng-change="updatePercentage()">
+      <label id="perc-of-unit-tests">{{unitTests.percentage}}</label></div>
+    <div class="">
+      <label for="n-of-component-tests">Number of Component Tests</label>
+      <input id="n-of-component-tests">
+      <label id="perc-of-component-tests">{{componentTests.percentage}}</label></div>
+    <div class="">
+      <label for="n-of-system-tests">Project Name</label>
+      <input id="n-of-system-tests">
+      <label id="perc-of-system-tests">{{systemTests.percentage}}</label></div>
+    <div>
+      <button id="save-btn" class="btn-primary">Save</button>
+    </div>
+  </form>
+</div>
 </body>
 </html>
