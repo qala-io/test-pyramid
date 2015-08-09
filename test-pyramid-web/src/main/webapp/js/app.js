@@ -1,24 +1,29 @@
-//(function () {
+(function () {
   'use strict';
 
-  var app = angular.module('pyramid', []);
-  app.controller('PyramidCtrl', PyramidController);
+  angular.module('pyramid', [])
+    .controller('PyramidCtrl', PyramidController);
 
-  function PyramidController($scope) {
-    $scope.unitTests = {count: 0, percentage: '', color: 'green'};
-    $scope.componentTests = {count: 0, percentage: '', color: 'green'};
-    $scope.systemTests = {count: 0, percentage: '', color: 'green'};
+  function PyramidController() {
+    var vm = this;
+    vm.unitTests = {count: '', percentage: '', color: 'green'};
+    vm.componentTests = {count: '', percentage: '', color: 'green'};
+    vm.systemTests = {count: '', percentage: '', color: 'green'};
 
-    $scope.updatePercentage = function () {
-      var unitTestsCount = $scope.unitTests.count;
-      var componentTestsCount = $scope.componentTests.count;
-      var systemTestsCount = $scope.systemTests.count;
+    vm.updatePercentage = function () {
+      var unitTestsCount = +vm.unitTests.count || 0;
+      var componentTestsCount = +vm.componentTests.count || 0;
+      var systemTestsCount = +vm.systemTests.count || 0;
       var sum = unitTestsCount + componentTestsCount + systemTestsCount;
-      if (sum) {
-        $scope.unitTests.percentage = (unitTestsCount / sum) * 100 + "%";
-        $scope.componentTests.percentage = (componentTestsCount / sum) * 100 + "%";
-        $scope.systemTests.percentage = (systemTestsCount / sum) * 100 + "%";
+      if (sum !== 0) {
+        vm.unitTests.percentage = (unitTestsCount / sum) * 100 + "%";
+        vm.componentTests.percentage = (componentTestsCount / sum) * 100 + "%";
+        vm.systemTests.percentage = (systemTestsCount / sum) * 100 + "%";
+      } else {
+        vm.unitTests.percentage = '';
+        vm.componentTests.percentage = '';
+        vm.systemTests.percentage = '';
       }
     };
   }
-//});
+})();
