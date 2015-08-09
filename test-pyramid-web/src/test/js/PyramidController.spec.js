@@ -46,6 +46,17 @@ describe('PyramidController', function () {
       sut.updatePercentage();
       expect(sut[testType].percentage).toBe('');
     });
+    it('must set ' + testType + ' percentage to zero if count is set as alpha string', function() {
+      sut[testType].count = 'blah';
+      sut.updatePercentage();
+
+      expect(sut.unitTests.percentage).toBe('');
+    });
+    xit(testType + ' label must show error if non-numbers were entered', function(){
+      sut[testType].count = 'abc';
+      sut.updatePercentage();
+      expect(sut[testType].error).toBe('Numeric value is expected!')
+    });
   });
   it('must calculate percentage correctly (happy path)', function() {
     sut.unitTests.count = 10;

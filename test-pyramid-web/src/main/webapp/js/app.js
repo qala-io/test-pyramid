@@ -6,24 +6,21 @@
 
   function PyramidController() {
     var vm = this;
-    vm.unitTests = {count: '', percentage: '', color: 'green'};
-    vm.componentTests = {count: '', percentage: '', color: 'green'};
-    vm.systemTests = {count: '', percentage: '', color: 'green'};
+    vm.unitTests = {count: '', percentage: '', color: 'green', error: ''};
+    vm.componentTests = {count: '', percentage: '', color: 'green', error: ''};
+    vm.systemTests = {count: '', percentage: '', color: 'green', error: ''};
+    vm.testTypes = [vm.unitTests, vm.componentTests, vm.systemTests];
 
-    vm.updatePercentage = function () {
-      var unitTestsCount = +vm.unitTests.count || 0;
-      var componentTestsCount = +vm.componentTests.count || 0;
-      var systemTestsCount = +vm.systemTests.count || 0;
-      var sum = unitTestsCount + componentTestsCount + systemTestsCount;
-      if (sum !== 0) {
-        vm.unitTests.percentage = (unitTestsCount / sum) * 100 + "%";
-        vm.componentTests.percentage = (componentTestsCount / sum) * 100 + "%";
-        vm.systemTests.percentage = (systemTestsCount / sum) * 100 + "%";
-      } else {
-        vm.unitTests.percentage = '';
-        vm.componentTests.percentage = '';
-        vm.systemTests.percentage = '';
-      }
-    };
+    vm.updatePercentage = updatePercentage;
+
+    function updatePercentage() {
+      var sum = 0;
+      vm.testTypes.forEach(function (testType) {
+        sum += +testType.count || 0;
+      });
+      vm.testTypes.forEach(function (testType) {
+        testType.percentage = sum ? (+testType.count / sum) * 100 + '%': '';
+      });
+    }
   }
 })();
