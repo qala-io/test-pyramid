@@ -19,15 +19,15 @@
     <div class="">
       <label for="n-of-unit-tests">Number of Unit Tests</label>
       <input id="n-of-unit-tests" data-ng-model="pyramid.unitTests.count" data-ng-change="pyramid.updatePercentage()">
-      <label id="perc-of-unit-tests">{{pyramid.unitTests.percentage}}</label></div>
+      <label id="unit-tests-label">{{pyramid.unitTests.label}}</label></div>
     <div class="">
       <label for="n-of-component-tests">Number of Component Tests</label>
       <input id="n-of-component-tests" data-ng-model="pyramid.componentTests.count" data-ng-change="pyramid.updatePercentage()">
-      <label id="perc-of-component-tests">{{pyramid.componentTests.percentage}}</label></div>
+      <label id="component-tests-label">{{pyramid.componentTests.label}}</label></div>
     <div class="">
-      <label for="n-of-system-tests">Project Name</label>
+      <label for="n-of-system-tests">Number of System Tests</label>
       <input id="n-of-system-tests" data-ng-model="pyramid.systemTests.count" data-ng-change="pyramid.updatePercentage()">
-      <label id="perc-of-system-tests">{{pyramid.systemTests.percentage}}</label></div>
+      <label id="system-tests-label">{{pyramid.systemTests.label}}</label></div>
     <div>
       <button id="save-btn" class="btn-primary">Save</button>
     </div>

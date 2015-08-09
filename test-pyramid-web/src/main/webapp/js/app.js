@@ -6,20 +6,23 @@
 
   function PyramidController() {
     var vm = this;
-    vm.unitTests = {count: '', percentage: '', color: 'green', error: ''};
-    vm.componentTests = {count: '', percentage: '', color: 'green', error: ''};
-    vm.systemTests = {count: '', percentage: '', color: 'green', error: ''};
-    vm.testTypes = [vm.unitTests, vm.componentTests, vm.systemTests];
-
+    vm.unitTests = {count: '', label: '', color: 'green'};
+    vm.componentTests = {count: '', label: '', color: 'green'};
+    vm.systemTests = {count: '', label: '', color: 'green'};
     vm.updatePercentage = updatePercentage;
+
+    var testTypes = [vm.unitTests, vm.componentTests, vm.systemTests];
 
     function updatePercentage() {
       var sum = 0;
-      vm.testTypes.forEach(function (testType) {
+      testTypes.forEach(function (testType) {
         sum += +testType.count || 0;
       });
-      vm.testTypes.forEach(function (testType) {
-        testType.percentage = sum ? (+testType.count / sum) * 100 + '%': '';
+      testTypes.forEach(function (testType) {
+        testType.label = sum ? (+testType.count / sum) * 100 + '%': '';
+        if(testType.count !== '' && isNaN(testType.count)) {
+          testType.label = 'Numeric value is expected!';
+        }
       });
     }
   }
