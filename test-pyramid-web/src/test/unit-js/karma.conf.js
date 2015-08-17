@@ -6,9 +6,9 @@ module.exports = function(config){
     reporters: ['progress', 'junit', 'allure'],
     files : [
       'src/main/webapp/js/vendor/angular.js',
-      'src/test/js/angular-mocks.js',
+      'src/test/unit-js/angular-mocks.js',
       'src/main/webapp/js/app.js',
-      'src/test/js/PyramidController.spec.js'
+      'src/test/unit-js/PyramidController.spec.js'
     ],
     frameworks: ['jasmine', 'browserify'],
     browsers : ['PhantomJS'],
@@ -24,7 +24,7 @@ module.exports = function(config){
       'karma-browserify'
     ],
     preprocessors: {
-      'src/test/js/*.spec.js': [ 'browserify' ]
+      'src/test/unit-js/*.spec.js': [ 'browserify' ]
     },
     browserify: {
       debug: true

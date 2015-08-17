@@ -11,6 +11,58 @@
   <packaging>war</packaging>
 
   <artifactId>test-pyramind-web</artifactId>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.9.1</version>
+        <executions>
+          <execution>
+            <id>add-test-source</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>add-test-resource</goal>
+            </goals>
+            <configuration>
+              <resources>
+                <resource>
+                  <directory>${project.basedir}/src/test/unit-js</directory>
+                  <targetPath>unit-js</targetPath>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>0.0.24</version>
+        <executions>
+          <execution>
+            <id>Install NodeJS and NPM</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+            <configuration>
+              <nodeVersion>v0.12.7</nodeVersion>
+              <npmVersion>2.11.3</npmVersion>
+            </configuration>
+          </execution>
+          <execution>
+            <id>JS Unit Tests</id>
+            <goals>
+              <goal>karma</goal>
+            </goals>
+            <configuration>
+              <karmaConfPath>${project.basedir}/src/test/unit-js/karma.conf.js</karmaConfPath>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
   <dependencies>
     <dependency>
