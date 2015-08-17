@@ -1,4 +1,5 @@
-import org.springframework.web.servlet.view.InternalResourceViewResolver
+import org.springframework.web.servlet.view.velocity.VelocityConfigurer
+import org.springframework.web.servlet.view.velocity.VelocityViewResolver
 
 beans {
     xmlns(context: 'http://www.springframework.org/schema/context')
@@ -11,5 +12,6 @@ beans {
     mvc.resources(mapping: '/js/**', location: 'js/')
     mvc.resources(mapping: '/vendor/**', location: 'vendor/')
 
-    viewResolver(InternalResourceViewResolver, prefix: '/WEB-INF/jsp/', suffix: '.html.jsp')
+    velocityConfigurer(VelocityConfigurer, resourceLoaderPath: '/WEB-INF/velocity/')
+    viewResolver(VelocityViewResolver, contentType: 'text/html;charset=UTF-8', suffix: '.html.vm')
 }
