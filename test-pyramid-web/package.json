@@ -1,8 +1,9 @@
 {
   "name": "pyramid-ui",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Running tests against Test Pyramid UI",
   "main": "src/test/js/karma.conf.js",
+  "repository": {},
   "devDependencies": {
     "karma": "0.13.3",
     "karma-jasmine": "0.3.6",
@@ -15,11 +16,15 @@
     "karma-junit-reporter": "0.2.2",
     "karma-allure-reporter": "1.4.4",
     "random-ext": "2.5.1",
-    "karma-browserify": "4.3.0"
+    "karma-browserify": "4.3.0",
+    "protractor": "2.1.0"
   },
   "scripts": {
-    "test": "karma start src/test/js/karma.conf.js"
+    "test": "karma start src/test/unit-js/karma.conf.js",
+    "component": "protractor src/test/component-js/protractor.conf.js",
+    "wd-update": "webdriver-manager update",
+    "wd": "webdriver-manager start"
   },
-  "author": "",
+  "author": "Stanislav Bashkyrtsev",
   "license": "ISC"
 }

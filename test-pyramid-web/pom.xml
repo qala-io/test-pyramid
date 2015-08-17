@@ -30,6 +30,10 @@
                   <directory>${project.basedir}/src/test/unit-js</directory>
                   <targetPath>unit-js</targetPath>
                 </resource>
+                <resource>
+                  <directory>${project.basedir}/src/test/component-js</directory>
+                  <targetPath>component-js</targetPath>
+                </resource>
               </resources>
             </configuration>
           </execution>
