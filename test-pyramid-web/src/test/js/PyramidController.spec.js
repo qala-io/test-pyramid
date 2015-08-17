@@ -14,7 +14,7 @@ describe('PyramidController', function () {
     it(testType + ' percentage must default to empty', function () {
       expect(sut[testType].label).toBe('');
     });
-    it(testType + ' percentage must update to empty when all counts changes to empty', function () {
+    it(testType + ' percentage must update to empty when all counts change back to empty', function () {
       sut.unitTests.count = '';
       sut.componentTests.count = '';
       sut.systemTests.count = '';

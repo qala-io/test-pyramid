@@ -11,9 +11,11 @@ module.exports = function(config){
       'src/test/js/PyramidController.spec.js'
     ],
     frameworks: ['jasmine', 'browserify'],
-    browsers : ['Chrome'],
+    browsers : ['PhantomJS'],
     plugins : [
       'karma-phantomjs-launcher',
+      'karma-phantomjs2-launcher',
+      'karma-slimerjs-launcher',
       'karma-chrome-launcher',
       'karma-firefox-launcher',
       'karma-jasmine',
