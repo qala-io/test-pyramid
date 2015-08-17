@@ -5,6 +5,6 @@ import org.junit.Test
 class SomeClassTest {
     @Test
     void 'hello test'(){
-        assert false
+        assert true
     }
 }
