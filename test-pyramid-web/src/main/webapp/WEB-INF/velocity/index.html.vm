@@ -5,7 +5,7 @@
   <link href="#springUrl('/vendor/bootstrap/css/bootstrap.min.css')" rel="stylesheet">
   <link href="#springUrl('/vendor/bootstrap/css/bootstrap-theme.min.css')" rel="stylesheet">
 
-  <script type="text/javascript" src="#springUrl('/js/vendor/angular.min.js')"></script>
+  <script type="text/javascript" src="#springUrl('/vendor/angular/angular.min.js')"></script>
   <script type="text/javascript" src="#springUrl('/js/app.js')"></script>
 </head>
 <body data-ng-controller="PyramidCtrl as pyramid">
