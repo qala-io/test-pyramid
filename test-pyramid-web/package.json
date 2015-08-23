@@ -17,7 +17,9 @@
     "karma-allure-reporter": "1.4.4",
     "random-ext": "2.5.1",
     "karma-browserify": "4.3.0",
-    "protractor": "2.1.0"
+    "protractor": "2.1.0",
+    "express": "4.13.3",
+    "velocity": "0.7.2"
   },
   "scripts": {
     "test": "karma start src/test/unit-js/karma.conf.js",
