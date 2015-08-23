@@ -5,7 +5,7 @@ module.exports = function(config){
     singleRun: true,
     reporters: ['progress', 'junit', 'allure'],
     files : [
-      'src/main/webapp/js/vendor/angular.js',
+      'src/main/webapp/vendor/angular/angular.js',
       'src/test/unit-js/angular-mocks.js',
       'src/main/webapp/js/app.js',
       'src/test/unit-js/PyramidController.spec.js'
