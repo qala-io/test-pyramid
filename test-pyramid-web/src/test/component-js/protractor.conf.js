@@ -7,6 +7,7 @@ exports.config = {
   specs: ['**.spec.js'],
   capabilities: {
     'browserName': 'phantomjs',
+    //'browserName': 'chrome',
     /*
      * Can be used to specify the phantomjs binary path.
      * This can generally be ommitted if you installed phantomjs globally.
@@ -20,8 +21,8 @@ exports.config = {
     'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
   },
   onPrepare: function() {
-    var Backend = require('./backend-mock/Backend');
-    var backend = new Backend();
+    var backend = new (require('./backend-mock/Backend'));
     backend.init();
+    global.backend = backend;
   }
 };

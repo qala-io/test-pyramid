@@ -2,14 +2,17 @@
   'use strict';
 
   angular.module('pyramid', [])
-    .controller('PyramidCtrl', PyramidController);
+    .controller('PyramidCtrl', ['$http', PyramidController]);
 
-  function PyramidController() {
+  function PyramidController($http) {
     var vm = this;
+    vm.name = '';
     vm.unitTests = {count: '', label: '', color: 'green'};
     vm.componentTests = {count: '', label: '', color: 'green'};
     vm.systemTests = {count: '', label: '', color: 'green'};
+
     vm.updatePercentage = updatePercentage;
+    vm.savePyramid = savePyramid;
 
     var testTypes = [vm.unitTests, vm.componentTests, vm.systemTests];
 
@@ -23,6 +26,14 @@
         if(testType.count !== '' && isNaN(testType.count)) {
           testType.label = 'Numeric value is expected!';
         }
+      });
+    }
+    function savePyramid() {
+      $http.post('http://localhost:8080/pyramid', {
+        name: vm.name,
+        nOfUnitTests: vm.unitTests.count,
+        nOfComponentTests: vm.componentTests.count,
+        nOfSystemTests: vm.systemTests.count
       });
     }
   }

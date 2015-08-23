@@ -13,7 +13,7 @@
   <form>
     <div class="">
       <label for="project-name">Project Name</label>
-      <input id="project-name">
+      <input id="project-name" data-ng-model="pyramid.name">
       </div>
     <div class="">
       <label for="n-of-unit-tests">Number of Unit Tests</label>
@@ -28,7 +28,7 @@
       <input id="n-of-system-tests" data-ng-model="pyramid.systemTests.count" data-ng-change="pyramid.updatePercentage()">
       <label id="system-tests-label">{{pyramid.systemTests.label}}</label></div>
     <div>
-      <button id="save-btn" class="btn-primary">Save</button>
+      <button id="save-btn" class="btn-primary" data-ng-click="pyramid.savePyramid()">Save</button>
     </div>
   </form>
 </div>

@@ -5,9 +5,11 @@
   "main": "src/test/js/karma.conf.js",
   "repository": {},
   "devDependencies": {
+    "jasmine-core": "2.3.4",
+    "random-ext": "2.5.1",
+
     "karma": "0.13.3",
     "karma-jasmine": "0.3.6",
-    "jasmine-core": "2.3.4",
     "karma-chrome-launcher": "0.2.0",
     "karma-firefox-launcher": "0.1.6",
     "karma-phantomjs-launcher": "0.1",
@@ -15,11 +17,13 @@
     "karma-slimerjs-launcher": "0.1.2",
     "karma-junit-reporter": "0.2.2",
     "karma-allure-reporter": "1.4.4",
-    "random-ext": "2.5.1",
     "karma-browserify": "4.3.0",
+
     "protractor": "2.1.0",
     "phantomjs": "1.9.18",
+
     "express": "4.13.3",
+    "body-parser": "1.13.3",
     "velocity": "0.7.2"
   },
   "scripts": {

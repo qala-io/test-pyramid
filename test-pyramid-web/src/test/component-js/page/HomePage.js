@@ -13,7 +13,20 @@ module.exports = function HomePage() {
     input: element(by.id('n-of-system-tests')),
     label: element(by.id('system-tests-label'))
   };
+  this.saveBtn = element(by.id('save-btn'));
+  this.nameInput = element(by.id('project-name'));
 
+  this.fillPyramid = function(pyramid) {
+    this.fillName(pyramid.name);
+    this.fillNumberOfTests('unit', pyramid.nOfUnitTests);
+    this.fillNumberOfTests('component', pyramid.nOfComponentTests);
+    this.fillNumberOfTests('system', pyramid.nOfSystemTests);
+    return pyramid;
+  };
+
+  this.fillName = function (name) {
+    this.nameInput.sendKeys(name);
+  };
   this.getNumberOfTests = function (testType) {
     return this[testType + 'Tests'].input.getText();
   };
@@ -22,5 +35,8 @@ module.exports = function HomePage() {
   };
   this.getLabel = function(testType) {
     return this[testType + 'Tests'].label.getText();
+  };
+  this.clickSave = function() {
+    this.saveBtn.click();
   };
 };
