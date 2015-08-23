@@ -1,5 +1,5 @@
 "use strict";
-
+var Pyramid = require('../domain/Pyramid');
 module.exports = function HomePage() {
   this.unitTests = {
     input: element(by.id('n-of-unit-tests')),
@@ -15,15 +15,41 @@ module.exports = function HomePage() {
   };
   this.saveBtn = element(by.id('save-btn'));
   this.nameInput = element(by.id('project-name'));
+  this.pyramidList = element(by.id('pyramid-list'));
 
-  this.fillPyramid = function(pyramid) {
+  this.fillPyramid = function (pyramid) {
     this.fillName(pyramid.name);
     this.fillNumberOfTests('unit', pyramid.nOfUnitTests);
     this.fillNumberOfTests('component', pyramid.nOfComponentTests);
     this.fillNumberOfTests('system', pyramid.nOfSystemTests);
     return pyramid;
   };
-
+  this.assertContainsPyramid = function (pyramid) {
+    this.pyramidList.all(by.css('[name="pyramid-row"]')).then(function (elements) {
+      var pyramidsOnPage = [];
+      elements.forEach(function (element) {
+        var fromPage = Pyramid.empty();
+        element.element(by.css('[name="pyramid-name"]')).getText().then(function (text) {
+          fromPage.name = text;
+        });
+        element.element(by.css('[name="pyramid-n-of-unit-tests"]')).getText().then(function (text) {
+          fromPage.nOfUnitTests = +text;
+        });
+        element.element(by.css('[name="pyramid-n-of-component-tests"]')).getText().then(function (text) {
+          fromPage.nOfComponentTests = +text;
+        });
+        element.element(by.css('[name="pyramid-n-of-system-tests"]')).getText().then(function (text) {
+          fromPage.nOfSystemTests = +text;
+        });
+        browser.controlFlow().execute(function () {
+          pyramidsOnPage.push(fromPage)
+        });
+      });
+      return pyramidsOnPage;
+    }).then(function (pyramidsOnPage) {
+      pyramid.assertIsPresentIn(pyramidsOnPage);
+    });
+  };
   this.fillName = function (name) {
     this.nameInput.sendKeys(name);
   };
@@ -33,10 +59,10 @@ module.exports = function HomePage() {
   this.fillNumberOfTests = function (testType, nOfTests) {
     this[testType + 'Tests'].input.sendKeys(nOfTests);
   };
-  this.getLabel = function(testType) {
+  this.getLabel = function (testType) {
     return this[testType + 'Tests'].label.getText();
   };
-  this.clickSave = function() {
+  this.clickSave = function () {
     this.saveBtn.click();
   };
 };

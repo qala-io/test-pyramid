@@ -6,6 +6,7 @@
 
   function PyramidController($http) {
     var vm = this;
+    vm.savedPyramids = [];
     vm.name = '';
     vm.unitTests = {count: '', label: '', color: 'green'};
     vm.componentTests = {count: '', label: '', color: 'green'};
@@ -34,6 +35,8 @@
         nOfUnitTests: vm.unitTests.count,
         nOfComponentTests: vm.componentTests.count,
         nOfSystemTests: vm.systemTests.count
+      }).then(function(res) {
+        vm.savedPyramids.push(res.data);
       });
     }
   }

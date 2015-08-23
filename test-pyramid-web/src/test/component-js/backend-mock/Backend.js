@@ -13,19 +13,14 @@ var app = express();
 
 /** Global collection of pyramids */
 
-module.exports = function Backend() {
+module.exports = function Backend(rootSrcDir) {
   var self = this;
   self.pyramids = [];
+  self.webappDir = path.join(rootSrcDir || '.', 'src/main/webapp');
 
   self.assertContainsPyramid = function (pyramid) {
     browser.wait(function () {
-      var foundPyramids = self.pyramids.filter(function (it) {
-        return it.name === pyramid.name
-          && it.nOfUnitTests === pyramid.nOfUnitTests
-          && it.nOfComponentTests === pyramid.nOfComponentTests
-          && it.nOfSystemTests === pyramid.nOfSystemTests;
-      });
-      return foundPyramids.length !== 0;
+      return pyramid.isPresentIn(self.pyramids);
     }, 1000).thenCatch(function (error) {
       throw new Error('Pyramid ' + pyramid + ' was not found though it was expected to be saved on back end. ' +
                       'Could not wait any longer: ' + error +
@@ -37,21 +32,22 @@ module.exports = function Backend() {
   };
   self.init = function () {
     app.engine('vm', velocityExpressEngine({
-      root: 'src/main/webapp/WEB-INF/velocity/'  //duplicated with views setting but required for velocity template
+      root: path.join(self.webappDir, 'WEB-INF/velocity/')//duplicated with views setting but required for velocity template
     }));
-    app.set('views', 'src/main/webapp/WEB-INF/velocity/');
+    app.set('views', path.join(self.webappDir, 'WEB-INF/velocity/'));
     app.use(bodyParser.json());
 
-    app.use('/vendor', express.static('src/main/webapp/vendor'));
-    app.use('/js', express.static('src/main/webapp/js'));
-    app.use('/css', express.static('src/main/webapp/css'));
+    app.use('/vendor', express.static(path.join(self.webappDir, 'vendor')));
+    app.use('/js', express.static(path.join(self.webappDir, 'js')));
+    app.use('/css', express.static(path.join(self.webappDir, 'css')));
 
     app.get('/', function (req, res) {
       res.render('index.html.vm');
     });
     app.post('/pyramid', function (req, res) {
-      self.addPyramid(Pyramid.fromJson(req.body));
-      res.status(200).json({});
+      var pyramid = Pyramid.fromJson(req.body);
+      self.addPyramid(pyramid);
+      res.status(200).json(pyramid);
     });
 
     var server = app.listen(8080, function () {

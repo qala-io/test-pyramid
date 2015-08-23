@@ -31,6 +31,14 @@
       <button id="save-btn" class="btn-primary" data-ng-click="pyramid.savePyramid()">Save</button>
     </div>
   </form>
+  <table class="table table-condensed" id="pyramid-list">
+    <tr data-ng-repeat="savedPyramid in pyramid.savedPyramids" name="pyramid-row">
+      <td name="pyramid-name">{{savedPyramid.name}}</td>
+      <td name="pyramid-n-of-unit-tests">{{savedPyramid.nOfUnitTests}}</td>
+      <td name="pyramid-n-of-component-tests">{{savedPyramid.nOfComponentTests}}</td>
+      <td name="pyramid-n-of-system-tests">{{savedPyramid.nOfSystemTests}}</td>
+    </tr>
+  </table>
 </div>
 </body>
 </html>

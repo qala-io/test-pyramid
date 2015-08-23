@@ -19,9 +19,10 @@ describe('Pyramid', function () {
       expect(homePage.getLabel(testType)).toBe('Numeric value is expected!');
     });
   });
-  it('shows that everything is good if Pyramid was saved by back end', function () {
+  it('adds newly added item to the list of pyramids', function () {
     var pyramid = homePage.fillPyramid(new Pyramid());
     homePage.clickSave();
     backend.assertContainsPyramid(pyramid);
+    homePage.assertContainsPyramid(pyramid);
   });
 });
