@@ -17,6 +17,10 @@ module.exports = function HomePage() {
   this.nameInput = element(by.id('project-name'));
   this.pyramidList = element(by.id('pyramid-list'));
 
+  this.open = function() {
+    browser.get('http://localhost:8080/');
+  };
+
   this.fillPyramid = function (pyramid) {
     this.fillName(pyramid.name);
     this.fillNumberOfTests('unit', pyramid.nOfUnitTests);

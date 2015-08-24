@@ -14,6 +14,7 @@
 
     vm.updatePercentage = updatePercentage;
     vm.savePyramid = savePyramid;
+    vm.initialize = initialize;
 
     var testTypes = [vm.unitTests, vm.componentTests, vm.systemTests];
 
@@ -38,6 +39,9 @@
       }).then(function(res) {
         vm.savedPyramids.push(res.data);
       });
+    }
+    function initialize(initialData) {
+      vm.savedPyramids = initialData.savedPyramids;
     }
   }
 })();

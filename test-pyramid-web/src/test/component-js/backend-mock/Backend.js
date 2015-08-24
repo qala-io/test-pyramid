@@ -42,7 +42,7 @@ module.exports = function Backend(rootSrcDir) {
     app.use('/css', express.static(path.join(self.webappDir, 'css')));
 
     app.get('/', function (req, res) {
-      res.render('index.html.vm');
+      res.render('index.html.vm', {savedPyramids: JSON.stringify(self.pyramids)});
     });
     app.post('/pyramid', function (req, res) {
       var pyramid = Pyramid.fromJson(req.body);

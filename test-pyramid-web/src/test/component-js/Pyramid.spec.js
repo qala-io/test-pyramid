@@ -4,7 +4,7 @@ var Pyramid = require('./domain/Pyramid');
 
 describe('Pyramid', function () {
   beforeEach(function () {
-    browser.get('http://localhost:8080/');
+    homePage.open();
   });
   ['unit', 'component', 'system'].forEach(function (testType) {
     it(testType + ' test field must be empty by default', function () {
@@ -19,10 +19,26 @@ describe('Pyramid', function () {
       expect(homePage.getLabel(testType)).toBe('Numeric value is expected!');
     });
   });
-  it('adds newly added item to the list of pyramids', function () {
+  it('adds newly added item to the list of pyramids w/o page reload', function () {
     var pyramid = homePage.fillPyramid(new Pyramid());
     homePage.clickSave();
-    backend.assertContainsPyramid(pyramid);
+    homePage.assertContainsPyramid(pyramid);
+  });
+  it('escapes HTML-relevant symbols in name w/o page reload', function() {
+    var pyramid = homePage.fillPyramid(new Pyramid({name: '\'">'}));
+    homePage.clickSave();
+    homePage.assertContainsPyramid(pyramid);
+  });
+  it('added item to the list of pyramids after refresh', function () {
+    var pyramid = homePage.fillPyramid(new Pyramid());
+    homePage.clickSave();
+    homePage.open();
+    homePage.assertContainsPyramid(pyramid);
+  });
+  it('escapes HTML-relevant symbols in name after refresh', function() {
+    var pyramid = homePage.fillPyramid(new Pyramid({name: '\'">'}));
+    homePage.clickSave();
+    homePage.open();
     homePage.assertContainsPyramid(pyramid);
   });
 });

@@ -1,13 +1,18 @@
 "use strict";
 var random = require('random-ext');
 
-function Pyramid() {
+function Pyramid(fields) {
   var self = this;
-  this.name = random.string(40, 1);
+  fields = fields || {};
+  this.name = fields.name || randomAlphanumeric(40, 1);
   this.nOfUnitTests = random.integer(100, 0);
   this.nOfComponentTests = random.integer(100, 0);
   this.nOfSystemTests = random.integer(100, 0);
 
+  this.withSpecialSymbols = function() {
+    this.name = random.restrictedString([random.CHAR_TYPE.SPECIAL], 100, 0);
+    return this;
+  };
   this.toString = function () {
     return JSON.stringify(this);
   };
@@ -47,5 +52,10 @@ Pyramid.empty = function() {
   pyramid.nOfSystemTests = null;
   return pyramid;
 };
+
+function randomAlphanumeric(maxBoundary, minBoundary) {
+  return random.restrictedString([random.CHAR_TYPE.SPACE, random.CHAR_TYPE.LOWERCASE,
+    random.CHAR_TYPE.UPPERCASE, random.CHAR_TYPE.NUMERIC], maxBoundary, minBoundary);
+}
 
 module.exports = Pyramid;
