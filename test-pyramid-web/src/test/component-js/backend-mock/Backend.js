@@ -8,6 +8,7 @@ var path = require("path");
 var express = require('express');
 var bodyParser = require('body-parser');
 var Pyramid = require('../domain/Pyramid');
+var escape = require('escape-html');
 
 var app = express();
 
@@ -42,7 +43,7 @@ module.exports = function Backend(rootSrcDir) {
     app.use('/css', express.static(path.join(self.webappDir, 'css')));
 
     app.get('/', function (req, res) {
-      res.render('index.html.vm', {savedPyramids: JSON.stringify(self.pyramids)});
+      res.render('index.html.vm', {savedPyramids: escape(JSON.stringify(self.pyramids))});
     });
     app.post('/pyramid', function (req, res) {
       var pyramid = Pyramid.fromJson(req.body);

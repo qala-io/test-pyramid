@@ -24,7 +24,8 @@
 
     "express": "4.13.3",
     "body-parser": "1.13.3",
-    "velocity": "0.7.2"
+    "velocity": "0.7.2",
+    "escape-html": "1.0.2"
   },
   "scripts": {
     "test": "karma start src/test/unit-js/karma.conf.js",
