@@ -21,6 +21,13 @@ module.exports = function HomePage() {
     browser.get('http://localhost:8080/');
   };
 
+  this.createPyramid = function(pyramid) {
+    pyramid = pyramid || new Pyramid();
+    this.open();
+    this.fillPyramid(pyramid);
+    this.clickSave();
+    return pyramid;
+  };
   this.fillPyramid = function (pyramid) {
     this.fillName(pyramid.name);
     this.fillNumberOfTests('unit', pyramid.nOfUnitTests);

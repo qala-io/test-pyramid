@@ -29,7 +29,7 @@ describe('Pyramid', function () {
     homePage.clickSave();
     homePage.assertContainsPyramid(pyramid);
   });
-  it('added item to the list of pyramids after refresh', function () {
+  it('shows item to the list of pyramids after refresh', function () {
     var pyramid = homePage.fillPyramid(new Pyramid());
     homePage.clickSave();
     homePage.open();

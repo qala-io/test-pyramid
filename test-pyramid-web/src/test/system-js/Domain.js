@@ -1,0 +1,1 @@
+module.exports.Pyramid = require('../component-js/domain/Pyramid');

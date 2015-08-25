@@ -1,0 +1,1 @@
+module.exports.homePage = new (require('../component-js/page/HomePage'));
