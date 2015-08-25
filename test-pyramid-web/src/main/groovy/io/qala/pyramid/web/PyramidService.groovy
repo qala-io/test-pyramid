@@ -13,7 +13,7 @@ class PyramidService {
 
     @RequestMapping(value = '/pyramid', method = RequestMethod.POST)
     @ResponseBody
-    Pyramid pyramid(@ModelAttribute Pyramid pyramid) {
+    Pyramid pyramid(@RequestBody Pyramid pyramid) {
         pyramids.add(pyramid)
         return pyramid
     }
