@@ -2,7 +2,6 @@ package io.qala.pyramid.servicetests
 
 import groovy.json.JsonBuilder
 import groovyx.net.http.RESTClient
-import io.qala.pyramid.web.Pyramid
 import org.apache.commons.lang3.RandomUtils
 import org.apache.http.HttpRequest
 import org.apache.http.HttpRequestInterceptor
@@ -12,7 +11,7 @@ import org.junit.Test
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 
-class PyramidServiceTest {
+class PyramidServiceSystemTest {
 
     @Test
     void 'add pyramid should allow to successfully retrieve the pyramid'() {

@@ -12,8 +12,9 @@
   <artifactId>test-pyramind-web</artifactId>
 
   <properties>
-    <unit.ui.tests.skip>false</unit.ui.tests.skip>
+    <unit.ui.tests.skip>true</unit.ui.tests.skip>
     <component.ui.tests.skip>false</component.ui.tests.skip>
+    <system.be.tests.skip>true</system.be.tests.skip>
   </properties>
 
   <build>
@@ -21,72 +22,121 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.9.1</version>
-        <executions>
-          <execution>
-            <id>add-test-source</id>
-            <phase>generate-test-sources</phase>
-            <goals>
-              <goal>add-test-resource</goal>
-            </goals>
-            <configuration>
-              <resources>
-                <resource>
-                  <directory>${project.basedir}/src/test/unit-js</directory>
-                  <targetPath>unit-js</targetPath>
-                </resource>
-                <resource>
-                  <directory>${project.basedir}/src/test/component-js</directory>
-                  <targetPath>component-js</targetPath>
-                </resource>
-                <resource>
-                  <directory>${project.basedir}/src/test/service-java</directory>
-                  <targetPath>service-java</targetPath>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.gmavenplus</groupId>
+        <artifactId>gmavenplus-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
-        <version>0.0.24</version>
-        <executions>
-          <execution>
-            <id>Install NodeJS and NPM</id>
-            <goals>
-              <goal>install-node-and-npm</goal>
-            </goals>
-            <configuration>
-              <nodeVersion>v0.12.7</nodeVersion>
-              <npmVersion>2.11.3</npmVersion>
-            </configuration>
-          </execution>
-          <execution>
-            <id>JS Unit Tests</id>
-            <goals>
-              <goal>karma</goal>
-            </goals>
-            <configuration>
-              <karmaConfPath>${project.basedir}/src/test/unit-js/karma.conf.js</karmaConfPath>
-              <skip>${unit.ui.tests.skip}</skip>
-            </configuration>
-          </execution>
-          <execution>
-            <id>JS Component Tests</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <phase>test</phase>
-            <configuration>
-              <arguments>run component</arguments>
-              <skip>${component.ui.tests.skip}</skip>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>1.9.1</version>
+          <executions>
+            <execution>
+              <id>add-test-resource</id>
+              <phase>generate-test-resources</phase>
+              <goals>
+                <goal>add-test-resource</goal>
+              </goals>
+              <configuration>
+                <resources>
+                  <resource>
+                    <directory>${project.basedir}/src/test/unit-js</directory>
+                    <targetPath>unit-js</targetPath>
+                  </resource>
+                  <resource>
+                    <directory>${project.basedir}/src/test/component-js</directory>
+                    <targetPath>component-js</targetPath>
+                  </resource>
+                  <resource>
+                    <directory>${project.basedir}/src/test/system-js</directory>
+                    <targetPath>system-js</targetPath>
+                  </resource>
+                </resources>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>com.github.eirslett</groupId>
+          <artifactId>frontend-maven-plugin</artifactId>
+          <version>0.0.24</version>
+          <executions>
+            <execution>
+              <id>Install NodeJS and NPM</id>
+              <goals>
+                <goal>install-node-and-npm</goal>
+              </goals>
+              <configuration>
+                <nodeVersion>v0.12.7</nodeVersion>
+                <npmVersion>2.11.3</npmVersion>
+              </configuration>
+            </execution>
+            <execution>
+              <id>UI Unit Tests</id>
+              <goals>
+                <goal>karma</goal>
+              </goals>
+              <configuration>
+                <karmaConfPath>${project.basedir}/src/test/unit-js/karma.conf.js</karmaConfPath>
+                <skip>${unit.ui.tests.skip}</skip>
+              </configuration>
+            </execution>
+            <execution>
+              <id>JS Component Tests</id>
+              <goals>
+                <goal>npm</goal>
+              </goals>
+              <phase>test</phase>
+              <configuration>
+                <arguments>run component</arguments>
+                <skip>${component.ui.tests.skip}</skip>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.10</version>
+          <executions>
+            <execution>
+              <id>default-test</id>
+              <phase>none</phase>
+            </execution>
+            <execution>
+              <id>Back End System Tests</id>
+              <goals>
+                <goal>test</goal>
+              </goals>
+              <configuration>
+                <includes>
+                  <include>**/*SystemTest.java</include>
+                </includes>
+                <skip>${system.be.tests.skip}</skip>
+              </configuration>
+            </execution>
+            <execution>
+              <id>Back End Unit Tests</id>
+              <goals>
+                <goal>test</goal>
+              </goals>
+              <configuration>
+                <excludes>
+                  <exclude>**/*SystemTest.java</exclude>
+                </excludes>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
   <dependencies>

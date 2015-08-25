@@ -22,7 +22,7 @@
 
   <build>
     <sourceDirectory>${project.basedir}/src/main/groovy</sourceDirectory>
-    <testSourceDirectory>${project.basedir}/src/main/groovy</testSourceDirectory>
+    <testSourceDirectory>${project.basedir}/src/test/groovy</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
@@ -35,6 +35,16 @@
           <groupId>org.codehaus.gmavenplus</groupId>
           <artifactId>gmavenplus-plugin</artifactId>
           <version>1.5</version>
+          <configuration>
+            <testSources>
+              <source>
+                <directory>${project.basedir}/src/test/groovy</directory>
+              </source>
+              <source>
+                <directory>${project.basedir}/src/test/system-groovy</directory>
+              </source>
+            </testSources>
+          </configuration>
           <executions>
             <execution>
               <goals>
