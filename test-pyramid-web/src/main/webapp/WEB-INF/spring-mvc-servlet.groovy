@@ -1,3 +1,4 @@
+import org.apache.velocity.tools.generic.EscapeTool
 import org.springframework.web.servlet.view.velocity.VelocityConfigurer
 import org.springframework.web.servlet.view.velocity.VelocityViewResolver
 
@@ -13,5 +14,6 @@ beans {
     mvc.resources(mapping: '/vendor/**', location: 'vendor/')
 
     velocityConfigurer(VelocityConfigurer, resourceLoaderPath: '/WEB-INF/velocity/')
-    viewResolver(VelocityViewResolver, contentType: 'text/html;charset=UTF-8', suffix: '.html.vm')
+    viewResolver(VelocityViewResolver, contentType: 'text/html;charset=UTF-8',
+            suffix: '.html.vm', attributesMap: [esc: new EscapeTool()])
 }

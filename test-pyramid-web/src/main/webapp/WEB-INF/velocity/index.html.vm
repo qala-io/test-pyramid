@@ -8,7 +8,7 @@
   <script type="text/javascript" src="#springUrl('/vendor/angular/angular.min.js')"></script>
   <script type="text/javascript" src="#springUrl('/js/app.js')"></script>
 </head>
-<body data-ng-controller="PyramidCtrl as pyramid" ng-init='pyramid.initialize( { savedPyramids: $savedPyramids } )'>
+<body data-ng-controller="PyramidCtrl as pyramid" ng-init='pyramid.initialize( { savedPyramids: $esc.xml($savedPyramids) } )'>
 <div class="content">
   <form>
     <div class="">
