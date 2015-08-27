@@ -5,6 +5,7 @@ var SpringMacroContext = require('./SpringVelocityMacroContext');
 var springMacroContext = new SpringMacroContext();
 
 var path = require("path");
+var url = require('url');
 var express = require('express');
 var bodyParser = require('body-parser');
 var Pyramid = require('../domain/Pyramid');
@@ -32,11 +33,7 @@ module.exports = function Backend(rootSrcDir) {
     self.pyramids.push(pyramid);
   };
   self.init = function () {
-    app.engine('vm', velocityExpressEngine({
-      root: path.join(self.webappDir, 'WEB-INF/velocity/')//duplicated with views setting but required for velocity template
-    }));
-    app.set('views', path.join(self.webappDir, 'WEB-INF/velocity/'));
-    app.use(bodyParser.json());
+    var app = initWebApp(self.webappDir);
 
     app.use('/vendor', express.static(path.join(self.webappDir, 'vendor')));
     app.use('/js', express.static(path.join(self.webappDir, 'js')));
@@ -51,15 +48,32 @@ module.exports = function Backend(rootSrcDir) {
       res.status(200).json(pyramid);
     });
 
-    var server = app.listen(8080, function () {
-      var host = server.address().address;
-      var port = server.address().port;
-      console.info('Backend Mock running at http://%s:%s', host, port);
-      springMacroContext.host = 'localhost';
-      springMacroContext.port = port;
-    });
+    startServer(app);
   };
 };
+
+function initWebApp(webappDir) {
+  app.engine('vm', velocityExpressEngine({
+    root: path.join(webappDir, 'WEB-INF/velocity/')//duplicated with views setting but required for velocity template
+  }));
+  app.set('views', path.join(webappDir, 'WEB-INF/velocity/'));
+  app.use(bodyParser.json());
+  return app;
+}
+
+function startServer(webApp) {
+  var port = 8081;
+  if(typeof browser !== 'undefined' && browser) { //browser comes from protractor, but a separate mock can be deployed
+    port = url.parse(browser.baseUrl).port;
+  }
+  var server = webApp.listen(port, function () {
+    var host = server.address().address;
+    var port = server.address().port;
+    console.info('Backend Mock running at http://%s:%s', host, port);
+    springMacroContext.host = 'localhost';
+    springMacroContext.port = port;
+  });
+}
 
 function velocityExpressEngine(options) {
   options = options || [];

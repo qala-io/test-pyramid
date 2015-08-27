@@ -12,9 +12,10 @@
   <artifactId>test-pyramind-web</artifactId>
 
   <properties>
-    <unit.ui.tests.skip>true</unit.ui.tests.skip>
+    <unit.ui.tests.skip>false</unit.ui.tests.skip>
     <component.ui.tests.skip>false</component.ui.tests.skip>
-    <system.be.tests.skip>true</system.be.tests.skip>
+    <system.be.tests.skip>false</system.be.tests.skip>
+    <system.ui.tests.skip>false</system.ui.tests.skip>
   </properties>
 
   <build>
@@ -90,7 +91,7 @@
               </configuration>
             </execution>
             <execution>
-              <id>JS Component Tests</id>
+              <id>UI Component Tests</id>
               <goals>
                 <goal>npm</goal>
               </goals>
@@ -98,6 +99,17 @@
               <configuration>
                 <arguments>run component</arguments>
                 <skip>${component.ui.tests.skip}</skip>
+              </configuration>
+            </execution>
+            <execution>
+              <id>UI System Tests</id>
+              <goals>
+                <goal>npm</goal>
+              </goals>
+              <phase>test</phase>
+              <configuration>
+                <arguments>run system</arguments>
+                <skip>${system.ui.tests.skip}</skip>
               </configuration>
             </execution>
           </executions>

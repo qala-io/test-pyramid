@@ -16,17 +16,19 @@ function Pyramid(fields) {
   this.toString = function () {
     return JSON.stringify(this);
   };
-  this.isPresentIn = function (pyramids) {
+  this.isPresentIn = function (pyramids, trimName) {
+    trimName = trimName || false;
+    var name = trimName ? self.name.trim() : self.name;
     var found = pyramids.filter(function (el) {
-      return el.name === self.name
+      return el.name === name
         && el.nOfComponentTests === self.nOfComponentTests
         && el.nOfSystemTests === self.nOfSystemTests
         && el.nOfUnitTests === self.nOfUnitTests;
     });
     return found.length !== 0;
   };
-  this.assertIsPresentIn = function (pyramids) {
-    if (!this.isPresentIn(pyramids)) {
+  this.assertIsPresentIn = function (pyramids, trimName) {
+    if (!this.isPresentIn(pyramids, trimName)) {
       throw new Error('Could not find a pyramid ' + self + ' in the list: [' + pyramids + ']')
     }
   };

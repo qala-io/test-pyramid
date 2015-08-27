@@ -6,6 +6,12 @@
 
   function PyramidController($http) {
     var vm = this;
+    /**
+     * Determines at what URL was our app deployed. Is used to concatenate links. E.g. if we're deployed at
+     * {@code localhost:8080/} and want to
+     * @type {String}
+     */
+    vm.baseUrl = null;
     vm.savedPyramids = [];
     vm.name = '';
     vm.unitTests = {count: '', label: '', color: 'green'};
@@ -31,7 +37,7 @@
       });
     }
     function savePyramid() {
-      $http.post('http://localhost:8080/pyramid', {
+      $http.post(vm.baseUrl + '/pyramid', {
         name: vm.name,
         nOfUnitTests: vm.unitTests.count,
         nOfComponentTests: vm.componentTests.count,
@@ -42,6 +48,7 @@
     }
     function initialize(initialData) {
       vm.savedPyramids = initialData.savedPyramids;
+      vm.baseUrl = initialData.baseUrl;
     }
   }
 })();

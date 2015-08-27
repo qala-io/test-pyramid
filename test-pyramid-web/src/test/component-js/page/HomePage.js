@@ -18,7 +18,7 @@ module.exports = function HomePage() {
   this.pyramidList = element(by.id('pyramid-list'));
 
   this.open = function() {
-    browser.get('http://localhost:8080/');
+    browser.get(browser.baseUrl);
   };
 
   this.createPyramid = function(pyramid) {
@@ -58,7 +58,7 @@ module.exports = function HomePage() {
       });
       return pyramidsOnPage;
     }).then(function (pyramidsOnPage) {
-      pyramid.assertIsPresentIn(pyramidsOnPage);
+      pyramid.assertIsPresentIn(pyramidsOnPage, true);
     });
   };
   this.fillName = function (name) {
