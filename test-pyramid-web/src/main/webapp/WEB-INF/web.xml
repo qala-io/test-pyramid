@@ -8,7 +8,10 @@
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <param-value>WEB-INF/spring-mvc-servlet.groovy</param-value>
+      <param-value>
+        WEB-INF/spring-mvc-servlet.groovy
+        classpath:/io/qala/pyramid/domain/app-context-service.groovy
+      </param-value>
     </init-param>
     <init-param>
       <param-name>contextClass</param-name>

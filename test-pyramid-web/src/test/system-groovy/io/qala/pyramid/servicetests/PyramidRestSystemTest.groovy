@@ -11,7 +11,7 @@ import org.junit.Test
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 
-class PyramidServiceSystemTest {
+class PyramidRestSystemTest {
 
     @Test
     void 'add pyramid should allow to successfully retrieve the pyramid'() {

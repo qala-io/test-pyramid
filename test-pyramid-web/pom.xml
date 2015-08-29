@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>test-pyramid</artifactId>
-    <groupId>io.qala</groupId>
+    <groupId>io.qala.pyramid</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -14,11 +14,22 @@
   <properties>
     <unit.ui.tests.skip>false</unit.ui.tests.skip>
     <component.ui.tests.skip>false</component.ui.tests.skip>
+    <component.be.tests.skip>false</component.be.tests.skip>
     <system.be.tests.skip>false</system.be.tests.skip>
     <system.ui.tests.skip>false</system.ui.tests.skip>
   </properties>
 
   <build>
+    <testResources>
+      <testResource>
+        <!-- WEB-INF folder marked as test resource directory to provide possibility to access to
+        spring-dispatcher-servlet.xml and security-context.xml from component tests-->
+        <directory>${project.basedir}/src/main/webapp/WEB-INF</directory>
+      </testResource>
+      <testResource>
+        <directory>${project.basedir}/src/test/resources</directory>
+      </testResource>
+    </testResources>
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -123,6 +134,30 @@
               <phase>none</phase>
             </execution>
             <execution>
+              <id>Back End Unit Tests</id>
+              <goals>
+                <goal>test</goal>
+              </goals>
+              <configuration>
+                <excludes>
+                  <exclude>**/*SystemTest.java</exclude>
+                  <exclude>**/*ComponentTest.java</exclude>
+                </excludes>
+              </configuration>
+            </execution>
+            <execution>
+              <id>Back End Component Tests</id>
+              <goals>
+                <goal>test</goal>
+              </goals>
+              <configuration>
+                <includes>
+                  <include>**/*ComponentTest.java</include>
+                </includes>
+                <skip>${component.be.tests.skip}</skip>
+              </configuration>
+            </execution>
+            <execution>
               <id>Back End System Tests</id>
               <goals>
                 <goal>test</goal>
@@ -134,17 +169,6 @@
                 <skip>${system.be.tests.skip}</skip>
               </configuration>
             </execution>
-            <execution>
-              <id>Back End Unit Tests</id>
-              <goals>
-                <goal>test</goal>
-              </goals>
-              <configuration>
-                <excludes>
-                  <exclude>**/*SystemTest.java</exclude>
-                </excludes>
-              </configuration>
-            </execution>
           </executions>
         </plugin>
       </plugins>
@@ -152,6 +176,10 @@
   </build>
 
   <dependencies>
+    <dependency>
+      <groupId>io.qala.pyramid</groupId>
+      <artifactId>test-pyramid-domain</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
@@ -183,6 +211,14 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.unitils</groupId>
+      <artifactId>unitils-core</artifactId>
     </dependency>
   </dependencies>
 </project>

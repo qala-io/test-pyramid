@@ -11,8 +11,8 @@ import org.springframework.web.servlet.ModelAndView
 class PyramidController {
     @RequestMapping(value = '/', method = RequestMethod.GET)
     ModelAndView index() {
-        return new ModelAndView('index', [savedPyramids: new JsonBuilder(pyramidService.pyramids).toString()])
+        return new ModelAndView('index', [savedPyramids: new JsonBuilder(pyramidService.pyramids()).toString()])
     }
 
-    @Autowired PyramidService pyramidService
+    @Autowired PyramidRest pyramidService
 }
