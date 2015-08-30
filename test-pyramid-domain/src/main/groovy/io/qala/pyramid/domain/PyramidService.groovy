@@ -1,11 +1,16 @@
 package io.qala.pyramid.domain
 
 class PyramidService {
+    PyramidService(PyramidDao pyramidDao) {
+        this.pyramidDao = pyramidDao
+    }
+
     void save(Pyramid pyramid) {
-        pyramids.add(pyramid);
+        pyramidDao.save(pyramid)
     }
     List<Pyramid> list() {
-        return pyramids;
+        return pyramidDao.list()
     }
-    final List<Pyramid> pyramids = []
+
+    final PyramidDao pyramidDao
 }

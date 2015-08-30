@@ -6,8 +6,8 @@ exports.config = {
   baseUrl: 'http://localhost:8080/',
   specs: ['**.spec.js'],
   capabilities: {
-    'browserName': 'phantomjs',
-    //'browserName': 'chrome',
+    //'browserName': 'phantomjs',
+    'browserName': 'chrome',
     /*
      * Can be used to specify the phantomjs binary path.
      * This can generally be ommitted if you installed phantomjs globally.
