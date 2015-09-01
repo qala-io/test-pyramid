@@ -20,25 +20,25 @@
     <div class="">
       <label for="n-of-unit-tests">Number of Unit Tests</label>
       <input id="n-of-unit-tests" data-ng-model="pyramid.unitTests.count" data-ng-change="pyramid.updatePercentage()">
-      <label id="unit-tests-label">{{pyramid.unitTests.label}}</label></div>
+      <label id="unit-tests-label" data-ng-bind="pyramid.unitTests.label"></label></div>
     <div class="">
       <label for="n-of-component-tests">Number of Component Tests</label>
       <input id="n-of-component-tests" data-ng-model="pyramid.componentTests.count" data-ng-change="pyramid.updatePercentage()">
-      <label id="component-tests-label">{{pyramid.componentTests.label}}</label></div>
+      <label id="component-tests-label" data-ng-bind="pyramid.componentTests.label"></label></div>
     <div class="">
       <label for="n-of-system-tests">Number of System Tests</label>
       <input id="n-of-system-tests" data-ng-model="pyramid.systemTests.count" data-ng-change="pyramid.updatePercentage()">
-      <label id="system-tests-label">{{pyramid.systemTests.label}}</label></div>
+      <label id="system-tests-label" data-ng-bind="pyramid.systemTests.label"></label></div>
     <div>
       <button id="save-btn" class="btn-primary" data-ng-click="pyramid.savePyramid()" data-ng-disabled="!pyramid.valid">Save</button>
     </div>
   </form>
   <table class="table table-condensed" id="pyramid-list">
     <tr data-ng-repeat="savedPyramid in pyramid.savedPyramids" name="pyramid-row">
-      <td name="pyramid-name">{{savedPyramid.name}}</td>
-      <td name="pyramid-n-of-unit-tests">{{savedPyramid.nOfUnitTests}}</td>
-      <td name="pyramid-n-of-component-tests">{{savedPyramid.nOfComponentTests}}</td>
-      <td name="pyramid-n-of-system-tests">{{savedPyramid.nOfSystemTests}}</td>
+      <td name="pyramid-name" data-ng-bind="savedPyramid.name"></td>
+      <td name="pyramid-n-of-unit-tests" data-ng-bind="savedPyramid.nOfUnitTests"></td>
+      <td name="pyramid-n-of-component-tests" data-ng-bind="savedPyramid.nOfComponentTests"></td>
+      <td name="pyramid-n-of-system-tests" data-ng-bind="savedPyramid.nOfSystemTests"></td>
     </tr>
   </table>
 </div>
