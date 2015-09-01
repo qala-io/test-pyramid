@@ -1,3 +1,5 @@
+#* @vtlvariable name="esc" type="org.apache.velocity.tools.generic.EscapeTool" *#
+#* @vtlvariable name="savedPyramids" type="java.util.List" *#
 <!DOCTYPE html>
 <html data-ng-app="pyramid">
 <head>
