@@ -11,14 +11,6 @@
   <packaging>war</packaging>
   <artifactId>test-pyramind-web</artifactId>
 
-  <properties>
-    <unit.ui.tests.skip>false</unit.ui.tests.skip>
-    <component.ui.tests.skip>false</component.ui.tests.skip>
-    <component.be.tests.skip>false</component.be.tests.skip>
-    <system.be.tests.skip>false</system.be.tests.skip>
-    <system.ui.tests.skip>false</system.ui.tests.skip>
-  </properties>
-
   <build>
     <testResources>
       <testResource>

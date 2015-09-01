@@ -19,8 +19,35 @@
     <springVersion>4.2.0.RELEASE</springVersion>
     <restletVersion>2.3.4</restletVersion>
     <hibernateVersion>4.3.11.Final</hibernateVersion>
+
+    <unit.be.tests.skip>false</unit.be.tests.skip>
+    <unit.ui.tests.skip>false</unit.ui.tests.skip>
+    <component.ui.tests.skip>false</component.ui.tests.skip>
+    <component.be.tests.skip>false</component.be.tests.skip>
+    <system.be.tests.skip>true</system.be.tests.skip>
+    <system.ui.tests.skip>true</system.ui.tests.skip>
   </properties>
 
+  <profiles>
+    <profile>
+      <id>RunSystemTests</id>
+      <activation>
+        <property>
+          <name>runSystemTests</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <properties>
+        <unit.be.tests.skip>true</unit.be.tests.skip>
+        <unit.ui.tests.skip>true</unit.ui.tests.skip>
+        <component.ui.tests.skip>true</component.ui.tests.skip>
+        <component.be.tests.skip>true</component.be.tests.skip>
+        <system.be.tests.skip>false</system.be.tests.skip>
+        <system.ui.tests.skip>false</system.ui.tests.skip>
+      </properties>
+    </profile>
+  </profiles>
+  
   <build>
     <sourceDirectory>${project.basedir}/src/main/groovy</sourceDirectory>
     <testSourceDirectory>${project.basedir}/src/test/groovy</testSourceDirectory>
