@@ -30,7 +30,7 @@
         sum += +testType.count || 0;
       });
       testTypes.forEach(function (testType) {
-        testType.label = sum ? (+testType.count / sum) * 100 + '%': '';
+        testType.label = sum ? (+((+testType.count / sum) * 100).toFixed(1)) + '%': '';
         if(testType.count !== '' && isNaN(testType.count)) {
           testType.label = 'Numeric value is expected!';
         }

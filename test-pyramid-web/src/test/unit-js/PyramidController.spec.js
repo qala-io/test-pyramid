@@ -62,4 +62,14 @@ describe('PyramidController', function () {
     expect(sut.componentTests.label).toBe('25%');
     expect(sut.systemTests.label).toBe('25%');
   });
+  it('must round to 2 decimals', function() {
+    sut.unitTests.count = 1;
+    sut.componentTests.count = 1;
+    sut.systemTests.count = 1;
+    sut.updatePercentage();
+
+    expect(sut.unitTests.label).toBe('33.3%');
+    expect(sut.componentTests.label).toBe('33.3%');
+    expect(sut.systemTests.label).toBe('33.3%');
+  });
 });

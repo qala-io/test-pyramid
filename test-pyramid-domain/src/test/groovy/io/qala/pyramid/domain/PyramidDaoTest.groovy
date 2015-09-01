@@ -17,10 +17,12 @@ import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEqua
 class PyramidDaoTest {
     @Autowired PyramidDao sut
 
-    @Test
-    void 'must be possible to retrieve the Pyramid from DB after it was saved'() {
+    @Test void 'must be possible to retrieve the Pyramid from DB after it was saved'() {
         Pyramid pyramid = sut.save(Pyramid.random())
         sut.flush().clearCache()
         assertReflectionEquals(pyramid, sut.list()[0])
+    }
+    @Test void 'must return an empty list of pyramids if there are actually none of them'() {
+        assert 0 == sut.list().size()
     }
 }
