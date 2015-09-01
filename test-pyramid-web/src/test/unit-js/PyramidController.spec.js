@@ -51,7 +51,33 @@ describe('PyramidController', function () {
       sut.updatePercentage();
       expect(sut[testType].label).toBe('Numeric value is expected!')
     });
+    it('must disable save button if ' + testType + ' values is invalid', function() {
+      sut[testType].count = 'abc';
+      sut.updatePercentage();
+      expect(sut.valid).toBeFalsy();
+    });
+    it('must enable save button if ' + testType + ' value become valid', function() {
+      sut.name = 'abcdefg';
+      sut[testType].count = 'abc';
+      sut.updatePercentage();
+
+      sut[testType].count = moreThanZero();
+      sut.updatePercentage();
+
+      expect(sut.valid).toBeTruthy();
+    });
   });
+  it('must disable save button by default', function(){
+    expect(sut.valid).toBeFalsy();
+  });
+  it('must keep save button disabled if pyramid name is empty', function() {
+    sut.name = '';
+    sut.unitTests.count = moreThanZero;
+    sut.updatePercentage();
+    expect(sut.valid).toBeFalsy();
+  });
+  it('must enable save button if name becomes valid');
+  it('must apply validation rules to name that came from server');
   it('must calculate percentage correctly (happy path)', function() {
     sut.unitTests.count = 10;
     sut.componentTests.count = 5;

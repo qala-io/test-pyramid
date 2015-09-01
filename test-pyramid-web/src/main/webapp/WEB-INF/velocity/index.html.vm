@@ -4,6 +4,7 @@
   <title>Test Pyramid | Pyramids Collection</title>
   <link href="#springUrl('/vendor/bootstrap/css/bootstrap.min.css')" rel="stylesheet">
   <link href="#springUrl('/vendor/bootstrap/css/bootstrap-theme.min.css')" rel="stylesheet">
+  <link href="#springUrl('/css/app.css')" rel="stylesheet">
 
   <script type="text/javascript" src="#springUrl('/vendor/angular/angular.min.js')"></script>
   <script type="text/javascript" src="#springUrl('/js/app.js')"></script>
@@ -11,11 +12,11 @@
 <body data-ng-controller="PyramidCtrl as pyramid"
       ng-init='pyramid.initialize( {savedPyramids: $esc.xml($savedPyramids), baseUrl: "#springUrl('')" } )'>
 <div class="content">
-  <form>
+  <form class="">
     <div class="">
       <label for="project-name">Project Name</label>
       <input id="project-name" data-ng-model="pyramid.name">
-      </div>
+    </div>
     <div class="">
       <label for="n-of-unit-tests">Number of Unit Tests</label>
       <input id="n-of-unit-tests" data-ng-model="pyramid.unitTests.count" data-ng-change="pyramid.updatePercentage()">
@@ -29,7 +30,7 @@
       <input id="n-of-system-tests" data-ng-model="pyramid.systemTests.count" data-ng-change="pyramid.updatePercentage()">
       <label id="system-tests-label">{{pyramid.systemTests.label}}</label></div>
     <div>
-      <button id="save-btn" class="btn-primary" data-ng-click="pyramid.savePyramid()">Save</button>
+      <button id="save-btn" class="btn-primary" data-ng-click="pyramid.savePyramid()" data-ng-disabled="!pyramid.valid">Save</button>
     </div>
   </form>
   <table class="table table-condensed" id="pyramid-list">

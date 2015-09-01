@@ -17,6 +17,11 @@
     vm.unitTests = {count: '', label: '', color: 'green'};
     vm.componentTests = {count: '', label: '', color: 'green'};
     vm.systemTests = {count: '', label: '', color: 'green'};
+    /**
+     * Is set to true only when the pyramid is valid - name is specified and at least one test count is set.
+     * @type {boolean}
+     */
+    vm.valid = false;
 
     vm.updatePercentage = updatePercentage;
     vm.savePyramid = savePyramid;
@@ -25,27 +30,41 @@
     var testTypes = [vm.unitTests, vm.componentTests, vm.systemTests];
 
     function updatePercentage() {
+      var pyramidIsValid = true;
       var sum = 0;
       testTypes.forEach(function (testType) {
         sum += +testType.count || 0;
       });
       testTypes.forEach(function (testType) {
-        testType.label = sum ? (+((+testType.count / sum) * 100).toFixed(1)) + '%': '';
-        if(testType.count !== '' && isNaN(testType.count)) {
+        testType.label = sum ? (+((+testType.count / sum) * 100).toFixed(1)) + '%' : '';
+        if (testType.count !== '' && isNaN(testType.count)) {
           testType.label = 'Numeric value is expected!';
+          pyramidIsValid = false;
         }
       });
+      vm.valid = pyramidIsValid && isNameValid(vm.name);
     }
+
+    function isNameValid(name) {
+      name = name || '';
+      return name.length > 0 && name.length <= 100;
+    }
+
     function savePyramid() {
+      if (!vm.valid) {
+        throw new Error('Save was invoked while the Pyramid was not actually valid. ' +
+                        'This is a bug or someone is playing with the page.');
+      }
       $http.post(vm.baseUrl + '/pyramid', {
         name: vm.name,
         nOfUnitTests: vm.unitTests.count,
         nOfComponentTests: vm.componentTests.count,
         nOfSystemTests: vm.systemTests.count
-      }).then(function(res) {
+      }).then(function (res) {
         vm.savedPyramids.push(res.data);
       });
     }
+
     function initialize(initialData) {
       vm.savedPyramids = initialData.savedPyramids;
       vm.baseUrl = initialData.baseUrl;

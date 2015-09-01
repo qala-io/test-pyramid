@@ -76,4 +76,7 @@ module.exports = function HomePage() {
   this.clickSave = function () {
     this.saveBtn.click();
   };
+  this.assertSaveIsNotClickable = function() {
+    expect(this.saveBtn.isEnabled()).toBeFalsy();
+  };
 };

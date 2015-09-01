@@ -41,4 +41,10 @@ describe('Pyramid', function () {
     homePage.open();
     homePage.assertContainsPyramid(pyramid);
   });
+  it('validation error does not allow saving pyramids', function() {
+    var pyramid = new Pyramid();
+    pyramid.name = '';
+    homePage.fillPyramid(pyramid);
+    homePage.assertSaveIsNotClickable();
+  });
 });
