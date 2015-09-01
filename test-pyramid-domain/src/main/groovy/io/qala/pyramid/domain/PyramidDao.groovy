@@ -1,11 +1,29 @@
 package io.qala.pyramid.domain
 
+import org.hibernate.Session
+import org.hibernate.SessionFactory
+
 class PyramidDao {
-    void save(Pyramid pyramid) {
-        pyramids.add(pyramid);
+    PyramidDao(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory
+    }
+    Pyramid save(Pyramid pyramid) {
+        session.save(pyramid);
+        return pyramid
     }
     List<Pyramid> list() {
-        return pyramids;
+        return session.createQuery('from Pyramid').list()
     }
-    final List<Pyramid> pyramids = []
+    Session getSession() {
+        return sessionFactory.currentSession
+    }
+    PyramidDao flush() {
+        session.flush()
+        return this
+    }
+    PyramidDao clearCache() {
+        session.clear()
+        return this
+    }
+    final SessionFactory sessionFactory
 }

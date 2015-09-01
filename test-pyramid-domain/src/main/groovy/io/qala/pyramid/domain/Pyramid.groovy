@@ -4,6 +4,7 @@ import static io.qala.pyramid.domain.utils.RandomValue.from
 import static org.apache.commons.lang3.RandomUtils.nextInt
 
 class Pyramid {
+    Long id
     String name
     int nOfUnitTests
     int nOfComponentTests
