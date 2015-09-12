@@ -1,7 +1,9 @@
 package io.qala.pyramid.domain.utils
 
-import org.apache.commons.lang3.RandomStringUtils
 import org.apache.commons.lang3.RandomUtils
+
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
+import static org.apache.commons.lang3.RandomStringUtils.randomNumeric
 
 class RandomValue {
     int from
@@ -17,7 +19,14 @@ class RandomValue {
     }
 
     String alphanumeric() {
-        int nOfSymbols = RandomUtils.nextInt(from, to + 1)
-        return RandomStringUtils.randomAlphanumeric(nOfSymbols)
+        return randomAlphanumeric(nOfSymbols())
+    }
+
+    String numeric() {
+        return randomNumeric(nOfSymbols())
+    }
+
+    private int nOfSymbols() {
+        return RandomUtils.nextInt(from, to + 1)
     }
 }

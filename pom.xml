@@ -19,6 +19,7 @@
     <springVersion>4.2.0.RELEASE</springVersion>
     <restletVersion>2.3.4</restletVersion>
     <hibernateVersion>4.3.11.Final</hibernateVersion>
+    <hibernateValidatorVersion>5.2.1.Final</hibernateValidatorVersion>
 
     <unit.be.tests.skip>false</unit.be.tests.skip>
     <unit.ui.tests.skip>false</unit.ui.tests.skip>
@@ -170,6 +171,27 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-core</artifactId>
         <version>${hibernateVersion}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>${hibernateValidatorVersion}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>1.1.0.Final</version>
+      </dependency>
+      <!-- Validator needs this to build validation messages-->
+      <dependency>
+        <groupId>javax.el</groupId>
+        <artifactId>javax.el-api</artifactId>
+        <version>2.2.4</version>
+      </dependency>
+      <dependency>
+        <groupId>org.glassfish.web</groupId>
+        <artifactId>javax.el</artifactId>
+        <version>2.2.4</version>
       </dependency>
       <dependency>
         <groupId>c3p0</groupId>
