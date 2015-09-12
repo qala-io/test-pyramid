@@ -47,6 +47,21 @@
         <system.ui.tests.skip>false</system.ui.tests.skip>
       </properties>
     </profile>
+    <profile>
+      <id>RunUiTests</id>
+      <activation>
+        <property>
+          <name>runUiTests</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <properties>
+        <unit.be.tests.skip>true</unit.be.tests.skip>
+        <unit.ui.tests.skip>false</unit.ui.tests.skip>
+        <component.ui.tests.skip>false</component.ui.tests.skip>
+        <component.be.tests.skip>true</component.be.tests.skip>
+      </properties>
+    </profile>
   </profiles>
   
   <build>

@@ -14,9 +14,10 @@
     vm.baseUrl = null;
     vm.savedPyramids = [];
     vm.name = '';
-    vm.unitTests = {id: 'unit-tests', title: 'Number of Unit Tests', count: '', label: '', color: 'green'};
-    vm.componentTests = {id: 'component-tests', title: 'Number of Component Tests', count: '', label: '', color: 'green'};
-    vm.systemTests = {id: 'system-tests', title: 'Number of System Tests', count: '', label: '', color: 'green'};
+    vm.testTypes = [
+      {id: 'unit-tests', title: 'Number of Unit Tests', count: '', label: '', color: 'green'},
+      {id: 'component-tests', title: 'Number of Component Tests', count: '', label: '', color: 'green'},
+      {id: 'system-tests', title: 'Number of System Tests', count: '', label: '', color: 'green'}];
     /**
      * Is set to true only when the pyramid is valid - name is specified and at least one test count is set.
      * @type {boolean}
@@ -26,8 +27,11 @@
     vm.updatePercentage = updatePercentage;
     vm.savePyramid = savePyramid;
     vm.initialize = initialize;
-
-    vm.testTypes = [vm.unitTests, vm.componentTests, vm.systemTests];
+    /**
+     * Needed only for testing
+     * @type {testType}
+     */
+    this.testType = testType;
 
     function updatePercentage() {
       var pyramidIsValid = true;
@@ -57,12 +61,21 @@
       }
       $http.post(vm.baseUrl + '/pyramid', {
         name: vm.name,
-        nOfUnitTests: vm.unitTests.count,
-        nOfComponentTests: vm.componentTests.count,
-        nOfSystemTests: vm.systemTests.count
+        nOfUnitTests: vm.testTypes[0].count,
+        nOfComponentTests: vm.testTypes[1].count,
+        nOfSystemTests: vm.testTypes[2].count
       }).then(function (res) {
         vm.savedPyramids.push(res.data);
       });
+    }
+
+    function testType(testType) {
+      for (var i = 0; i < vm.testTypes.length; i++) {
+        if (vm.testTypes[i].id === testType) {
+          return vm.testTypes[i];
+        }
+      }
+      throw new Error('Could not find test type: ' + testType);
     }
 
     function initialize(initialData) {
