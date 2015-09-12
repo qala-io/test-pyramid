@@ -3,6 +3,7 @@ package io.qala.pyramid.web
 import io.qala.pyramid.domain.Pyramid
 import io.qala.pyramid.domain.PyramidService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -13,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView
 import javax.validation.Valid
 
 @Controller
-@RequestMapping(consumes = 'application/json;charset=UTF-8', produces = 'application/json')
+@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 class PyramidRest {
 
     @RequestMapping(value = '/pyramid', method = RequestMethod.POST)

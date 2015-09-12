@@ -6,8 +6,10 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
+import org.springframework.test.context.web.WebAppConfiguration
 
 @RunWith(SpringJUnit4ClassRunner)
+@WebAppConfiguration
 @ContextConfiguration(locations = [
         //WEB-INF is not in the classpath actually, but we added it as a testResourceDirectory in Maven
         //to overcome the limitations
