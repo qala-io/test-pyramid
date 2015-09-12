@@ -1,10 +1,13 @@
 package io.qala.pyramid.web
 
+import groovy.json.JsonBuilder
 import io.qala.pyramid.domain.Pyramid
 import io.qala.pyramid.domain.PyramidService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Controller
+import org.springframework.validation.BindingResult
+import org.springframework.validation.FieldError
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
@@ -30,7 +33,19 @@ class PyramidRest {
 
     @RequestMapping(value = '/pyramid/validate', method = RequestMethod.POST)
     @ResponseBody
-    String validate(@Valid @RequestBody Pyramid pyramid) {'[]'}
+    List validate(@Valid @RequestBody Pyramid pyramid, BindingResult result) {
+        if (!result.hasErrors()) {
+            return []
+        }
+        if (result.hasFieldErrors()) {
+            List<Map> errors = result.getFieldErrors().collect {
+                [field: it.field, rejectedValue: it.rejectedValue, message: it.defaultMessage]
+            }
+            return errors
+        }
+        return result.getAllErrors()
+    }
 
-    @Autowired PyramidService pyramidService
+    @Autowired
+    PyramidService pyramidService
 }

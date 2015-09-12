@@ -9,14 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
-import org.springframework.validation.BindingResult
+import org.springframework.web.bind.MethodArgumentNotValidException
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals
 
 class Pyramids {
     @Autowired PyramidController pyramidController
-    @Autowired PyramidService pyramidService
     @Autowired MockMvc mockMvc
 
     Pyramid create(Pyramid pyramid = Pyramid.random()) {
@@ -27,6 +26,15 @@ class Pyramids {
         String resultPyramidString = result.response.content
         Pyramid resultPyramid = new JsonSlurper().parseText(resultPyramidString) as Pyramid
         return resultPyramid
+    }
+
+    List<Map> validate(Pyramid pyramid = Pyramid.random()) {
+        MvcResult result = mockMvc.perform(post('/pyramid/validate')
+                .content(new JsonBuilder(pyramid).toPrettyString())
+                .contentType(MediaType.APPLICATION_JSON)).andReturn()
+        assertNoErrors(result)
+        String resultPyramidString = result.response.content
+        return new JsonSlurper().parseText(resultPyramidString) as List
     }
 
     void assertPyramidExists(Pyramid pyramid) {

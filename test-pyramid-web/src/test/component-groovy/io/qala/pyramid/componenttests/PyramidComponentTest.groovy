@@ -24,4 +24,11 @@ class PyramidComponentTest {
         Pyramid pyramid = pyramids.create()
         pyramids.assertPyramidExists(pyramid)
     }
+
+    @Test
+    void 'service must return errors if validation fails'() {
+        List<Map> errors = pyramids.validate(Pyramid.random([name: '']))
+        assert 1 == errors.size()
+        assert errors[0].message == 'size must be between 1 and 100'
+    }
 }
