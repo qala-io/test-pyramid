@@ -9,9 +9,13 @@ Demonstrates how to build tests of different levels (unit, component, system) fo
 TBD:
 
 - Data validation on back end
-- Send regexps for UI to validate inputs
-   - Validation error for pyramid name 
-- Finish Component Tests that should check whether the regexps are applied on the UI
+ + REST endpoint for validation
+ + Validate name and write component test for it
+ - Send validation requests to BE every time focus is lost on field
+ - Parse validation responses in JS
+ - Component test that checks how UI works with validation endpoint
+ - System tests to be updated to new behaviour
+ - Validate all other fields in the same manner
 - Add System Test that checks if validation is applied and regexps are filled
 - Color the validation errors
 - Add restrictions on how many digits it is possible to put into test counts

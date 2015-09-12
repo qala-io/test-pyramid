@@ -23,7 +23,7 @@ class Pyramids {
                 .content(new JsonBuilder(pyramid).toPrettyString())
                 .contentType(MediaType.APPLICATION_JSON)).andReturn()
         assertNoErrors(result)
-        String resultPyramidString = result.response.content
+        String resultPyramidString = result.response.contentAsString
         Pyramid resultPyramid = new JsonSlurper().parseText(resultPyramidString) as Pyramid
         return resultPyramid
     }
@@ -33,7 +33,7 @@ class Pyramids {
                 .content(new JsonBuilder(pyramid).toPrettyString())
                 .contentType(MediaType.APPLICATION_JSON)).andReturn()
         assertNoErrors(result)
-        String resultPyramidString = result.response.content
+        String resultPyramidString = result.response.contentAsString
         return new JsonSlurper().parseText(resultPyramidString) as List
     }
 
