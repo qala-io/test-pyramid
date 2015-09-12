@@ -1,6 +1,5 @@
 package io.qala.pyramid.domain
 
-import org.apache.commons.lang.RandomStringUtils
 import org.junit.Test
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -8,17 +7,25 @@ import spock.lang.Unroll
 import javax.validation.ConstraintViolation
 import javax.validation.Validation
 import javax.validation.Validator
-import javax.validation.ValidatorFactory
 
+import static io.qala.pyramid.domain.utils.RandomValue.from
 import static org.apache.commons.lang.RandomStringUtils.randomAlphanumeric
 
 class PyramidTest extends Specification {
     @Test
-    void 'validation'() {
-        Pyramid pyramid = Pyramid.random()
-        Set<ConstraintViolation<Pyramid>> violations = validator().validate(pyramid)
-
-        assert violations.isEmpty()
+    void 'validation for name must pass if #valueDescription specified (#name)'() {
+        given:
+          Pyramid pyramid = Pyramid.random([name: name])
+          Set<ConstraintViolation<Pyramid>> violations = validator().validate(pyramid)
+        expect:
+          pyramid && 0 == violations.size()
+        where:
+          name                            | valueDescription
+          randomAlphanumeric(1)           | 'min boundary value'
+          from(2).to(99).alphanumeric()   | 'typical happy path value'
+          randomAlphanumeric(100)         | 'max boundary value'
+          from(2).to(99).numeric()        | 'numbers only'
+          from(2).to(99).specialSymbols() | 'special symbols'
     }
 
     @Unroll
