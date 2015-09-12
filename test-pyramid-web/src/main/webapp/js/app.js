@@ -14,9 +14,9 @@
     vm.baseUrl = null;
     vm.savedPyramids = [];
     vm.name = '';
-    vm.unitTests = {count: '', label: '', color: 'green'};
-    vm.componentTests = {count: '', label: '', color: 'green'};
-    vm.systemTests = {count: '', label: '', color: 'green'};
+    vm.unitTests = {id: 'unit-tests', title: 'Number of Unit Tests', count: '', label: '', color: 'green'};
+    vm.componentTests = {id: 'component-tests', title: 'Number of Component Tests', count: '', label: '', color: 'green'};
+    vm.systemTests = {id: 'system-tests', title: 'Number of System Tests', count: '', label: '', color: 'green'};
     /**
      * Is set to true only when the pyramid is valid - name is specified and at least one test count is set.
      * @type {boolean}
@@ -27,15 +27,15 @@
     vm.savePyramid = savePyramid;
     vm.initialize = initialize;
 
-    var testTypes = [vm.unitTests, vm.componentTests, vm.systemTests];
+    vm.testTypes = [vm.unitTests, vm.componentTests, vm.systemTests];
 
     function updatePercentage() {
       var pyramidIsValid = true;
       var sum = 0;
-      testTypes.forEach(function (testType) {
+      vm.testTypes.forEach(function (testType) {
         sum += +testType.count || 0;
       });
-      testTypes.forEach(function (testType) {
+      vm.testTypes.forEach(function (testType) {
         testType.label = sum ? (+((+testType.count / sum) * 100).toFixed(1)) + '%' : '';
         if (testType.count !== '' && isNaN(testType.count)) {
           testType.label = 'Numeric value is expected!';

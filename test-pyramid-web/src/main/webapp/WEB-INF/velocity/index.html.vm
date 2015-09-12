@@ -19,21 +19,11 @@
       <label class="col-lg-2 control-label" for="project-name">Project Name</label>
       <input id="project-name" class="col-md-1" data-ng-model="pyramid.name">
     </div>
-    <div class="form-group">
-      <label for="n-of-unit-tests" class="col-lg-2 control-label">Number of Unit Tests</label>
-      <input id="n-of-unit-tests" class="col-md-1"
-             data-ng-model="pyramid.unitTests.count" data-ng-change="pyramid.updatePercentage()">
-      <label id="unit-tests-label" data-ng-bind="pyramid.unitTests.label"></label></div>
-    <div class="form-group">
-      <label for="n-of-component-tests" class="col-lg-2 control-label">Number of Component Tests</label>
-      <input id="n-of-component-tests" class="col-md-1"
-             data-ng-model="pyramid.componentTests.count" data-ng-change="pyramid.updatePercentage()">
-      <label id="component-tests-label" data-ng-bind="pyramid.componentTests.label"></label></div>
-    <div class="form-group">
-      <label for="n-of-system-tests" class="col-lg-2 control-label">Number of System Tests</label>
-      <input id="n-of-system-tests" class="col-md-1"
-             data-ng-model="pyramid.systemTests.count" data-ng-change="pyramid.updatePercentage()">
-      <label id="system-tests-label" data-ng-bind="pyramid.systemTests.label"></label></div>
+    <div class="form-group" data-ng-repeat="testType in pyramid.testTypes">
+      <label for="n-of-{{testType.id}}" class="col-lg-2 control-label" data-ng-bind="testType.title"></label>
+      <input id="n-of-{{testType.id}}" class="col-md-1"
+             data-ng-model="testType.count" data-ng-change="pyramid.updatePercentage()">
+      <label id="{{testType.id}}-label" data-ng-bind="testType.label"></label></div>
     <div>
       <button id="save-btn" class="btn-primary" data-ng-click="pyramid.savePyramid()"
               data-ng-disabled="!pyramid.valid">Save</button>
