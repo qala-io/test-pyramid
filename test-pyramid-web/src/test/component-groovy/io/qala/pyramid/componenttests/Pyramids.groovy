@@ -3,13 +3,11 @@ package io.qala.pyramid.componenttests
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 import io.qala.pyramid.domain.Pyramid
-import io.qala.pyramid.domain.PyramidService
 import io.qala.pyramid.web.PyramidController
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
-import org.springframework.web.bind.MethodArgumentNotValidException
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals
@@ -44,7 +42,7 @@ class Pyramids {
     }
 
     static assertNoErrors(MvcResult mvcResult) {
-        if(mvcResult.resolvedException) {
+        if (mvcResult.resolvedException) {
             throw mvcResult.resolvedException
         }
     }

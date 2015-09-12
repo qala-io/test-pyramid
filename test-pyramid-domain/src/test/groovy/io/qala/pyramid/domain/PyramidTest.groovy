@@ -16,7 +16,7 @@ class PyramidTest extends Specification {
     void 'validation for name must pass if #valueDescription specified (#name)'() {
         given:
           Pyramid pyramid = Pyramid.random([name: name])
-          Set<ConstraintViolation<Pyramid>> violations = validator().validate(pyramid)
+          Set violations = validator().validate(pyramid)
         expect:
           pyramid && 0 == violations.size()
         where:
@@ -32,7 +32,7 @@ class PyramidTest extends Specification {
     def 'validation for name must fail if #valueDescription specified (#name)'() {
         given:
           Pyramid pyramid = Pyramid.random([name: name])
-          Set<ConstraintViolation<Pyramid>> violations = validator().validate(pyramid)
+          Set<ConstraintViolation> violations = validator().validate(pyramid)
         expect:
           pyramid && 1 == violations.size()
           pyramid && violations.first().messageTemplate.contains(expectedError)
