@@ -20,18 +20,20 @@
       <input id="project-name" name="projectName" class="col-md-1" data-ng-model="pyramid.name"
              ng-trim required data-ng-maxlength="100">
       <label id="name-error-msg"
-             ng-show="(newPyramidForm.$submitted || !newPyramidForm.projectName.$pristine)
+             data-ng-show="(newPyramidForm.$submitted || !newPyramidForm.projectName.$pristine)
                    && (newPyramidForm.projectName.$invalid)">
         Size should be from 1 to 100</label></div>
 
     <div class="form-group" data-ng-repeat="testType in pyramid.testTypes">
       <label for="n-of-{{::testType.id}}" class="col-lg-2 control-label" data-ng-bind="testType.title"></label>
-      <input id="n-of-{{::testType.id}}" class="col-md-1"
+      <input id="n-of-{{::testType.id}}" name="{{::testType.id}}" class="col-md-1" data-ng-pattern="'[0-9]{0,8}'"
              data-ng-model="testType.count" data-ng-change="pyramid.updatePercentage()">
-      <label id="{{::testType.id}}-label" data-ng-bind="testType.label"></label></div>
+      <label id="{{::testType.id}}-label" data-ng-bind="testType.label"></label>
+      <label id="{{::testType.id}}-error-msg" data-ng-show="(newPyramidForm.$submitted || !newPyramidForm[testType.id].$pristine)
+                   && (newPyramidForm[testType.id].$invalid)">Numeric value is expected</label></div>
     <div>
       <button id="save-btn" class="btn-primary" data-ng-click="pyramid.savePyramid()"
-              data-ng-disabled="!pyramid.valid || newPyramidForm.$invalid">Save</button></div>
+              data-ng-disabled="newPyramidForm.$invalid">Save</button></div>
   </form>
   <table class="table table-condensed" id="pyramid-list">
     <tr data-ng-repeat="savedPyramid in pyramid.savedPyramids" name="pyramid-row">

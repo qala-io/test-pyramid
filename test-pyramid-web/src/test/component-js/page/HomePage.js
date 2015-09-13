@@ -3,15 +3,18 @@ var Pyramid = require('../domain/Pyramid');
 module.exports = function HomePage() {
   this.unitTests = {
     input: element(by.id('n-of-unit-tests')),
-    label: element(by.id('unit-tests-label'))
+    label: element(by.id('unit-tests-label')),
+    errorLbl: element(by.id('unit-tests-error-msg'))
   };
   this.componentTests = {
     input: element(by.id('n-of-component-tests')),
-    label: element(by.id('component-tests-label'))
+    label: element(by.id('component-tests-label')),
+    errorLbl: element(by.id('component-tests-error-msg'))
   };
   this.systemTests = {
     input: element(by.id('n-of-system-tests')),
-    label: element(by.id('system-tests-label'))
+    label: element(by.id('system-tests-label')),
+    errorLbl: element(by.id('system-tests-error-msg'))
   };
   this.saveBtn = element(by.id('save-btn'));
   this.nameInput = element(by.id('project-name'));
@@ -72,6 +75,9 @@ module.exports = function HomePage() {
   };
   this.getLabel = function (testType) {
     return this[testType + 'Tests'].label.getText();
+  };
+  this.getErrorMsg = function(testType) {
+    return this[testType + 'Tests'].errorLbl.getText();
   };
   this.clickSave = function () {
     this.saveBtn.click();

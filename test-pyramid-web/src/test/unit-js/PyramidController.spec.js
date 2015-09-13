@@ -46,10 +46,10 @@ describe('PyramidController', function () {
       sut.updatePercentage();
       expect(sut.testType(testType).label).toBe('');
     });
-    it(testType + ' label must show error if non-numbers were entered', function() {
+    it(testType + ' label must be empty if non-numbers were entered', function() {
       sut.testType(testType).count = 'abc';
       sut.updatePercentage();
-      expect(sut.testType(testType).label).toBe('Numeric value is expected!')
+      expect(sut.testType(testType).label).toBe('')
     });
     it('must disable save button if ' + testType + ' values is invalid', function() {
       sut.testType(testType).count = 'abc';

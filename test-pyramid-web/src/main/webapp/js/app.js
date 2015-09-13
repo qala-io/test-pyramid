@@ -19,11 +19,6 @@
       {id: 'unit-tests', title: 'Number of Unit Tests', count: '', label: '', color: 'green'},
       {id: 'component-tests', title: 'Number of Component Tests', count: '', label: '', color: 'green'},
       {id: 'system-tests', title: 'Number of System Tests', count: '', label: '', color: 'green'}];
-    /**
-     * Is set to true only when the pyramid is valid - name is specified and at least one test count is set.
-     * @type {boolean}
-     */
-    vm.valid = false;
     // METHODS
     vm.updatePercentage = updatePercentage;
     vm.savePyramid = savePyramid;
@@ -36,26 +31,16 @@
 
     // FUNCTIONS
     function updatePercentage() {
-      var pyramidIsValid = true;
       var sum = 0;
       vm.testTypes.forEach(function (testType) {
         sum += +testType.count || 0;
       });
       vm.testTypes.forEach(function (testType) {
         testType.label = sum ? (+((+testType.count / sum) * 100).toFixed(1)) + '%' : '';
-        if (testType.count !== '' && isNaN(testType.count)) {
-          testType.label = 'Numeric value is expected!';
-          pyramidIsValid = false;
-        }
       });
-      vm.valid = pyramidIsValid;
     }
 
     function savePyramid() {
-      if (!vm.valid) {
-        throw new Error('Save was invoked while the Pyramid was not actually valid. ' +
-                        'This is a bug or someone is playing with the page.');
-      }
       $http.post(vm.baseUrl + '/pyramid', {
         name: vm.name,
         nOfUnitTests: vm.testTypes[0].count,
@@ -63,6 +48,8 @@
         nOfSystemTests: vm.testTypes[2].count
       }).then(function (res) {
         vm.savedPyramids.push(res.data);
+      }).catch(function (error) {
+        console.warn(error);
       });
     }
 
