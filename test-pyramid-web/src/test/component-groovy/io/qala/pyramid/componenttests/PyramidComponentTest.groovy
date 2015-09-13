@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.test.context.web.WebAppConfiguration
+import org.springframework.web.bind.MethodArgumentNotValidException
 
 @RunWith(SpringJUnit4ClassRunner)
 @WebAppConfiguration
@@ -25,10 +26,8 @@ class PyramidComponentTest {
         pyramids.assertPyramidExists(pyramid)
     }
 
-    @Test
+    @Test(expected = MethodArgumentNotValidException)
     void 'service must return errors if validation fails'() {
-        List<Map> errors = pyramids.validate(Pyramid.random([name: '']))
-        assert 1 == errors.size()
-        assert errors[0].message == 'size must be between 1 and 100'
+        pyramids.create(Pyramid.random([name: '']))
     }
 }

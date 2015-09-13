@@ -16,7 +16,7 @@
 <div class="content">
   <form class="form-horizontal" name="newPyramidForm" novalidate>
     <div class="form-group">
-      <label class="col-lg-2 control-label" for="project-name">Project Name</label>
+      <label class="col-lg-2 control-label" for="project-name">Project Name*</label>
       <input id="project-name" name="projectName" class="col-md-1" data-ng-model="pyramid.name"
              ng-trim required data-ng-maxlength="100">
       <label id="name-error-msg"

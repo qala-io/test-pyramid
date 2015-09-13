@@ -26,15 +26,6 @@ class Pyramids {
         return resultPyramid
     }
 
-    List<Map> validate(Pyramid pyramid = Pyramid.random()) {
-        MvcResult result = mockMvc.perform(post('/pyramid/validate')
-                .content(new JsonBuilder(pyramid).toPrettyString())
-                .contentType(MediaType.APPLICATION_JSON)).andReturn()
-        assertNoErrors(result)
-        String resultPyramidString = result.response.contentAsString
-        return new JsonSlurper().parseText(resultPyramidString) as List
-    }
-
     void assertPyramidExists(Pyramid pyramid) {
         String pyramidsString = pyramidController.index().getModel()['savedPyramids']
         List fetched = new JsonSlurper().parseText(pyramidsString) as List
