@@ -4,12 +4,12 @@ var random = require('random-ext');
 function Pyramid(fields) {
   var self = this;
   fields = fields || {};
-  this.name = fields.name || randomAlphanumeric(40, 1);
+  this.name = fields.name || randomAlphanumeric(100, 1);
   this.nOfUnitTests = random.integer(100, 0);
   this.nOfComponentTests = random.integer(100, 0);
   this.nOfSystemTests = random.integer(100, 0);
 
-  this.withSpecialSymbols = function() {
+  this.withSpecialSymbols = function () {
     this.name = random.restrictedString([random.CHAR_TYPE.SPECIAL], 100, 0);
     return this;
   };
@@ -46,7 +46,7 @@ Pyramid.fromJson = function (json) {
   pyramid.nOfSystemTests = +obj.nOfSystemTests;
   return pyramid;
 };
-Pyramid.empty = function() {
+Pyramid.empty = function () {
   var pyramid = new Pyramid();
   pyramid.name = null;
   pyramid.nOfUnitTests = null;
@@ -56,8 +56,12 @@ Pyramid.empty = function() {
 };
 
 function randomAlphanumeric(maxBoundary, minBoundary) {
-  return random.restrictedString([random.CHAR_TYPE.SPACE, random.CHAR_TYPE.LOWERCASE,
-    random.CHAR_TYPE.UPPERCASE, random.CHAR_TYPE.NUMERIC], maxBoundary, minBoundary);
+  var result = '';
+  while (!result.trim()) {
+    result = random.restrictedString([random.CHAR_TYPE.SPACE, random.CHAR_TYPE.LOWERCASE,
+      random.CHAR_TYPE.UPPERCASE, random.CHAR_TYPE.NUMERIC], maxBoundary, minBoundary);
+  }
+  return result;
 }
 
 module.exports = Pyramid;

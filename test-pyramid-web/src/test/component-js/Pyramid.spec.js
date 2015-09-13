@@ -1,6 +1,7 @@
 "use strict";
 var homePage = new (require('./page/HomePage'));
 var Pyramid = require('./domain/Pyramid');
+var random = require('random-ext');
 
 describe('Pyramid', function () {
   beforeEach(function () {
@@ -41,9 +42,21 @@ describe('Pyramid', function () {
     homePage.open();
     homePage.assertContainsPyramid(pyramid);
   });
-  it('validation error does not allow saving pyramids', function() {
+  it('empty name does not allow saving pyramids', function() {
     var pyramid = new Pyramid();
     pyramid.name = '';
+    homePage.fillPyramid(pyramid);
+    homePage.assertSaveIsNotClickable();
+  });
+  it('space-only name does not allow saving pyramids', function() {
+    var pyramid = new Pyramid();
+    pyramid.name = '  ';
+    homePage.fillPyramid(pyramid);
+    homePage.assertSaveIsNotClickable();
+  });
+  it('too long name does not allow saving pyramids', function() {
+    var pyramid = new Pyramid();
+    pyramid.name = random.string(101, 101);
     homePage.fillPyramid(pyramid);
     homePage.assertSaveIsNotClickable();
   });

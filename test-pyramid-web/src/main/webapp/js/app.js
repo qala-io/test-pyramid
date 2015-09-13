@@ -14,6 +14,7 @@
     vm.baseUrl = null;
     vm.savedPyramids = [];
     vm.name = '';
+    vm.nameErrorMsg = '';
     vm.testTypes = [
       {id: 'unit-tests', title: 'Number of Unit Tests', count: '', label: '', color: 'green'},
       {id: 'component-tests', title: 'Number of Component Tests', count: '', label: '', color: 'green'},
@@ -23,16 +24,17 @@
      * @type {boolean}
      */
     vm.valid = false;
-
+    // METHODS
     vm.updatePercentage = updatePercentage;
     vm.savePyramid = savePyramid;
     vm.initialize = initialize;
     /**
-     * Needed only for testing
+     * Needed only for testing.
      * @type {testType}
      */
     this.testType = testType;
 
+    // FUNCTIONS
     function updatePercentage() {
       var pyramidIsValid = true;
       var sum = 0;
@@ -46,12 +48,7 @@
           pyramidIsValid = false;
         }
       });
-      vm.valid = pyramidIsValid && isNameValid(vm.name);
-    }
-
-    function isNameValid(name) {
-      name = name || '';
-      return name.length > 0 && name.length <= 100;
+      vm.valid = pyramidIsValid;
     }
 
     function savePyramid() {
