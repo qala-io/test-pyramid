@@ -1,5 +1,6 @@
 'use strict';
-var moreThanZero = require('./utils.js').moreThanZero;
+var moreThanZero = require('./utils').moreThanZero;
+var alphabetic = require('./utils').alphabetic;
 
 describe('PyramidController', function () {
   var sut;
@@ -46,22 +47,29 @@ describe('PyramidController', function () {
       sut.updatePercentage();
       expect(sut.testType(testType).label).toBe('');
     });
-    it(testType + ' label must be empty if non-numbers were entered', function() {
-      sut.testType(testType).count = 'abc';
+    it(testType + ' label must be empty if non-numbers were entered', function () {
+      sut.testType(testType).count = alphabetic();
       sut.updatePercentage();
       expect(sut.testType(testType).label).toBe('')
     });
-    it('must disable save button if ' + testType + ' values is invalid', function() {
-      sut.testType(testType).count = 'abc';
+    it('must disable save button if ' + testType + ' values is invalid', function () {
+      sut.testType(testType).count = alphabetic();
       sut.updatePercentage();
       expect(sut.valid).toBeFalsy();
     });
-
   });
-  it('must disable save button by default', function(){
+  it('test percentage must be empty if sum is more than 0 and one of test counts is non-numeric', function () {
+    sut.testType('unit-tests').count = moreThanZero();
+    sut.testType('component-tests').count = alphabetic();
+    sut.updatePercentage();
+
+    expect(sut.testType('unit-tests').label).toBe('100%');
+    expect(sut.testType('component-tests').label).toBe('');
+  });
+  it('must disable save button by default', function () {
     expect(sut.valid).toBeFalsy();
   });
-  it('must calculate percentage correctly (happy path)', function() {
+  it('must calculate percentage correctly (happy path)', function () {
     sut.testType('unit-tests').count = 10;
     sut.testType('component-tests').count = 5;
     sut.testType('system-tests').count = 5;
@@ -71,7 +79,7 @@ describe('PyramidController', function () {
     expect(sut.testType('component-tests').label).toBe('25%');
     expect(sut.testType('system-tests').label).toBe('25%');
   });
-  it('must round to 2 decimals', function() {
+  it('must round to 2 decimals', function () {
     sut.testType('unit-tests').count = 1;
     sut.testType('component-tests').count = 1;
     sut.testType('system-tests').count = 1;

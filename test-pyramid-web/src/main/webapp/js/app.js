@@ -36,7 +36,12 @@
         sum += +testType.count || 0;
       });
       vm.testTypes.forEach(function (testType) {
-        testType.label = sum ? (+((+testType.count / sum) * 100).toFixed(1)) + '%' : '';
+        var count = +testType.count;
+        if(isNaN(count)) {
+          testType.label = '';
+        } else {
+          testType.label = sum ? (+(count / sum * 100).toFixed(1)) + '%' : '';
+        }
       });
     }
 
