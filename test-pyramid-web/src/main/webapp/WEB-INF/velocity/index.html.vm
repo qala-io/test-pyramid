@@ -14,23 +14,28 @@
 <body data-ng-controller="PyramidCtrl as pyramid"
       ng-init='pyramid.initialize( {savedPyramids: $esc.xml($savedPyramids), baseUrl: "#springUrl('')" } )'>
 <div class="content">
-  <form class="form-horizontal" name="newPyramidForm" novalidate>
-    <div class="form-group">
-      <label class="col-lg-2 control-label" for="project-name">Project Name*</label>
-      <input id="project-name" name="projectName" class="col-md-1" data-ng-model="pyramid.name"
-             ng-trim required data-ng-maxlength="100">
-      <label id="name-error-msg"
+  <form class="" name="newPyramidForm" novalidate>
+    <div name="projectNameLine" class="form-group"
+         ng-class="{ 'has-error': (newPyramidForm.$submitted || !newPyramidForm.projectName.$pristine)
+                               && (newPyramidForm.projectName.$invalid) }">
+      <label class="control-label" for="project-name">Project Name</label>
+      <div class="input-group">
+        <span class="input-group-addon">*</span>
+        <input id="project-name" name="projectName" class="form-control" data-ng-model="pyramid.name"
+             ng-trim required data-ng-maxlength="100"></div>
+      <label id="name-error-msg" class="control-label"
              data-ng-show="(newPyramidForm.$submitted || !newPyramidForm.projectName.$pristine)
                    && (newPyramidForm.projectName.$invalid)">
         Size should be from 1 to 100</label></div>
 
-    <div class="form-group" data-ng-repeat="testType in pyramid.testTypes">
-      <label for="n-of-{{::testType.id}}" class="col-lg-2 control-label" data-ng-bind="testType.title"></label>
-      <input id="n-of-{{::testType.id}}" name="{{::testType.id}}" class="col-md-1" data-ng-pattern="'[0-9]{0,8}'"
+    <div class="form-group" data-ng-repeat="testType in pyramid.testTypes"
+         ng-class="{ 'has-error': newPyramidForm[testType.id].$invalid }">
+      <label for="n-of-{{::testType.id}}" class="control-label n-of-tests" data-ng-bind="testType.title"></label>
+      <input id="n-of-{{::testType.id}}" name="{{::testType.id}}" class="n-of-tests form-control" data-ng-pattern="'[0-9]{0,8}'"
              data-ng-model="testType.count" data-ng-change="pyramid.updatePercentage()">
       <label id="{{::testType.id}}-label" data-ng-bind="testType.label"></label>
-      <label id="{{::testType.id}}-error-msg" data-ng-show="(newPyramidForm.$submitted || !newPyramidForm[testType.id].$pristine)
-                   && (newPyramidForm[testType.id].$invalid)">Numeric value is expected</label></div>
+      <label id="{{::testType.id}}-error-msg" class="control-label"
+             data-ng-show="newPyramidForm[testType.id].$invalid">Numeric value is expected</label></div>
     <div>
       <button id="save-btn" class="btn-primary" data-ng-click="pyramid.savePyramid()"
               data-ng-disabled="newPyramidForm.$invalid">Save</button></div>
