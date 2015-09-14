@@ -6,9 +6,15 @@
 input.n-of-tests {
     width: 40%;
 }
+
+.n-of-tests-percentage {
+    width: 68px;
+}
+
 .n-of-tests-error-msg {
     clear: both;
 }
+
 #pyramid-list {
     margin-top: 5px;
 }

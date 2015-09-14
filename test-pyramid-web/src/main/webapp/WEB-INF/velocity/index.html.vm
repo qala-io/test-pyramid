@@ -29,11 +29,12 @@
     <div class="form-group form-group-sm" data-ng-repeat="testType in pyramid.testTypes"
          ng-class="{ 'has-error': newPyramidForm[testType.id].$invalid }">
       <label for="n-of-{{::testType.id}}" class="control-label" data-ng-bind="testType.title"></label>
-      <div>
+      <div class="input-group col-sm-5">
         <input id="n-of-{{::testType.id}}" name="{{::testType.id}}" class="n-of-tests form-control pull-left"
                placeholder="1234" data-ng-pattern="'[0-9]+'" maxlength="8"
                data-ng-model="testType.count" data-ng-change="pyramid.updatePercentage()">
-        <label id="{{::testType.id}}-label" class="control-label" data-ng-bind="testType.label"></label>
+        <span id="{{::testType.id}}-label" class="input-group-addon n-of-tests-percentage"
+              data-ng-bind="testType.label"></span>
       </div>
       <p id="{{::testType.id}}-error-msg" class="control-label small n-of-tests-error-msg">Enter numeric value</p>
     </div>
