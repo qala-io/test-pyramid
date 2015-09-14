@@ -16,9 +16,9 @@
     vm.name = '';
     vm.nameErrorMsg = '';
     vm.testTypes = [
-      {id: 'unit-tests', title: 'Number of Unit Tests', count: '', label: '', color: 'green'},
-      {id: 'component-tests', title: 'Number of Component Tests', count: '', label: '', color: 'green'},
-      {id: 'system-tests', title: 'Number of System Tests', count: '', label: '', color: 'green'}];
+      {id: 'unit-tests', title: 'Unit Tests', count: '', label: '', color: 'green'},
+      {id: 'component-tests', title: 'Component Tests', count: '', label: '', color: 'green'},
+      {id: 'system-tests', title: 'System Tests', count: '', label: '', color: 'green'}];
     // METHODS
     vm.updatePercentage = updatePercentage;
     vm.savePyramid = savePyramid;

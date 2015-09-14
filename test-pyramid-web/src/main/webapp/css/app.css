@@ -6,6 +6,9 @@
 input.n-of-tests {
     width: 40%;
 }
+.n-of-tests-error-msg {
+    clear: both;
+}
 #pyramid-list {
     margin-top: 5px;
 }

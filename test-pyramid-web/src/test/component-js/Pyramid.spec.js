@@ -15,13 +15,8 @@ describe('Pyramid', function () {
       homePage.fillNumberOfTests(testType, 10);
       expect(homePage.getLabel(testType)).toBe('100%');
     });
-    it(testType + ' test label shows error if text is specified', function () {
-      homePage.fillNumberOfTests(testType, 'blah');
-      expect(homePage.getLabel(testType)).toBe('');
-      expect(homePage.getErrorMsg(testType)).toBe('Numeric value is expected');
-    });
   });
-  fit('adds newly added item to the list of pyramids w/o page reload', function () {
+  it('adds newly added item to the list of pyramids w/o page reload', function () {
     var pyramid = homePage.fillPyramid(new Pyramid());
     homePage.clickSave();
     homePage.assertContainsPyramid(pyramid);
