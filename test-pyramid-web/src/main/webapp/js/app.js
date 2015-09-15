@@ -83,17 +83,35 @@
       this.draw = draw;
 
       function draw() {
+        var testPercents = [0.5, 0.3, 0.1];
+        var canvasLength = 150;
         var canvasEl = $document.find('canvas');
         if (!canvasEl.length && !canvasEl[0].getContext) {
           console.warn('No context is available in canvas: ' + canvas);
           return;
         }
         var ctx = canvasEl[0].getContext('2d');
-        ctx.fillStyle = "rgb(200,0,0)";
-        ctx.fillRect (10, 10, 55, 50);
+        var path=new Path2D();
+        path.moveTo((0.5 - 0.5/2) * canvasLength, 150);
+        path.lineTo((0.5 + 0.5/2) * canvasLength, 150);
+        path.lineTo((0.5 + 0.3/2) * canvasLength, 100);
+        path.lineTo((0.5 - 0.3/2) * canvasLength, 100);
+        ctx.fill(path);
 
-        ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-        ctx.fillRect (30, 30, 55, 50);
+        path = new Path2D();
+        path.moveTo((0.5 - 0.3/2) * canvasLength, 100);
+        path.lineTo((0.5 + 0.3/2) * canvasLength, 100);
+        path.lineTo((0.5 + 0.1/2) * canvasLength, 50);
+        path.lineTo((0.5 - 0.1/2) * canvasLength, 50);
+        ctx.fillStyle = 'rgb(10, 100, 200)';
+        ctx.fill(path);
+
+        path = new Path2D();
+        path.moveTo((0.5 - 0.1/2) * canvasLength, 50);
+        path.lineTo((0.5 + 0.1/2) * canvasLength, 50);
+        path.lineTo((0.5) * canvasLength, 0);
+        ctx.fillStyle = 'rgb(100, 10, 200)';
+        ctx.fill(path);
       }
     };
   }
