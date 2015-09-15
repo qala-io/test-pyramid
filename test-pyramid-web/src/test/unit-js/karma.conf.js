@@ -8,7 +8,7 @@ module.exports = function(config){
       'src/main/webapp/vendor/angular/angular.js',
       'src/test/unit-js/angular-mocks.js',
       'src/main/webapp/js/app.js',
-      'src/test/unit-js/PyramidController.spec.js'
+      'src/test/unit-js/*.spec.js'
     ],
     frameworks: ['jasmine', 'browserify'],
     browsers : ['PhantomJS'],

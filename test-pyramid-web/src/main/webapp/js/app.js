@@ -35,18 +35,22 @@
     // FUNCTIONS
     function updatePercentage() {
       var sum = 0;
+      var percents = [];
       vm.testTypes.forEach(function (testType) {
         sum += +testType.count || 0;
       });
       vm.testTypes.forEach(function (testType) {
         var count = +testType.count;
         if (isNaN(count)) {
+          percents.push(0);
           testType.label = '';
         } else {
-          testType.label = sum ? (+(count / sum * 100).toFixed(1)) + '%' : '';
+          var proportion = (count / sum);
+          percents.push(proportion);
+          testType.label = sum ? +(proportion * 100).toFixed(1) + '%' : '';
         }
       });
-      vm.experimentalFeaturesOn && pyramidCanvas.draw();
+      vm.experimentalFeaturesOn && pyramidCanvas.draw(percents);
     }
 
     function savePyramid() {
@@ -81,38 +85,85 @@
   function PyramidCanvas($document) {
     return new function () {
       this.draw = draw;
+      var canvasLength = 150;
+      var canvasHeight = 150;
+      //for testing
+      this.getUnitTestsArea = getUnitTestsArea;
 
-      function draw() {
-        var testPercents = [0.5, 0.3, 0.1];
-        var canvasLength = 150;
+      function draw(testPercents) {
         var canvasEl = $document.find('canvas');
-        if (!canvasEl.length && !canvasEl[0].getContext) {
+        if (!canvasEl.length || !canvasEl[0].getContext) {
           console.warn('No context is available in canvas: ' + canvas);
           return;
         }
         var ctx = canvasEl[0].getContext('2d');
-        var path=new Path2D();
-        path.moveTo((0.5 - 0.5/2) * canvasLength, 150);
-        path.lineTo((0.5 + 0.5/2) * canvasLength, 150);
-        path.lineTo((0.5 + 0.3/2) * canvasLength, 100);
-        path.lineTo((0.5 - 0.3/2) * canvasLength, 100);
-        ctx.fill(path);
+        ctx.clearRect(0, 0, canvasLength, canvasHeight);
+        ctx.fill(getUnitTestsArea(testPercents[0], testPercents[1]).toCanvasPath());
 
-        path = new Path2D();
-        path.moveTo((0.5 - 0.3/2) * canvasLength, 100);
-        path.lineTo((0.5 + 0.3/2) * canvasLength, 100);
-        path.lineTo((0.5 + 0.1/2) * canvasLength, 50);
-        path.lineTo((0.5 - 0.1/2) * canvasLength, 50);
-        ctx.fillStyle = 'rgb(10, 100, 200)';
-        ctx.fill(path);
+        ctx.fillStyle = 'rgb(10, 100, 100)';
+        ctx.fill(getComponentTestsArea(testPercents[1], testPercents[2]).toCanvasPath());
 
-        path = new Path2D();
-        path.moveTo((0.5 - 0.1/2) * canvasLength, 50);
-        path.lineTo((0.5 + 0.1/2) * canvasLength, 50);
-        path.lineTo((0.5) * canvasLength, 0);
         ctx.fillStyle = 'rgb(100, 10, 200)';
-        ctx.fill(path);
+        ctx.fill(getSystemTestsArea(testPercents[1], testPercents[2]).toCanvasPath());
+      }
+
+      function getUnitTestsArea(unitProportion, componentProportion) {
+        var area = new CanvasArea();
+        if (unitProportion > componentProportion) {
+          area.initialPoint = {x: (0.5 - unitProportion / 2) * canvasLength, y: canvasHeight};
+          area.points.push(
+            {x: (0.5 + unitProportion / 2) * canvasLength, y: canvasHeight},
+            {x: (0.5 + componentProportion / 2) * canvasLength, y: canvasHeight - canvasHeight / 3},
+            {x: (0.5 - componentProportion / 2) * canvasLength, y: canvasHeight - canvasHeight / 3}
+          );
+        } else if (unitProportion < componentProportion) {
+          area.initialPoint = {x: 0.5 * canvasLength, y: canvasHeight};
+          area.points.push(
+            {x: (0.5 + componentProportion / 2) * canvasLength, y: canvasHeight - canvasHeight / 3},
+            {x: (0.5 - componentProportion / 2) * canvasLength, y: canvasHeight - canvasHeight / 3}
+          );
+        }
+        return area;
+      }
+
+      function getComponentTestsArea(componentProportion, systemProportion) {
+        var area = new CanvasArea();
+        area.initialPoint = {x: (0.5 - componentProportion / 2) * canvasLength, y: canvasHeight - canvasHeight / 3};
+        area.points.push(
+          {x: (0.5 + componentProportion / 2) * canvasLength, y: canvasHeight - canvasHeight / 3},
+          {x: (0.5 + systemProportion / 2) * canvasLength, y: canvasHeight - canvasHeight / 3 * 2},
+          {x: (0.5 - systemProportion / 2) * canvasLength, y: canvasHeight - canvasHeight / 3 * 2}
+        );
+        return area;
+      }
+
+      function getSystemTestsArea(componentProportion, systemProportion) {
+        var area = new CanvasArea();
+        area.initialPoint = {x: (0.5 - systemProportion / 2) * canvasLength, y: canvasHeight - canvasHeight / 3 * 2};
+        area.points.push({x: (0.5 + systemProportion / 2) * canvasLength, y: canvasHeight - canvasHeight / 3 * 2});
+        if (componentProportion > systemProportion) {
+          area.points.push({x: (0.5) * canvasLength, y: 0});
+        } else {
+          area.points.push(
+            {x: (0.5 + systemProportion / 2) * canvasLength, y: 0},
+            {x: (0.5 - systemProportion / 2) * canvasLength, y: 0}
+          );
+        }
+        return area;
       }
     };
+  }
+  function CanvasArea() {
+    this.initialPoint = {x: 0, y: 0};
+    this.points = [];
+
+    this.toCanvasPath = function() {
+      var path = new Path2D();
+      path.moveTo(this.initialPoint.x, this.initialPoint.y);
+      this.points.forEach(function(point) {
+        path.lineTo(point.x, point.y);
+      });
+      return path;
+    }
   }
 })();
