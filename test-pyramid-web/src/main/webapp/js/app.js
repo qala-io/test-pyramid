@@ -2,10 +2,11 @@
   'use strict';
 
   angular.module('pyramid', [])
-    .controller('PyramidCtrl', ['$http', '$location', PyramidController])
-    .config(function ($locationProvider) { $locationProvider.html5Mode({enabled: true, requireBase: false}) });
+    .config(function ($locationProvider) { $locationProvider.html5Mode({enabled: true, requireBase: false}) })
+    .controller('PyramidCtrl', ['$http', 'pyramidCanvas', '$location', PyramidController])
+    .factory('pyramidCanvas', ['$document', PyramidCanvas]);
 
-  function PyramidController($http, $location) {
+  function PyramidController($http, pyramidCanvas, $location) {
     var vm = this;
     /**
      * Determines at what URL was our app deployed. Is used to concatenate links. E.g. if we're deployed at
@@ -45,6 +46,7 @@
           testType.label = sum ? (+(count / sum * 100).toFixed(1)) + '%' : '';
         }
       });
+      vm.experimentalFeaturesOn && pyramidCanvas.draw();
     }
 
     function savePyramid() {
@@ -74,5 +76,25 @@
       vm.baseUrl = initialData.baseUrl;
       vm.experimentalFeaturesOn = $location && !!$location.search().experimental;
     }
+  }
+
+  function PyramidCanvas($document) {
+    return new function () {
+      this.draw = draw;
+
+      function draw() {
+        var canvasEl = $document.find('canvas');
+        if (!canvasEl.length && !canvasEl[0].getContext) {
+          console.warn('No context is available in canvas: ' + canvas);
+          return;
+        }
+        var ctx = canvasEl[0].getContext('2d');
+        ctx.fillStyle = "rgb(200,0,0)";
+        ctx.fillRect (10, 10, 55, 50);
+
+        ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
+        ctx.fillRect (30, 30, 55, 50);
+      }
+    };
   }
 })();
