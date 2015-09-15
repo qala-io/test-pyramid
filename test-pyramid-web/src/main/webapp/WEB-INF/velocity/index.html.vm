@@ -14,7 +14,7 @@
 <body data-ng-controller="PyramidCtrl as pyramid"
       ng-init='pyramid.initialize( {savedPyramids: $esc.xml($savedPyramids), baseUrl: "#springUrl('')" } )'>
 <div class="content">
-  <form class="" name="newPyramidForm" novalidate>
+  <form id="pyramid-form" name="newPyramidForm" novalidate>
     <div name="projectNameLine" class="form-group form-group-sm"
          ng-class="{ 'has-error': (newPyramidForm.$submitted || !newPyramidForm.projectName.$pristine)
                                && (newPyramidForm.projectName.$invalid) }">
@@ -45,6 +45,7 @@
       </button>
     </div>
   </form>
+  <canvas id="canvas" width="150" height="150" class="ng-hide" style="float: right; border: 1px solid;" ng-show="pyramid.experimentalFeaturesOn"></canvas>
   <table class="table table-condensed" id="pyramid-list">
     <tr data-ng-repeat="savedPyramid in pyramid.savedPyramids" name="pyramid-row">
       <td name="pyramid-name" data-ng-bind="savedPyramid.name"></td>

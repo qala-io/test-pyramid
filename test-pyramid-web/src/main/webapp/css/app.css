@@ -1,4 +1,4 @@
-.content {
+#pyramid-form {
     width: 40%;
     margin: 10px;
 }
@@ -17,4 +17,5 @@ input.n-of-tests {
 
 #pyramid-list {
     margin-top: 5px;
+    width: 40%;
 }

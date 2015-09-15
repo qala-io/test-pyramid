@@ -2,9 +2,10 @@
   'use strict';
 
   angular.module('pyramid', [])
-    .controller('PyramidCtrl', ['$http', PyramidController]);
+    .controller('PyramidCtrl', ['$http', '$location', PyramidController])
+    .config(function ($locationProvider) { $locationProvider.html5Mode({enabled: true, requireBase: false}) });
 
-  function PyramidController($http) {
+  function PyramidController($http, $location) {
     var vm = this;
     /**
      * Determines at what URL was our app deployed. Is used to concatenate links. E.g. if we're deployed at
@@ -23,6 +24,7 @@
     vm.updatePercentage = updatePercentage;
     vm.savePyramid = savePyramid;
     vm.initialize = initialize;
+    vm.experimentalFeaturesOn = false;
     /**
      * Needed only for testing.
      * @type {testType}
@@ -37,7 +39,7 @@
       });
       vm.testTypes.forEach(function (testType) {
         var count = +testType.count;
-        if(isNaN(count)) {
+        if (isNaN(count)) {
           testType.label = '';
         } else {
           testType.label = sum ? (+(count / sum * 100).toFixed(1)) + '%' : '';
@@ -70,6 +72,7 @@
     function initialize(initialData) {
       vm.savedPyramids = initialData.savedPyramids;
       vm.baseUrl = initialData.baseUrl;
+      vm.experimentalFeaturesOn = $location && !!$location.search().experimental;
     }
   }
 })();
