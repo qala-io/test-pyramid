@@ -103,29 +103,28 @@
         }
         var ctx = canvasEl[0].getContext('2d');
         ctx.clearRect(0, 0, length, height);
-        ctx.fill(getUnitTestsArea(testPercents[0], testPercents[1]).toCanvasPath());
+        ctx.fill(getUnitTestsArea(testPercents[0], testPercents[1], testPercents[2]).toCanvasPath());
 
         ctx.fillStyle = 'rgb(10, 100, 100)';
-        ctx.fill(getComponentTestsArea(testPercents[1], testPercents[2]).toCanvasPath());
+        ctx.fill(getComponentTestsArea(testPercents[0], testPercents[1], testPercents[2]).toCanvasPath());
 
         ctx.fillStyle = 'rgb(100, 10, 200)';
-        ctx.fill(getSystemTestsArea(testPercents[1], testPercents[2]).toCanvasPath());
+        ctx.fill(getSystemTestsArea(testPercents[0], testPercents[1], testPercents[2]).toCanvasPath());
       }
 
-      function getUnitTestsArea(unitProportion, componentProportion) {
-        var length = self.canvasLength;
-        var height = self.canvasHeight;
+      function getUnitTestsArea(unitProportion, componentProportion, systemProportion) {
+        var length = self.canvasLength, height = self.canvasHeight;
         var area = new CanvasArea();
         if (unitProportion >= componentProportion) {
-          area.initialPoint = {x: (0.5 - unitProportion / 2) * length, y: height};
           area.points.push(
+            {x: (0.5 - unitProportion / 2) * length, y: height},
             {x: (0.5 + unitProportion / 2) * length, y: height},
             {x: (0.5 + componentProportion / 2) * length, y: height - height / 3},
             {x: (0.5 - componentProportion / 2) * length, y: height - height / 3}
           );
         } else if (unitProportion < componentProportion) {
-          area.initialPoint = {x: 0.5 * length, y: height};
           area.points.push(
+            {x: 0.5 * length, y: height},
             {x: (0.5 + componentProportion / 2) * length, y: height - height / 3},
             {x: (0.5 - componentProportion / 2) * length, y: height - height / 3}
           );
@@ -133,31 +132,70 @@
         return area;
       }
 
-      function getComponentTestsArea(componentProportion, systemProportion) {
-        var length = self.canvasLength;
-        var height = self.canvasHeight;
+      function getComponentTestsArea(unitProportion, componentProportion, systemProportion) {
         var area = new CanvasArea();
-        area.initialPoint = {x: (0.5 - componentProportion / 2) * length, y: height - height / 3};
-        area.points.push(
-          {x: (0.5 + componentProportion / 2) * length, y: height - height / 3},
-          {x: (0.5 + systemProportion / 2) * length, y: height - height / 3 * 2},
-          {x: (0.5 - systemProportion / 2) * length, y: height - height / 3 * 2}
-        );
+        if (!componentProportion) {
+          return area;
+        }
+        var length = self.canvasLength;
+        var bottomHeight = self.canvasHeight - self.canvasHeight / 3;
+        var topHeight = self.canvasHeight - self.canvasHeight / 3 * 2;
+        if (!unitProportion && !systemProportion) { //just draw square, there are no system/unit tests
+          area.points.push(
+            {x: (0.5 - componentProportion / 2) * length, y: bottomHeight},
+            {x: (0.5 + componentProportion / 2) * length, y: bottomHeight},
+            {x: (0.5 + componentProportion / 2) * length, y: topHeight},
+            {x: (0.5 - componentProportion / 2) * length, y: topHeight}
+          );
+        } else if (!unitProportion) { //tapers at the bottom if no unit tests
+          area.points.push(
+            {x: 0.5 * length, y: bottomHeight},
+            {x: (0.5 + componentProportion / 2) * length, y: topHeight},
+            {x: (0.5 - componentProportion / 2) * length, y: topHeight}
+          );
+        } else if (!systemProportion) { //tapers at the top if no system tests
+          area.points.push(
+            {x: (0.5 - componentProportion / 2) * length, y: bottomHeight},
+            {x: (0.5 + componentProportion / 2) * length, y: bottomHeight},
+            {x: 0.5 * length, y: topHeight}
+          );
+        } else {
+          if (componentProportion > unitProportion) {
+            area.points.push(
+              {x: (0.5 - unitProportion / 2) * length, y: bottomHeight},
+              {x: (0.5 + unitProportion / 2) * length, y: bottomHeight});
+          } else {
+            area.points.push(
+              {x: (0.5 - componentProportion / 2) * length, y: bottomHeight},
+              {x: (0.5 + componentProportion / 2) * length, y: bottomHeight});
+          }
+          if (componentProportion > systemProportion) {
+            area.points.push(
+              {x: (0.5 + systemProportion / 2) * length, y: topHeight},
+              {x: (0.5 - systemProportion / 2) * length, y: topHeight}
+            );
+          } else {
+            area.points.push(
+              {x: (0.5 + componentProportion / 2) * length, y: topHeight},
+              {x: (0.5 - componentProportion / 2) * length, y: topHeight}
+            );
+          }
+        }
         return area;
       }
 
       function getSystemTestsArea(componentProportion, systemProportion) {
-        var length = self.canvasLength;
-        var height = self.canvasHeight;
+        var length = self.canvasLength, height = self.canvasHeight;
         var area = new CanvasArea();
-        area.initialPoint = {x: (0.5 - systemProportion / 2) * length, y: height - height / 3 * 2};
-        area.points.push({x: (0.5 + systemProportion / 2) * length, y: height - height / 3 * 2});
+        area.points.push(
+          {x: (0.5 - systemProportion / 2) * length, y: height - height / 3 * 2},
+          {x: (0.5 + systemProportion / 2) * length, y: height - height / 3 * 2});
         if (componentProportion > systemProportion) {
           area.points.push({x: (0.5) * length, y: 0});
         } else {
           area.points.push(
-            {x: (0.5 + systemProportion / 2) * length, y: 0},
-            {x: (0.5 - systemProportion / 2) * length, y: 0}
+            {x: (0.5 + componentProportion / 2) * length, y: 0},
+            {x: (0.5 - componentProportion / 2) * length, y: 0}
           );
         }
         return area;
@@ -166,34 +204,40 @@
   }
 
   function CanvasArea() {
-    this.initialPoint = {x: 0, y: 0};
     this.points = [];
 
     this.toCanvasPath = function () {
       var path = new Path2D();
-      path.moveTo(this.initialPoint.x, this.initialPoint.y);
-      this.points.forEach(function (point) {
-        path.lineTo(point.x, point.y);
-      });
+      if (this.points.length === 0) {
+        return path;
+      }
+      path.moveTo(this.points[0].x, this.points[0].y);
+      for (var i = 1; i < this.points.length; i++) {
+        path.lineTo(this.points[i].x, this.points[i].y);
+      }
       return path;
     };
     //used by tests only
     this.bottomWidth = function () {
-      if (Math.abs(this.initialPoint.y - this.points[0].y) < 0.001) {
-        return this.points[0].x - this.initialPoint.x;
+      if (this.points.length === 0) {
+        return 0;
+      } else if (Math.abs(this.points[0].y - this.points[1].y) < 0.001) {
+        return this.points[1].x - this.points[0].x;
       } else {
         return 0;
       }
     };
     this.topWidth = function () {
-      if (this.points.length === 3 && this.sameHeight(this.points[1], this.points[2])) {
+      if (this.points.length === 0) {
+        return 0;
+      } else if (this.points.length === 4 && this.sameHeight(this.points[2], this.points[3])) {
+        return Math.abs(this.points[2].x - this.points[3].x);
+      } else if (this.points.length === 3 && this.sameHeight(this.points[1], this.points[2])) {
         return Math.abs(this.points[1].x - this.points[2].x);
-      } else if(this.points.length === 2 && this.sameHeight(this.points[0], this.points[1])) {
-        return Math.abs(this.points[0].x - this.points[1].x);
       }
       return 0;
     };
-    this.sameHeight = function(point1, point2) {
+    this.sameHeight = function (point1, point2) {
       return Math.abs(point1.y - point2.y) < 0.001;
     };
   }
