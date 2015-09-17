@@ -52,7 +52,11 @@ describe('PyramidCanvas', function () {
 
   it('pyramid must taper at the top if it is a correct pyramid');
   it('pyramid must taper at the bottom it is inverse');
-  it('component tests must be squared if n of system and unit tests is smaller than component');
+  it('component tests must be squared if n of system and unit tests is smaller than component', function() {
+    var area = sut.getComponentTestsArea(0.1, 0.4, 0.1);
+    expect(area.bottomWidth()).toBeCloseTo(0.4);
+    expect(area.topWidth()).toBeCloseTo(0.4);
+  });
 
   it('component tests width must be 0 if there are no such tests', function() {
     var area = sut.getComponentTestsArea(1, 0, 1);

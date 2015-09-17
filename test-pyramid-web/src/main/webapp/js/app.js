@@ -159,6 +159,13 @@
             {x: (0.5 + componentProportion / 2) * length, y: bottomHeight},
             {x: 0.5 * length, y: topHeight}
           );
+        } else if(componentProportion > unitProportion && componentProportion > systemProportion) {
+          area.points.push(
+            {x: (0.5 - componentProportion / 2) * length, y: bottomHeight},
+            {x: (0.5 + componentProportion / 2) * length, y: bottomHeight},
+            {x: (0.5 + componentProportion / 2) * length, y: topHeight},
+            {x: (0.5 - componentProportion / 2) * length, y: topHeight}
+          )
         } else {
           if (componentProportion > unitProportion) {
             area.points.push(
