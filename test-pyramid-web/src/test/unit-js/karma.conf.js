@@ -6,11 +6,13 @@ module.exports = function(config){
     reporters: ['progress', 'junit', 'allure'],
     files : [
       'src/main/webapp/vendor/angular/angular.js',
-      'src/test/unit-js/angular-mocks.js',
+      'src/test/unit-js/utils/angular-mocks.js',
       'src/main/webapp/js/app.js',
+      'src/test/unit-js/utils/browser-js-random-ext.js',
+      'src/test/unit-js/utils/utils.js',
       'src/test/unit-js/*.spec.js'
     ],
-    frameworks: ['jasmine', 'browserify'],
+    frameworks: ['jasmine'],
     browsers : ['PhantomJS'],
     plugins : [
       'karma-phantomjs-launcher',
@@ -23,12 +25,6 @@ module.exports = function(config){
       'karma-allure-reporter',
       'karma-browserify'
     ],
-    preprocessors: {
-      'src/test/unit-js/*.spec.js': [ 'browserify' ]
-    },
-    browserify: {
-      debug: true
-    },
     junitReporter : {
       outputFile: 'target/surefire-reports/js-unit.xml',
       suite: 'unit'

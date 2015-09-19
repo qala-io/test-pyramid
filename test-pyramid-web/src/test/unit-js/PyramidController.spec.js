@@ -1,6 +1,4 @@
 'use strict';
-var moreThanZero = require('./utils').moreThanZero;
-var alphabetic = require('./utils').alphabetic;
 
 describe('PyramidController', function () {
   var sut;
