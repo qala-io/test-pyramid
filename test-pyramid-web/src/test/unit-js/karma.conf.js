@@ -3,7 +3,7 @@ module.exports = function(config){
     basePath : '../../../',
     autoWatch : true,
     singleRun: true,
-    reporters: ['progress', 'junit', 'allure'],
+    reporters: ['progress', 'junit'],
     files : [
       'src/main/webapp/vendor/angular/angular.js',
       'src/test/unit-js/utils/angular-mocks.js',
@@ -22,8 +22,7 @@ module.exports = function(config){
       'karma-firefox-launcher',
       'karma-jasmine',
       'karma-junit-reporter',
-      'karma-allure-reporter',
-      'karma-browserify'
+      'karma-allure-reporter'
     ],
     junitReporter : {
       outputFile: 'target/surefire-reports/js-unit.xml',

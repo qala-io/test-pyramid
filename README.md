@@ -8,7 +8,10 @@ Demonstrates how to build tests of different levels (unit, component, system) fo
 
 TBD:
 
-- Style percents
-- Add restrictions on how many digits it is possible to put into test counts
+- Ability to edit existing pyramids and see their shapes
+- Mock to be started at random port when running component tests
+- Create Allure reports
+- Generate coverage metrics
+- Create sample CD Pipeline in Jenkins
 
 (c) [Qala](http://qala.io)

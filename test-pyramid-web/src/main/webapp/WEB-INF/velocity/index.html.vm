@@ -45,7 +45,8 @@
       </button>
     </div>
   </form>
-  <canvas id="canvas" width="150" height="150" class="pull-right ng-hide" style="border: 1px solid;" ng-show="pyramid.experimentalFeaturesOn"></canvas>
+  <canvas id="canvas" width="{{pyramid.canvasSize.width}}" height="{{pyramid.canvasSize.height}}"
+          class="pull-right" style="border: 1px solid;"></canvas>
   <table class="table table-condensed" id="pyramid-list">
     <tr data-ng-repeat="savedPyramid in pyramid.savedPyramids" name="pyramid-row">
       <td name="pyramid-name" data-ng-bind="savedPyramid.name"></td>

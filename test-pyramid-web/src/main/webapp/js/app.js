@@ -2,11 +2,12 @@
   'use strict';
 
   angular.module('pyramid', [])
+    .value('canvasSize', {height: 150, width: 150})
     .config(function ($locationProvider) { $locationProvider.html5Mode({enabled: true, requireBase: false}) })
-    .controller('PyramidCtrl', ['$http', 'pyramidCanvas', '$location', PyramidController])
-    .factory('pyramidCanvas', ['$document', PyramidCanvas]);
+    .controller('PyramidCtrl', ['$http', 'pyramidCanvas', 'canvasSize', '$location', PyramidController])
+    .factory('pyramidCanvas', ['$document', 'canvasSize', PyramidCanvas]);
 
-  function PyramidController($http, pyramidCanvas, $location) {
+  function PyramidController($http, pyramidCanvas, canvasSize, $location) {
     var vm = this;
     /**
      * Determines at what URL was our app deployed. Is used to concatenate links. E.g. if we're deployed at
@@ -17,6 +18,7 @@
     vm.savedPyramids = [];
     vm.name = '';
     vm.nameErrorMsg = '';
+    vm.canvasSize = canvasSize;
     vm.testTypes = [
       {id: 'unit-tests', title: 'Unit Tests', count: '', label: '', color: 'green'},
       {id: 'component-tests', title: 'Component Tests', count: '', label: '', color: 'green'},
@@ -25,7 +27,6 @@
     vm.updatePercentage = updatePercentage;
     vm.savePyramid = savePyramid;
     vm.initialize = initialize;
-    vm.experimentalFeaturesOn = false;
     /**
      * Needed only for testing.
      * @type {testType}
@@ -50,7 +51,7 @@
           testType.label = sum ? +(proportion * 100).toFixed(1) + '%' : '';
         }
       });
-      vm.experimentalFeaturesOn && pyramidCanvas.draw(percents);
+      pyramidCanvas.draw(percents);
     }
 
     function savePyramid() {
@@ -82,12 +83,12 @@
     }
   }
 
-  function PyramidCanvas($document) {
+  function PyramidCanvas($document, canvasSize) {
     return new function () {
       var self = this;
       this.draw = draw;
-      this.canvasLength = 150;
-      this.canvasHeight = 150;
+      this.canvasLength = canvasSize.width;
+      this.canvasHeight = canvasSize.height;
       //for testing
       this.getUnitTestsArea = getUnitTestsArea;
       this.getComponentTestsArea = getComponentTestsArea;
@@ -98,17 +99,14 @@
         var height = self.canvasHeight;
         var canvasEl = $document.find('canvas');
         if (!canvasEl.length || !canvasEl[0].getContext) {
-          console.warn('No context is available in canvas: ' + canvas);
+          console.warn('No context is available in canvas: ' + canvasEl);
           return;
         }
         var ctx = canvasEl[0].getContext('2d');
+        ctx.fillStyle = 'rgb(10, 100, 100)';
         ctx.clearRect(0, 0, length, height);
         ctx.fill(getUnitTestsArea(testPercents[0], testPercents[1], testPercents[2]).toCanvasPath());
-
-        ctx.fillStyle = 'rgb(10, 100, 100)';
         ctx.fill(getComponentTestsArea(testPercents[0], testPercents[1], testPercents[2]).toCanvasPath());
-
-        ctx.fillStyle = 'rgb(100, 10, 200)';
         ctx.fill(getSystemTestsArea(testPercents[0], testPercents[1], testPercents[2]).toCanvasPath());
       }
 
@@ -119,7 +117,7 @@
         }
         var length = self.canvasLength;
         var bottomHeight = self.canvasHeight;
-        var topHeight = self.canvasHeight - self.canvasHeight / 3;
+        var topHeight = self.canvasHeight * 0.666;
         var topTestsProportion = componentProportion || systemProportion;
 
         if (greaterOrEqual(unitProportion, topTestsProportion)) {
@@ -140,7 +138,13 @@
             {x: (0.5 + topTestsProportion / 2) * length, y: topHeight},
             {x: (0.5 - topTestsProportion / 2) * length, y: topHeight}
           );
-        } else if (topTestsProportion - unitProportion > 0.01) {
+        } else if (systemProportion && unitProportion &&
+          greaterOrEqual(componentProportion, systemProportion) && greaterOrEqual(componentProportion, unitProportion)) {
+          area.points.push(
+            {x: (0.5 + topTestsProportion / 2) * length, y: topHeight},
+            {x: (0.5 - topTestsProportion / 2) * length, y: topHeight}
+          );
+        } else {
           area.points.push(
             {x: (0.5 + unitProportion / 2) * length, y: topHeight},
             {x: (0.5 - unitProportion / 2) * length, y: topHeight}
@@ -154,83 +158,58 @@
         if (!componentProportion) {
           return area;
         }
+        var unitArea = getUnitTestsArea(unitProportion, componentProportion, systemProportion);
+        var systemArea = getSystemTestsArea(unitProportion, componentProportion, systemProportion);
+
         var length = self.canvasLength;
-        var bottomHeight = self.canvasHeight - self.canvasHeight / 3;
-        var topHeight = self.canvasHeight - self.canvasHeight / 3 * 2;
-        if ((!unitProportion && !systemProportion)
-          || (equal(unitProportion, componentProportion) && !systemProportion)
-          || (equal(systemProportion, componentProportion) && !unitProportion)
-          || (equal(systemProportion, componentProportion) && (equal(unitProportion, componentProportion)))) { //just draw square if there is no overall tendency
-          area.points.push(
+        var bottomHeight = self.canvasHeight * 0.666;
+        var topHeight = self.canvasHeight * 0.333;
+
+        if (greaterOrEqual(componentProportion, unitProportion) && greaterOrEqual(componentProportion, systemProportion)) {
+
+        }
+
+        if (!unitArea && !greaterOrEqual(componentProportion, systemProportion)) {
+          area.push({x: 0.5 * length, y: bottomHeight});
+        } else if (unitArea.points.length === 0 && greaterOrEqual(componentProportion, systemProportion)) {
+          area.push(
             {x: (0.5 - componentProportion / 2) * length, y: bottomHeight},
-            {x: (0.5 + componentProportion / 2) * length, y: bottomHeight},
-            {x: (0.5 + componentProportion / 2) * length, y: topHeight},
-            {x: (0.5 - componentProportion / 2) * length, y: topHeight}
-          );
-        } else if (!unitProportion) { //tapers at the bottom if no unit tests
-          area.points.push(
-            {x: 0.5 * length, y: bottomHeight},
-            {x: (0.5 + componentProportion / 2) * length, y: topHeight},
-            {x: (0.5 - componentProportion / 2) * length, y: topHeight}
-          );
-        } else if (!systemProportion && !equal(componentProportion, unitProportion)) { //tapers at the top if no system tests
-          area.points.push(
-            {x: (0.5 - componentProportion / 2) * length, y: bottomHeight},
-            {x: (0.5 + componentProportion / 2) * length, y: bottomHeight},
-            {x: 0.5 * length, y: topHeight}
-          );
-        } else if (!systemProportion) { //doesn't taper to the top since n of components == n of units
-          area.points.push(
-            {x: (0.5 - componentProportion / 2) * length, y: bottomHeight},
-            {x: (0.5 + componentProportion / 2) * length, y: bottomHeight},
-            {x: (0.5 + componentProportion / 2) * length, y: topHeight},
-            {x: (0.5 - componentProportion / 2) * length, y: topHeight}
-          );
-        } else if (componentProportion > unitProportion && componentProportion > systemProportion) {
-          area.points.push(
-            {x: (0.5 - componentProportion / 2) * length, y: bottomHeight},
-            {x: (0.5 + componentProportion / 2) * length, y: bottomHeight},
-            {x: (0.5 + componentProportion / 2) * length, y: topHeight},
-            {x: (0.5 - componentProportion / 2) * length, y: topHeight}
-          )
+            {x: (0.5 + componentProportion / 2) * length, y: bottomHeight});
         } else {
-          if (componentProportion > unitProportion) {
-            area.points.push(
-              {x: (0.5 - unitProportion / 2) * length, y: bottomHeight},
-              {x: (0.5 + unitProportion / 2) * length, y: bottomHeight});
-          } else {
-            area.points.push(
-              {x: (0.5 - componentProportion / 2) * length, y: bottomHeight},
-              {x: (0.5 + componentProportion / 2) * length, y: bottomHeight});
+          for (var i = unitArea.points.length - 1; i >= 0; i--) {
+            var point = unitArea.points[i];
+            equal(unitArea.points[i].y, bottomHeight) && area.push(point);
           }
-          if (componentProportion > systemProportion) {
-            area.points.push(
-              {x: (0.5 + systemProportion / 2) * length, y: topHeight},
-              {x: (0.5 - systemProportion / 2) * length, y: topHeight}
-            );
-          } else {
-            area.points.push(
-              {x: (0.5 + componentProportion / 2) * length, y: topHeight},
-              {x: (0.5 - componentProportion / 2) * length, y: topHeight}
-            );
+        }
+
+        if (!systemProportion && !greaterOrEqual(componentProportion, unitProportion)) {
+          area.push({x: 0.5 * length, y: topHeight});
+        } else if (!systemProportion && greaterOrEqual(componentProportion, unitProportion)) {
+          area.push(
+            {x: (0.5 + componentProportion / 2) * length, y: topHeight},
+            {x: (0.5 - componentProportion / 2) * length, y: topHeight});
+        } else {
+          for (i = systemArea.points.length - 1; i >= 0; i--) {
+            point = systemArea.points[i];
+            equal(point.y, topHeight) && area.push(point);
           }
         }
         return area;
       }
 
-      function getSystemTestsArea(componentProportion, systemProportion) {
-        var length = self.canvasLength, height = self.canvasHeight;
+      function getSystemTestsArea(unitProportion, componentProportion, systemProportion) {
+        var bottomHeight = self.canvasHeight * 0.333;
+        var topHeight = 0;
         var area = new CanvasArea();
-        area.points.push(
-          {x: (0.5 - systemProportion / 2) * length, y: height - height / 3 * 2},
-          {x: (0.5 + systemProportion / 2) * length, y: height - height / 3 * 2});
-        if (componentProportion > systemProportion) {
-          area.points.push({x: (0.5) * length, y: 0});
-        } else {
-          area.points.push(
-            {x: (0.5 + componentProportion / 2) * length, y: 0},
-            {x: (0.5 - componentProportion / 2) * length, y: 0}
-          );
+        // logic is the same as unit tests, so getting unit area and then updating y's to system's height
+        var flippedArea = getUnitTestsArea(systemProportion, componentProportion, unitProportion);
+        for (var i = flippedArea.points.length - 1; i >= 0; i--) {
+          var point = flippedArea.points[i];
+          if (equal(point.y, self.canvasHeight)) {
+            area.push({x: point.x, y: topHeight});
+          } else {
+            area.push({x: point.x, y: bottomHeight});
+          }
         }
         return area;
       }
@@ -244,7 +223,7 @@
       // Not using slice() because:
       // You should not slice on arguments because it prevents optimizations in JavaScript engines (V8 for example).
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
-      for(var i = 0; i < arguments.length; i++) {
+      for (var i = 0; i < arguments.length; i++) {
         this.points.push(arguments[i]);
       }
     };
@@ -288,6 +267,7 @@
   function equal(float1, float2) {
     return Math.abs(float1 - float2) < 0.001;
   }
+
   function greaterOrEqual(float1, float2) {
     return equal(float1, float2) || float1 > float2;
   }
