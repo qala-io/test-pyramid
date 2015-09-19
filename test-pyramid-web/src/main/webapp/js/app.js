@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('pyramid', [])
-    .value('canvasSize', {height: 400, width: 600})
+    .value('canvasSize', {height: 400, width: 550})
     .config(function ($locationProvider) { $locationProvider.html5Mode({enabled: true, requireBase: false}) })
     .controller('PyramidCtrl', ['$http', 'pyramidCanvas', 'canvasSize', '$location', PyramidController])
     .factory('pyramidCanvas', ['$document', 'canvasSize', PyramidCanvas]);
@@ -18,11 +18,11 @@
     vm.savedPyramids = [];
     vm.name = '';
     vm.nameErrorMsg = '';
-    vm.canvasSize = canvasSize;
     vm.testTypes = [
-      {id: 'unit-tests', title: 'Unit Tests', count: '', label: '', color: 'green'},
+      {id: 'system-tests', title: 'System Tests', count: '', label: '', color: 'green'},
       {id: 'component-tests', title: 'Component Tests', count: '', label: '', color: 'green'},
-      {id: 'system-tests', title: 'System Tests', count: '', label: '', color: 'green'}];
+      {id: 'unit-tests', title: 'Unit Tests', count: '', label: '', color: 'green'}];
+    vm.canvasSize = canvasSize;
     // METHODS
     vm.updatePercentage = updatePercentage;
     vm.savePyramid = savePyramid;
@@ -51,7 +51,7 @@
           testType.label = sum ? +(proportion * 100).toFixed(1) + '%' : '';
         }
       });
-      pyramidCanvas.draw(percents);
+      pyramidCanvas.draw([percents[2], percents[1], percents[0]]);
     }
 
     function savePyramid() {
