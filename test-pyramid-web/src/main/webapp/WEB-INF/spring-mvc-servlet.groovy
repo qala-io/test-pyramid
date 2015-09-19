@@ -12,6 +12,7 @@ beans {
     mvc.resources(mapping: '/css/**', location: 'css/')
     mvc.resources(mapping: '/js/**', location: 'js/')
     mvc.resources(mapping: '/vendor/**', location: 'vendor/')
+    mvc.resources(mapping: '/favicon.ico', location: 'favicon.ico')
 
     velocityConfigurer(VelocityConfigurer, resourceLoaderPath: '/WEB-INF/velocity/')
     viewResolver(VelocityViewResolver, contentType: 'text/html;charset=UTF-8',

@@ -35,6 +35,7 @@ module.exports = function Backend(rootSrcDir) {
   self.init = function () {
     var app = initWebApp(self.webappDir);
 
+    app.use('/favicon.ico', express.static(path.join(self.webappDir, 'favicon.ico')));
     app.use('/vendor', express.static(path.join(self.webappDir, 'vendor')));
     app.use('/js', express.static(path.join(self.webappDir, 'js')));
     app.use('/css', express.static(path.join(self.webappDir, 'css')));

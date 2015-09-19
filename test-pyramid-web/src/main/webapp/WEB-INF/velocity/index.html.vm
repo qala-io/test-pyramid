@@ -11,8 +11,16 @@
   <script type="text/javascript" src="#springUrl('/vendor/angular/angular.min.js')"></script>
   <script type="text/javascript" src="#springUrl('/js/app.js')"></script>
 </head>
-<body data-ng-controller="PyramidCtrl as pyramid"
+<body data-ng-controller="PyramidCtrl as pyramid" class="container"
       ng-init='pyramid.initialize( {savedPyramids: $esc.xml($savedPyramids), baseUrl: "#springUrl('')" } )'>
+<div class="header clearfix">
+  <nav>
+    <ul class="nav nav-pills pull-right">
+      <li role="presentation"><a href="#">Create Pyramid</a></li>
+    </ul>
+  </nav>
+  <h3 class="text-muted">Test Pyramid</h3>
+</div>
 <div class="content">
   <form id="pyramid-form" name="newPyramidForm" novalidate class="pull-left">
     <div name="projectNameLine" class="form-group form-group-sm"
@@ -29,6 +37,7 @@
     <div class="form-group form-group-sm" data-ng-repeat="testType in pyramid.testTypes"
          ng-class="{ 'has-error': newPyramidForm[testType.id].$invalid }">
       <label for="n-of-{{::testType.id}}" class="control-label" data-ng-bind="testType.title"></label>
+
       <div class="input-group col-sm-5">
         <input id="n-of-{{::testType.id}}" name="{{::testType.id}}" class="n-of-tests form-control pull-left"
                placeholder="1234" data-ng-pattern="'[0-9]+'" maxlength="8"

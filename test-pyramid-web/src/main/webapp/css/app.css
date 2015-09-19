@@ -1,3 +1,6 @@
+nav {
+    margin-top: 10px;
+}
 #pyramid-form {
     width: 40%;
     margin: 10px;
@@ -19,6 +22,6 @@ input.n-of-tests {
     margin-top: 5px;
 }
 #canvas {
-    margin-top: 15px;
+    margin-top: 35px;
     margin-left: 10px;
 }
