@@ -17,5 +17,7 @@ input.n-of-tests {
 
 #pyramid-list {
     margin-top: 5px;
-    width: 40%;
+}
+#canvas {
+    margin-top: 10px;
 }

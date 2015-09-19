@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('pyramid', [])
-    .value('canvasSize', {height: 150, width: 150})
+    .value('canvasSize', {height: 400, width: 600})
     .config(function ($locationProvider) { $locationProvider.html5Mode({enabled: true, requireBase: false}) })
     .controller('PyramidCtrl', ['$http', 'pyramidCanvas', 'canvasSize', '$location', PyramidController])
     .factory('pyramidCanvas', ['$document', 'canvasSize', PyramidCanvas]);
@@ -165,11 +165,7 @@
         var bottomHeight = self.canvasHeight * 0.666;
         var topHeight = self.canvasHeight * 0.333;
 
-        if (greaterOrEqual(componentProportion, unitProportion) && greaterOrEqual(componentProportion, systemProportion)) {
-
-        }
-
-        if (!unitArea && !greaterOrEqual(componentProportion, systemProportion)) {
+        if (!unitProportion && !greaterOrEqual(componentProportion, systemProportion)) {
           area.push({x: 0.5 * length, y: bottomHeight});
         } else if (unitArea.points.length === 0 && greaterOrEqual(componentProportion, systemProportion)) {
           area.push(

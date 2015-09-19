@@ -125,17 +125,22 @@ describe('PyramidCanvas', function () {
     expect(area.topWidth()).toBeCloseTo(0.2);
     expect(area.bottomWidth()).toBeCloseTo(0.1);
   });
+  it('component tests bottom must be 0 if there are no unit tests and n of system tests is larger', function () {
+    var area = sut.getComponentTestsArea(0, 0.2, 0.5);
+    expect(area.topWidth()).toBeCloseTo(0.2);
+    expect(area.bottomWidth()).toBeCloseTo(0);
+  });
   it('component tests must be squared if system tests are 0 and system tests number is the same as component', function () {
     var area = sut.getComponentTestsArea(0.2, 0.2, 0);
     expect(area.bottomWidth()).toBeCloseTo(0.2);
     expect(area.topWidth()).toBeCloseTo(0.2);
   });
-  it('components are squared if n of system and unit tests is smaller than component', function () {
+  it('component tests squared if n of system and unit tests is smaller than component', function () {
     var area = sut.getComponentTestsArea(0.1, 0.4, 0.2);
     expect(area.bottomWidth()).toBeCloseTo(0.4);
     expect(area.topWidth()).toBeCloseTo(0.4);
   });
-  it('components are squared if all proportions are equal', function () {
+  it('component tests squared if all proportions are equal', function () {
     var area = sut.getComponentTestsArea(0.2, 0.2, 0.2);
     expect(area.topWidth()).toBeCloseTo(0.2);
     expect(area.bottomWidth()).toBeCloseTo(0.2);
@@ -150,7 +155,7 @@ describe('PyramidCanvas', function () {
     expect(area.topWidth()).toBe(0);
     expect(area.bottomWidth()).toBe(0);
   });
-  xit('component tests must be empty if there are 0 of them and other tests are non-0 and the pyramid is inverse', function () {
+  it('component tests must be empty if there are 0 of them and other tests are non-0 and the pyramid is inverse', function () {
     var area = sut.getComponentTestsArea(3, 0, 1);
     expect(area.topWidth()).toBe(0);
     expect(area.bottomWidth()).toBe(0);
