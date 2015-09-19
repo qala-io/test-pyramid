@@ -9,9 +9,11 @@ describe('Pyramid', function () {
   });
   ['unit', 'component', 'system'].forEach(function (testType) {
     it(testType + ' test field must be empty by default', function () {
+      homePage.clickCreate();
       expect(homePage.getNumberOfTests(testType)).toBe('');
     });
     it(testType + ' test label must be updated as we type', function () {
+      homePage.clickCreate();
       homePage.fillNumberOfTests(testType, 10);
       expect(homePage.getLabel(testType)).toBe('100%');
     });
@@ -50,10 +52,10 @@ describe('Pyramid', function () {
     homePage.fillPyramid(pyramid);
     homePage.assertSaveIsNotClickable();
   });
-  it('too long name does not allow saving pyramids', function() {
+  it('cannot type more than max length of name', function() {
     var pyramid = new Pyramid();
     pyramid.name = random.string(101, 101);
     homePage.fillPyramid(pyramid);
-    homePage.assertSaveIsNotClickable();
+    homePage.assertNameEquals(pyramid.name.slice(0, -1));
   });
 });

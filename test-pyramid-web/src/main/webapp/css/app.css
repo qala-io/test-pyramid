@@ -1,6 +1,15 @@
 nav {
     margin-top: 10px;
 }
+nav a {
+    font-weight: 300;
+}
+h3 {
+    font-weight: 300;
+}
+hr {
+    margin-top: 0;
+}
 #pyramid-form {
     width: 40%;
     margin: 10px;
@@ -19,6 +28,7 @@ input.n-of-tests {
 }
 
 #pyramid-list {
+    width: 40%;
     margin-top: 5px;
 }
 #canvas {

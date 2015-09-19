@@ -56,7 +56,7 @@ describe('PyramidController', function () {
       expect(sut.valid).toBeFalsy();
     });
   });
-  it('test percentage must be empty if sum is more than 0 and one of test counts is non-numeric', function () {
+  fit('test percentage must be empty if sum is more than 0 and one of test counts is non-numeric', function () {
     sut.testType('unit-tests').count = moreThanZero();
     sut.testType('component-tests').count = alphabetic();
     sut.updatePercentage();

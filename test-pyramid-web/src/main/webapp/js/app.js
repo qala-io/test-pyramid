@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module('pyramid', [])
-    .value('canvasSize', {height: 400, width: 550})
+    .value('canvasSize', {height: 300, width: 600})
     .config(function ($locationProvider) { $locationProvider.html5Mode({enabled: true, requireBase: false}) })
     .controller('PyramidCtrl', ['$http', 'pyramidCanvas', 'canvasSize', '$location', PyramidController])
     .factory('pyramidCanvas', ['$document', 'canvasSize', PyramidCanvas]);
@@ -15,56 +15,83 @@
      * @type {String}
      */
     vm.baseUrl = null;
+    vm.view = 'list';
     vm.savedPyramids = [];
     vm.name = '';
     vm.nameErrorMsg = '';
     vm.testTypes = [
-      {id: 'system-tests', title: 'System Tests', count: '', label: '', color: 'green'},
-      {id: 'component-tests', title: 'Component Tests', count: '', label: '', color: 'green'},
-      {id: 'unit-tests', title: 'Unit Tests', count: '', label: '', color: 'green'}];
+      {id: 'system-tests', title: 'System Tests', count: '', proportion: 0, label: '', color: 'green'},
+      {id: 'component-tests', title: 'Component Tests', count: '', proportion: 0, label: '', color: 'green'},
+      {id: 'unit-tests', title: 'Unit Tests', count: '', proportion: 0, label: '', color: 'green'}];
     vm.canvasSize = canvasSize;
     // METHODS
     vm.updatePercentage = updatePercentage;
     vm.savePyramid = savePyramid;
     vm.initialize = initialize;
-    /**
-     * Needed only for testing.
-     * @type {testType}
-     */
+    vm.showForm = showForm;
+    vm.draw = draw;
     this.testType = testType;
 
     // FUNCTIONS
     function updatePercentage() {
-      var sum = 0;
-      var percents = [];
+      var currentPyramid = formToPyramid();
+      var proportions = updateProportions(currentPyramid);
       vm.testTypes.forEach(function (testType) {
-        sum += +testType.count || 0;
-      });
-      vm.testTypes.forEach(function (testType) {
-        var count = +testType.count;
-        if (isNaN(count)) {
-          percents.push(0);
+        if (isNaN(testType.count)) {
           testType.label = '';
         } else {
-          var proportion = (count / sum);
-          percents.push(proportion);
-          testType.label = sum ? +(proportion * 100).toFixed(1) + '%' : '';
+          testType.label = +(testType.proportion * 100).toFixed(1) + '%';
         }
       });
-      pyramidCanvas.draw([percents[2], percents[1], percents[0]]);
+      pyramidCanvas.draw(proportions);
+    }
+
+    function showForm() {
+      vm.view = 'form';
+    }
+
+    function showList() {
+      vm.view = 'list';
+    }
+
+    function draw(pyramid) {
+      var percents = updateProportions(pyramid);
+      pyramidCanvas.draw(percents);
+    }
+
+    function updateProportions(pyramid) {
+      var proportions = [];
+      var nOfUnitTests = +pyramid.nOfUnitTests || 0;
+      var nOfComponentTests = +pyramid.nOfComponentTests || 0;
+      var nOfSystemTests = +pyramid.nOfSystemTests || 0;
+      var sum = nOfUnitTests + nOfComponentTests + nOfSystemTests;
+      if (sum) {
+          proportions.push(nOfUnitTests/sum, nOfComponentTests/sum, nOfSystemTests/sum);
+      } else {
+        proportions.push(0, 0, 0);
+      }
+      testType('unit-tests').proportion = proportions[0];
+      testType('component-tests').proportion = proportions[1];
+      testType('system-tests').proportion = proportions[2];
+      return proportions;
     }
 
     function savePyramid() {
-      $http.post(vm.baseUrl + '/pyramid', {
-        name: vm.name,
-        nOfUnitTests: vm.testTypes[0].count,
-        nOfComponentTests: vm.testTypes[1].count,
-        nOfSystemTests: vm.testTypes[2].count
-      }).then(function (res) {
+      $http.post(vm.baseUrl + '/pyramid', formToPyramid()).then(function (res) {
         vm.savedPyramids.push(res.data);
+        showList();
       }).catch(function (error) {
         console.warn(error);
       });
+    }
+
+    function formToPyramid() {
+      return {
+        name: vm.name,
+        nOfUnitTests: testType('unit-tests').count,
+        nOfComponentTests: testType('component-tests').count,
+        nOfSystemTests: testType('system-tests').count
+      };
     }
 
     function testType(testType) {

@@ -1,6 +1,8 @@
 "use strict";
 var Pyramid = require('../domain/Pyramid');
 module.exports = function HomePage() {
+  var self = this;
+  this.createPyramidBtn = element(by.id('create-pyramid-btn'));
   this.unitTests = {
     input: element(by.id('n-of-unit-tests')),
     label: element(by.id('unit-tests-label')),
@@ -32,14 +34,15 @@ module.exports = function HomePage() {
     return pyramid;
   };
   this.fillPyramid = function (pyramid) {
-    this.fillName(pyramid.name);
-    this.fillNumberOfTests('unit', pyramid.nOfUnitTests);
-    this.fillNumberOfTests('component', pyramid.nOfComponentTests);
-    this.fillNumberOfTests('system', pyramid.nOfSystemTests);
+    self.clickCreate();
+    self.fillName(pyramid.name);
+    self.fillNumberOfTests('unit', pyramid.nOfUnitTests);
+    self.fillNumberOfTests('component', pyramid.nOfComponentTests);
+    self.fillNumberOfTests('system', pyramid.nOfSystemTests);
     return pyramid;
   };
   this.assertContainsPyramid = function (pyramid) {
-    this.pyramidList.all(by.css('[name="pyramid-row"]')).then(function (elements) {
+    self.pyramidList.all(by.css('[name="pyramid-row"]')).then(function (elements) {
       var pyramidsOnPage = [];
       elements.forEach(function (element) {
         var fromPage = Pyramid.empty();
@@ -65,24 +68,32 @@ module.exports = function HomePage() {
     });
   };
   this.fillName = function (name) {
-    this.nameInput.sendKeys(name);
+    self.nameInput.sendKeys(name);
+  };
+  this.assertNameEquals = function(expectedText) {
+    self.nameInput.getAttribute('value').then(function(text) {
+      expect(text).toBe(expectedText);
+    });
   };
   this.getNumberOfTests = function (testType) {
-    return this[testType + 'Tests'].input.getText();
+    return self[testType + 'Tests'].input.getText();
   };
   this.fillNumberOfTests = function (testType, nOfTests) {
-    this[testType + 'Tests'].input.sendKeys(nOfTests);
+    self[testType + 'Tests'].input.sendKeys(nOfTests);
   };
   this.getLabel = function (testType) {
-    return this[testType + 'Tests'].label.getText();
+    return self[testType + 'Tests'].label.getText();
   };
   this.getErrorMsg = function(testType) {
-    return this[testType + 'Tests'].errorLbl.getText();
+    return self[testType + 'Tests'].errorLbl.getText();
   };
   this.clickSave = function () {
-    this.saveBtn.click();
+    self.saveBtn.click();
+  };
+  this.clickCreate = function () {
+    self.createPyramidBtn.click();
   };
   this.assertSaveIsNotClickable = function() {
-    expect(this.saveBtn.isEnabled()).toBeFalsy();
+    expect(self.saveBtn.isEnabled()).toBeFalsy();
   };
 };

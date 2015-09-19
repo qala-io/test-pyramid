@@ -16,22 +16,23 @@
 <div class="header clearfix">
   <nav>
     <ul class="nav nav-pills pull-right">
-      <li role="presentation"><a href="#">Create Pyramid</a></li>
+      <li role="presentation"><a href="#" ng-click="pyramid.showForm()" id="create-pyramid-btn">Create Pyramid</a></li>
     </ul>
   </nav>
   <h3 class="text-muted">Test Pyramid</h3>
+  <hr>
 </div>
 <div class="content">
-  <form id="pyramid-form" name="newPyramidForm" novalidate class="pull-left">
+  <form id="pyramid-form" name="newPyramidForm" novalidate class="pull-left ng-hide" ng-show="pyramid.view == 'form'">
     <div name="projectNameLine" class="form-group form-group-sm"
          ng-class="{ 'has-error': (newPyramidForm.$submitted || !newPyramidForm.projectName.$pristine)
                                && (newPyramidForm.projectName.$invalid) }">
       <label class="control-label" for="project-name">Project Name</label>
 
-      <div class="input-group">
+      <div class="input-group col-sm-7">
         <span class="input-group-addon">*</span>
         <input id="project-name" name="projectName" class="form-control" data-ng-model="pyramid.name"
-               ng-trim required data-ng-maxlength="100" placeholder="Manhattan Project"></div>
+               ng-trim required data-ng-maxlength="100" maxlength="100" placeholder="Manhattan Project"></div>
       <p id="name-error-msg" class="control-label small">100 characters max</p></div>
 
     <div class="form-group form-group-sm" data-ng-repeat="testType in pyramid.testTypes"
@@ -50,19 +51,26 @@
 
     <div>
       <button id="save-btn" class="btn btn-primary" data-ng-click="pyramid.savePyramid()"
-              data-ng-disabled="newPyramidForm.$invalid">Save
-      </button>
+              data-ng-disabled="newPyramidForm.$invalid">Save</button>
     </div>
   </form>
-  <canvas id="canvas" width="{{pyramid.canvasSize.width}}" height="{{pyramid.canvasSize.height}}"></canvas>
-  <table class="table table-condensed" id="pyramid-list">
+  <table class="table table-condensed pull-left" id="pyramid-list" ng-show="pyramid.view == 'list'">
+    <thead>
+    <tr>
+      <th>Pyramid Name</th>
+      <th>Units</th>
+      <th>Components</th>
+      <th>Systems</th>
+    </tr>
+    </thead>
     <tr data-ng-repeat="savedPyramid in pyramid.savedPyramids" name="pyramid-row">
-      <td name="pyramid-name" data-ng-bind="savedPyramid.name"></td>
-      <td name="pyramid-n-of-unit-tests" data-ng-bind="savedPyramid.nOfUnitTests"></td>
-      <td name="pyramid-n-of-component-tests" data-ng-bind="savedPyramid.nOfComponentTests"></td>
-      <td name="pyramid-n-of-system-tests" data-ng-bind="savedPyramid.nOfSystemTests"></td>
+      <td name="pyramid-name"><a href="#" data-ng-bind="savedPyramid.name" ng-click="pyramid.draw(savedPyramid)"></a></td>
+      <td name="pyramid-n-of-unit-tests" data-ng-bind="savedPyramid.nOfUnitTests" class="text-center"></td>
+      <td name="pyramid-n-of-component-tests" data-ng-bind="savedPyramid.nOfComponentTests" class="text-center"></td>
+      <td name="pyramid-n-of-system-tests" data-ng-bind="savedPyramid.nOfSystemTests" class="text-center"></td>
     </tr>
   </table>
+  <canvas id="canvas" width="{{pyramid.canvasSize.width}}" height="{{pyramid.canvasSize.height}}"></canvas>
 </div>
 </body>
 </html>
