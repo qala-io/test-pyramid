@@ -4,7 +4,7 @@
 
 describe('PyramidCanvas', function () {
   var sut;
-  beforeEach(angular.mock.module('pyramid'));
+  beforeEach(angular.mock.module('app.pyramid'));
   beforeEach(angular.mock.module(function ($provide) {
     $provide.value("$document", null);
   }));

@@ -1,7 +1,7 @@
 #* @vtlvariable name="esc" type="org.apache.velocity.tools.generic.EscapeTool" *#
 #* @vtlvariable name="savedPyramids" type="java.util.List" *#
 <!DOCTYPE html>
-<html data-ng-app="pyramid">
+<html data-ng-app="app">
 <head>
   <title>Test Pyramid | Pyramids Collection</title>
   <link href="#springUrl('/vendor/bootstrap/css/bootstrap.min.css')" rel="stylesheet">
@@ -9,8 +9,10 @@
   <link href="#springUrl('/css/app.css')" rel="stylesheet">
 
   <script type="text/javascript" src="#springUrl('/vendor/angular/angular.min.js')"></script>
+  <script type="text/javascript" src="#springUrl('/js/pyramid/pyramid.module.js')"></script>
+  <script type="text/javascript" src="#springUrl('/js/pyramid/pyramid-canvas.service.js')"></script>
+  <script type="text/javascript" src="#springUrl('/js/pyramid/pyramid.controller.js')"></script>
   <script type="text/javascript" src="#springUrl('/js/app.module.js')"></script>
-  <script type="text/javascript" src="#springUrl('/js/app.config.js')"></script>
 </head>
 <body data-ng-controller="PyramidCtrl as pyramid" class="container"
       ng-init='pyramid.initialize( {savedPyramids: $esc.xml($savedPyramids), baseUrl: "#springUrl('')" } )'>

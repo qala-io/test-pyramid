@@ -2,7 +2,7 @@
 
 describe('PyramidController', function () {
   var sut;
-  beforeEach(angular.mock.module('pyramid'));
+  beforeEach(angular.mock.module('app.pyramid'));
   beforeEach(angular.mock.inject(function ($controller) {
     sut = $controller('PyramidCtrl', {$scope: {}});
   }));
