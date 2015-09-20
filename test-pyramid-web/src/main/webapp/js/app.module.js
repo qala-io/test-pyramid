@@ -2,8 +2,6 @@
   'use strict';
 
   angular.module('pyramid', [])
-    .value('canvasSize', {height: 300, width: 600})
-    .config(function ($locationProvider) { $locationProvider.html5Mode({enabled: true, requireBase: false}) })
     .controller('PyramidCtrl', ['$http', 'pyramidCanvas', 'canvasSize', '$location', PyramidController])
     .factory('pyramidCanvas', ['$document', 'canvasSize', PyramidCanvas]);
 

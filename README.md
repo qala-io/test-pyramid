@@ -8,7 +8,8 @@ Demonstrates how to build tests of different levels (unit, component, system) fo
 
 TBD:
 
-- Ability to edit existing pyramids and see their shapes
+- Cancel when creating the pyramid
+- Add predefined pyramids
 - Mock to be started at random port when running component tests
 - Create Allure reports
 - Generate coverage metrics

@@ -7,7 +7,8 @@ module.exports = function(config){
     files : [
       'src/main/webapp/vendor/angular/angular.js',
       'src/test/unit-js/utils/angular-mocks.js',
-      'src/main/webapp/js/app.js',
+      'src/main/webapp/js/app.module.js',
+      'src/main/webapp/js/app.config.js',
       'src/test/unit-js/utils/browser-js-random-ext.js',
       'src/test/unit-js/utils/utils.js',
       'src/test/unit-js/*.spec.js'
