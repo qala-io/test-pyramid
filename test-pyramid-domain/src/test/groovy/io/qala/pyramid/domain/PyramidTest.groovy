@@ -1,6 +1,5 @@
 package io.qala.pyramid.domain
 
-import org.junit.Test
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -12,8 +11,8 @@ import static io.qala.pyramid.domain.utils.RandomValue.from
 import static org.apache.commons.lang.RandomStringUtils.randomAlphanumeric
 
 class PyramidTest extends Specification {
-    @Test
-    void 'validation for name must pass if #valueDescription specified (#name)'() {
+    @Unroll
+    def 'validation for name must pass if #valueDescription specified (#name)'() {
         given:
           Pyramid pyramid = Pyramid.random([name: name])
           Set violations = validator().validate(pyramid)
@@ -24,8 +23,8 @@ class PyramidTest extends Specification {
           randomAlphanumeric(1)           | 'min boundary value'
           from(2).to(99).alphanumeric()   | 'typical happy path value'
           randomAlphanumeric(100)         | 'max boundary value'
-          from(2).to(99).numeric()        | 'numbers only'
-          from(2).to(99).specialSymbols() | 'special symbols'
+          from(1).to(99).numeric()        | 'numbers only'
+          from(1).to(99).specialSymbols() | 'special symbols'
     }
 
     @Unroll

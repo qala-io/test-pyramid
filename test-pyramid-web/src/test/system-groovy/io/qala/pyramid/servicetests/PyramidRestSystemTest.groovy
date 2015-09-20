@@ -18,12 +18,12 @@ class PyramidRestSystemTest {
         def json = pyramid()
         rest.post(path: '/pyramid', body: json.toString())
 
-        def actual = json.content
-        def pyramid = rest.get(path: '/pyramid/list').data.find { it.name == actual.name }
+        def expected = json.content
+        def pyramid = rest.get(path: '/pyramid/list').data.find { it.name == expected.name }
         assert pyramid
-        assert pyramid.nOfUnitTests == actual.nOfUnitTests
-        assert pyramid.nOfComponentTests == actual.nOfComponentTests
-        assert pyramid.nOfSystemTests == actual.nOfSystemTests
+        assert pyramid.nOfUnitTests == expected.nOfUnitTests
+        assert pyramid.nOfComponentTests == expected.nOfComponentTests
+        assert pyramid.nOfSystemTests == expected.nOfSystemTests
     }
 
     private static Object pyramid() {
@@ -36,7 +36,7 @@ class PyramidRestSystemTest {
         }
         builder
     }
-
+    // in reality we'd have it configurable, not hardcoded
     RESTClient rest = new RESTClient('http://localhost:8080/', 'application/json;charset=UTF-8')
 
     @Before

@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals
 
 class Pyramids {
@@ -27,12 +28,15 @@ class Pyramids {
     }
 
     void assertPyramidExists(Pyramid pyramid) {
-        String pyramidsString = pyramidController.index().getModel()['savedPyramids']
+        MvcResult result = mockMvc.perform(get('/')).andReturn()
+        String pyramidsString = result.modelAndView.model['savedPyramids']
         List fetched = new JsonSlurper().parseText(pyramidsString) as List
-        assertReflectionEquals(pyramid, fetched[0] as Pyramid)
+        Pyramid fetchedPyramid = fetched.find { it.id == pyramid.id } as Pyramid
+        assert fetchedPyramid
+        assertReflectionEquals(pyramid, fetchedPyramid)
     }
 
-    static assertNoErrors(MvcResult mvcResult) {
+    static void assertNoErrors(MvcResult mvcResult) {
         if (mvcResult.resolvedException) {
             throw mvcResult.resolvedException
         }

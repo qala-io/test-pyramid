@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html data-ng-app="app">
 <head>
-  <title>Test Pyramid | Pyramids Collection</title>
+  <title>Test Pyramid</title>
   <link href="#springUrl('/vendor/bootstrap/css/bootstrap.min.css')" rel="stylesheet">
   <link href="#springUrl('/vendor/bootstrap/css/bootstrap-theme.min.css')" rel="stylesheet">
   <link href="#springUrl('/css/app.css')" rel="stylesheet">

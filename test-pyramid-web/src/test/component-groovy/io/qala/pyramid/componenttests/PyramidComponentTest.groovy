@@ -14,8 +14,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 @ContextConfiguration(locations = [
         //WEB-INF is not in the classpath actually, but we added it as a testResourceDirectory in Maven
         //to overcome the limitations
-        'classpath:spring-mvc-servlet.groovy',
         'classpath:/io/qala/pyramid/domain/app-context-service.groovy',
+        'classpath:/spring-mvc-servlet.groovy',
         'classpath:/io.qala.pyramid.componenttests/app-context-component-tests.groovy'])
 class PyramidComponentTest {
     @Autowired Pyramids pyramids

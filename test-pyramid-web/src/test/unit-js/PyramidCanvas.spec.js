@@ -1,6 +1,4 @@
 'use strict';
-//moreThanZero = require('./utils').moreThanZero;
-//var alphabetic = require('./utils').alphabetic;
 
 describe('PyramidCanvas', function () {
   var sut;

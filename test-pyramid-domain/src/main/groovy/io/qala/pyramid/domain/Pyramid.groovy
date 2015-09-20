@@ -12,6 +12,7 @@ class Pyramid {
     Long id
     @NotBlankSized(min = 1, max = 100)
     String name
+    // will put validation in the future - should not allow negative numbers
     int nOfUnitTests
     int nOfComponentTests
     int nOfSystemTests
