@@ -1,11 +1,12 @@
 "use strict";
 var Pyramid = require('../domain/Pyramid');
-module.exports = function HomePage() {
+module.exports = function () {
   var self = this;
   this.createPyramidBtn = element(by.id('create-pyramid-btn'));
   this.cancelEditingBtn = element(by.id('cancel-btn'));
   this.pyramidList = element(by.id('pyramid-list'));
   this.highlightedPyramid = $('.highlighted-pyramid');
+  this.elementsWithValidationError = $$('.has-error');
   this.unitTests = {
     input: element(by.id('n-of-unit-tests')),
     label: element(by.id('unit-tests-label')),
@@ -76,13 +77,26 @@ module.exports = function HomePage() {
     });
   }
 
+  this.assertNoValidationErrors = function () {
+    expect(self.elementsWithValidationError.count()).toBe(0);
+  };
+  this.assertNumberOfValidationErrors = function(n) {
+    expect(self.elementsWithValidationError.count()).toBe(n);
+  };
+  this.assertFormIsEmpty = function() {
+    expect(self.nameInput.getText()).toBe('');
+    expect(self.unitTests.input.getText()).toBe('');
+    expect(self.componentTests.input.getText()).toBe('');
+    expect(self.systemTests.input.getText()).toBe('');
+  };
   this.assertPyramidIsHighlighted = function (pyramid) {
     getPyramidObject(self.highlightedPyramid).then(function (fromPage) {
       pyramid.assertIsPresentIn([fromPage], true);
     });
   };
   this.fillName = function (name) {
-    self.nameInput.sendKeys(name);
+    name && self.nameInput.sendKeys(name);
+    name || self.nameInput.clear();
   };
   this.assertNameEquals = function (expectedText) {
     self.nameInput.getAttribute('value').then(function (text) {

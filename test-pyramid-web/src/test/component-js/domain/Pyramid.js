@@ -4,10 +4,10 @@ var random = require('random-ext');
 function Pyramid(fields) {
   var self = this;
   fields = fields || {};
-  this.name = fields.name || randomAlphanumeric(100, 1);
-  this.nOfUnitTests = random.integer(100, 0);
-  this.nOfComponentTests = random.integer(100, 0);
-  this.nOfSystemTests = random.integer(100, 0);
+  this.name = fields.name === undefined ? randomAlphanumeric(100, 1) : fields.name;
+  this.nOfUnitTests = fields.nOfUnitTests === undefined ? random.integer(100, 0) : fields.nOfUnitTests;
+  this.nOfComponentTests = fields.nOfComponentTests === undefined ? random.integer(100, 0) : fields.nOfComponentTests;
+  this.nOfSystemTests = fields.nOfSystemTests === undefined ? random.integer(100, 0) : fields.nOfSystemTests;
 
   this.withSpecialSymbols = function () {
     this.name = random.restrictedString([random.CHAR_TYPE.SPECIAL], 100, 0);
@@ -48,10 +48,10 @@ Pyramid.fromJson = function (json) {
 };
 Pyramid.empty = function () {
   var pyramid = new Pyramid();
-  pyramid.name = null;
-  pyramid.nOfUnitTests = null;
-  pyramid.nOfComponentTests = null;
-  pyramid.nOfSystemTests = null;
+  pyramid.name = '';
+  pyramid.nOfUnitTests = '';
+  pyramid.nOfComponentTests = '';
+  pyramid.nOfSystemTests = '';
   return pyramid;
 };
 

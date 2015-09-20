@@ -1,9 +1,9 @@
 (function () {
   "use strict";
   angular.module('app.pyramid')
-    .controller('PyramidCtrl', ['$http', 'pyramidCanvas', 'canvasSize', '$location', PyramidController]);
+    .controller('PyramidCtrl', ['$http', '$scope', 'pyramidCanvas', 'canvasSize', '$location', PyramidController]);
 
-  function PyramidController($http, pyramidCanvas, canvasSize, $location) {
+  function PyramidController($http, $scope, pyramidCanvas, canvasSize, $location) {
     var vm = this;
     /**
      * Determines at what URL was our app deployed. Is used to concatenate links. E.g. if we're deployed at
@@ -33,6 +33,7 @@
     }
 
     function showForm() {
+      $scope.newPyramidForm.$setPristine();
       vm.view = 'form';
     }
 
