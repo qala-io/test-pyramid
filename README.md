@@ -23,6 +23,7 @@ To be short:
 
 Both `test-pyramid-domain` and `test-pyramid-web` contain `src/test` folders with Groovy and JS tests. In IDE you should
 mark sub-folders of those as test sources if you want those to be treated respectively:
+
 - `test-pyramid-domain/src/test` contains Unit and Component tests
 - `test-pyramid-web/src/test` contains Unit, Component and System tests for both Back End and UI
 
@@ -30,11 +31,14 @@ mark sub-folders of those as test sources if you want those to be treated respec
 
 All the tests can be run via Maven (you need to have it installed):
 
-- `mvn clean test` would run Unit and Component tests. It will also run UI Component Tests for which you should need to
+- `mvn test` would run Unit and Component tests. It will also run UI Component Tests for which you should need to
  start Selenium WebDriver (sorry for that, maybe in the future it will get started automatically).
 - `mvn test -DrunSystemTests` will trigger Back End and UI System Tests, but before you run it you need to deploy the
  app at http://localhost:8080 and run Selenium WebDriver. Issue `mvn package` from root folder to generate 
- `test-pyramid-web/target/test-pyramid-web***.jar` that can be deployed onto Tomcat. Or use IDE.
+ `test-pyramid-web/target/test-pyramid-web***.war` that can be deployed onto Tomcat. Or use IDE.
+
+To work with UI separately and run its tests separately you should treat `tests-pyramid-web` as your home - it contains
+`package.json` which points to other test configs.
 
 # TBD
 

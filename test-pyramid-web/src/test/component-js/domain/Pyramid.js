@@ -18,7 +18,11 @@ function Pyramid(fields) {
   };
   this.isPresentIn = function (pyramids, trimName) {
     trimName = trimName || false;
-    var name = trimName ? self.name.trim() : self.name;
+    var name = self.name;
+    if(trimName){
+      name = self.name.trim();
+      name = name.replace(/ +/g, ' '); //In HTML multiple whitespaces are replaced with 1
+    }
     var found = pyramids.filter(function (el) {
       return el.name === name
         && el.nOfComponentTests === self.nOfComponentTests
