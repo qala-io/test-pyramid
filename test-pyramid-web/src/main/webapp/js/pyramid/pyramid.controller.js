@@ -1,4 +1,4 @@
-(function(){
+(function () {
   "use strict";
   angular.module('app.pyramid')
     .controller('PyramidCtrl', ['$http', 'pyramidCanvas', 'canvasSize', '$location', PyramidController]);
@@ -15,30 +15,20 @@
     vm.savedPyramids = [];
     vm.name = '';
     vm.nameErrorMsg = '';
-    vm.testTypes = [
-      {id: 'system-tests', title: 'System Tests', count: '', proportion: 0, label: '', color: 'green'},
-      {id: 'component-tests', title: 'Component Tests', count: '', proportion: 0, label: '', color: 'green'},
-      {id: 'unit-tests', title: 'Unit Tests', count: '', proportion: 0, label: '', color: 'green'}];
+    vm.currentPyramid = new Pyramid();
     vm.canvasSize = canvasSize;
     // METHODS
+    vm.initialize = initialize;
     vm.updatePercentage = updatePercentage;
     vm.savePyramid = savePyramid;
-    vm.initialize = initialize;
     vm.showForm = showForm;
     vm.draw = draw;
-    this.testType = testType;
+    vm.testType = testType;
+    vm.cancelEditing = cancelEditing;
 
     // FUNCTIONS
     function updatePercentage() {
-      var currentPyramid = formToPyramid();
-      var proportions = updateProportions(currentPyramid);
-      vm.testTypes.forEach(function (testType) {
-        if (isNaN(testType.count)) {
-          testType.label = '';
-        } else {
-          testType.label = +(testType.proportion * 100).toFixed(1) + '%';
-        }
-      });
+      var proportions = this.currentPyramid.updateProportions();
       pyramidCanvas.draw(proportions);
     }
 
@@ -50,46 +40,44 @@
       vm.view = 'list';
     }
 
-    function draw(pyramid) {
-      var percents = updateProportions(pyramid);
-      pyramidCanvas.draw(percents);
+    function cancelEditing() {
+      vm.currentPyramid = new Pyramid();
+      showList();
     }
 
-    function updateProportions(pyramid) {
-      var proportions = [];
-      var nOfUnitTests = +pyramid.nOfUnitTests || 0;
-      var nOfComponentTests = +pyramid.nOfComponentTests || 0;
-      var nOfSystemTests = +pyramid.nOfSystemTests || 0;
-      var sum = nOfUnitTests + nOfComponentTests + nOfSystemTests;
-      if (sum) {
-        proportions.push(nOfUnitTests/sum, nOfComponentTests/sum, nOfSystemTests/sum);
-      } else {
-        proportions.push(0, 0, 0);
-      }
-      testType('unit-tests').proportion = proportions[0];
-      testType('component-tests').proportion = proportions[1];
-      testType('system-tests').proportion = proportions[2];
-      return proportions;
+    function draw(pyramidIndex) {
+      var proportions = vm.savedPyramids[pyramidIndex].updateProportions();
+      vm.savedPyramids.forEach(function (el) {
+        el.highlight = false;
+      });
+      vm.savedPyramids[pyramidIndex].highlight = true;
+      pyramidCanvas.draw(proportions);
     }
 
     function savePyramid() {
-      $http.post(vm.baseUrl + '/pyramid', formToPyramid()).then(function (res) {
-        vm.savedPyramids.push(res.data);
+      $http.post(vm.baseUrl + '/pyramid', vm.currentPyramid.toServerJson()).then(function (res) {
+        vm.savedPyramids.forEach(function (el) {
+          el.highlight = false;
+        });
+        var pyramid = new Pyramid(res.data);
+        vm.savedPyramids.push(pyramid);
+        pyramid.highlight = true;
         showList();
       }).catch(function (error) {
         console.warn(error);
       });
     }
 
-    function formToPyramid() {
-      return {
-        name: vm.name,
-        nOfUnitTests: testType('unit-tests').count,
-        nOfComponentTests: testType('component-tests').count,
-        nOfSystemTests: testType('system-tests').count
-      };
+    function highlightAndDraw(pyramid) {
+      pyramid.highlight = true;
+
     }
 
+    /**
+     * Returns test info by its test-type id.
+     * @param testType string id of test-type (see {@see vm.testTypes})
+     * @returns {*}
+     */
     function testType(testType) {
       for (var i = 0; i < vm.testTypes.length; i++) {
         if (vm.testTypes[i].id === testType) {
@@ -100,10 +88,53 @@
     }
 
     function initialize(initialData) {
-      vm.savedPyramids = initialData.savedPyramids;
+      vm.savedPyramids = Pyramid.fromServerList(initialData.savedPyramids);
       vm.baseUrl = initialData.baseUrl;
       vm.experimentalFeaturesOn = $location && !!$location.search().experimental;
     }
   }
 
+  function Pyramid(fromPyramid) {
+    var self = this;
+    fromPyramid = fromPyramid || {};
+    this.name = fromPyramid.name || '';
+    this.unitTests = {count: fromPyramid.nOfUnitTests || '', title: 'Unit Tests', id: 'unit-tests', label: ''};
+    this.componentTests = {count: fromPyramid.nOfComponentTests || '', title: 'Component Tests', id: 'component-tests', label: ''};
+    this.systemTests = {count: fromPyramid.nOfSystemTests || '', title: 'System Tests', id: 'system-tests', label: ''};
+    this.tests = [this.systemTests, this.componentTests, this.unitTests];
+
+    this.updateProportions = updateProportions;
+    this.toServerJson = toServerJson;
+
+    function updateProportions() {
+      var sum = self.tests.reduce(function (prevValue, it) {
+        return prevValue + (+it.count || 0);
+      }, 0);
+      self.tests.forEach(function (it) {
+        it.proportion = sum ? it.count / sum : 0;
+        if (!it.count || isNaN(it.count)) {
+          it.label = '';
+        } else {
+          it.label = +(it.proportion * 100).toFixed(1) + '%';
+        }
+      });
+      return [self.unitTests.proportion, self.componentTests.proportion, self.systemTests.proportion];
+    }
+    function toServerJson() {
+      return {
+        name: self.name,
+        nOfUnitTests: self.unitTests.count,
+        nOfComponentTests: self.componentTests.count,
+        nOfSystemTests: self.systemTests.count
+      };
+    }
+
+  }
+  Pyramid.fromServerList = function (serverJson) {
+    var list = [];
+    serverJson.forEach(function(serverPyramid){
+      list.push(new Pyramid(serverPyramid));
+    });
+    return list;
+  };
 })();

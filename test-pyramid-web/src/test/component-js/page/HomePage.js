@@ -3,6 +3,9 @@ var Pyramid = require('../domain/Pyramid');
 module.exports = function HomePage() {
   var self = this;
   this.createPyramidBtn = element(by.id('create-pyramid-btn'));
+  this.cancelEditingBtn = element(by.id('cancel-btn'));
+  this.pyramidList = element(by.id('pyramid-list'));
+  this.highlightedPyramid = $('.highlighted-pyramid');
   this.unitTests = {
     input: element(by.id('n-of-unit-tests')),
     label: element(by.id('unit-tests-label')),
@@ -22,18 +25,17 @@ module.exports = function HomePage() {
   this.nameInput = element(by.id('project-name'));
   this.pyramidList = element(by.id('pyramid-list'));
 
-  this.open = function() {
+  this.open = function () {
     browser.get(browser.baseUrl);
   };
-
-  this.createPyramid = function(pyramid) {
-    pyramid = pyramid || new Pyramid();
+  this.createPyramid = function (pyramid) {
     this.open();
-    this.fillPyramid(pyramid);
+    pyramid = this.fillPyramid(pyramid);
     this.clickSave();
     return pyramid;
   };
   this.fillPyramid = function (pyramid) {
+    pyramid = pyramid || new Pyramid();
     self.clickCreate();
     self.fillName(pyramid.name);
     self.fillNumberOfTests('unit', pyramid.nOfUnitTests);
@@ -41,25 +43,13 @@ module.exports = function HomePage() {
     self.fillNumberOfTests('system', pyramid.nOfSystemTests);
     return pyramid;
   };
+
   this.assertContainsPyramid = function (pyramid) {
     self.pyramidList.all(by.css('[name="pyramid-row"]')).then(function (elements) {
       var pyramidsOnPage = [];
       elements.forEach(function (element) {
-        var fromPage = Pyramid.empty();
-        element.element(by.css('[name="pyramid-name"]')).getText().then(function (text) {
-          fromPage.name = text;
-        });
-        element.element(by.css('[name="pyramid-n-of-unit-tests"]')).getText().then(function (text) {
-          fromPage.nOfUnitTests = +text;
-        });
-        element.element(by.css('[name="pyramid-n-of-component-tests"]')).getText().then(function (text) {
-          fromPage.nOfComponentTests = +text;
-        });
-        element.element(by.css('[name="pyramid-n-of-system-tests"]')).getText().then(function (text) {
-          fromPage.nOfSystemTests = +text;
-        });
-        browser.controlFlow().execute(function () {
-          pyramidsOnPage.push(fromPage)
+        getPyramidObject(element).then(function (fromPage) {
+          pyramidsOnPage.push(fromPage);
         });
       });
       return pyramidsOnPage;
@@ -67,11 +57,35 @@ module.exports = function HomePage() {
       pyramid.assertIsPresentIn(pyramidsOnPage, true);
     });
   };
+  function getPyramidObject(element) {
+    return browser.controlFlow().execute(function () {
+      var fromPage = Pyramid.empty();
+      element.element(by.css('[name="pyramid-name"]')).getText().then(function (text) {
+        fromPage.name = text;
+      });
+      element.element(by.css('[name="pyramid-n-of-unit-tests"]')).getText().then(function (text) {
+        fromPage.nOfUnitTests = +text;
+      });
+      element.element(by.css('[name="pyramid-n-of-component-tests"]')).getText().then(function (text) {
+        fromPage.nOfComponentTests = +text;
+      });
+      element.element(by.css('[name="pyramid-n-of-system-tests"]')).getText().then(function (text) {
+        fromPage.nOfSystemTests = +text;
+      });
+      return fromPage;
+    });
+  }
+
+  this.assertPyramidIsHighlighted = function (pyramid) {
+    getPyramidObject(self.highlightedPyramid).then(function (fromPage) {
+      pyramid.assertIsPresentIn([fromPage], true);
+    });
+  };
   this.fillName = function (name) {
     self.nameInput.sendKeys(name);
   };
-  this.assertNameEquals = function(expectedText) {
-    self.nameInput.getAttribute('value').then(function(text) {
+  this.assertNameEquals = function (expectedText) {
+    self.nameInput.getAttribute('value').then(function (text) {
       expect(text).toBe(expectedText);
     });
   };
@@ -84,8 +98,11 @@ module.exports = function HomePage() {
   this.getLabel = function (testType) {
     return self[testType + 'Tests'].label.getText();
   };
-  this.getErrorMsg = function(testType) {
-    return self[testType + 'Tests'].errorLbl.getText();
+  this.cancelEditing = function () {
+    return self.cancelEditingBtn.click();
+  };
+  this.assertPyramidListVisible = function () {
+    expect(self.pyramidList.isDisplayed()).toBeTruthy();
   };
   this.clickSave = function () {
     self.saveBtn.click();
@@ -93,7 +110,7 @@ module.exports = function HomePage() {
   this.clickCreate = function () {
     self.createPyramidBtn.click();
   };
-  this.assertSaveIsNotClickable = function() {
+  this.assertSaveIsNotClickable = function () {
     expect(self.saveBtn.isEnabled()).toBeFalsy();
   };
 };
