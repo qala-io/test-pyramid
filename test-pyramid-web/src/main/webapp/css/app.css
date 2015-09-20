@@ -1,18 +1,27 @@
+.container {
+    width: 100%;
+    margin: 0 15px 15px 0;
+}
+
 nav {
     margin-top: 10px;
 }
+
 nav a {
     font-weight: 300;
 }
+
 h3 {
     font-weight: 300;
 }
+
 hr {
     margin-top: 0;
 }
+
 #pyramid-form {
     width: 40%;
-    margin: 10px;
+    margin: 0;
 }
 
 input.n-of-tests {
@@ -30,11 +39,21 @@ input.n-of-tests {
 #pyramid-list {
     width: 40%;
     margin-top: 5px;
+    margin-left: 0;
+    table-layout: fixed;
 }
+
+#pyramid-list td, #pyramid-list th {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 #canvas {
     margin-top: 35px;
     margin-left: 10px;
 }
+
 .highlighted-pyramid {
     background-color: #d9edf7;
 }

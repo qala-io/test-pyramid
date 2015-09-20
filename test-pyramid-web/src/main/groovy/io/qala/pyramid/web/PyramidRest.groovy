@@ -18,7 +18,7 @@ class PyramidRest {
 
     @RequestMapping(value = '/pyramid', method = RequestMethod.POST)
     @ResponseBody
-    Pyramid pyramid(@Valid @RequestBody Pyramid pyramid) {
+    Pyramid save(@Valid @RequestBody Pyramid pyramid) {
         pyramidService.save(pyramid)
         return pyramid
     }

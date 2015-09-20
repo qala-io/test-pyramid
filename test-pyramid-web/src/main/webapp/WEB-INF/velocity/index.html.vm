@@ -61,14 +61,14 @@
   <table class="table table-condensed pull-left" id="pyramid-list" ng-show="pyramid.view == 'list'">
     <thead>
     <tr>
-      <th>Project Name</th>
-      <th>Units</th>
-      <th>Components</th>
-      <th>Systems</th>
+      <th class="col-md-4">Project Name</th>
+      <th class="text-center">Units</th>
+      <th class="text-center">Components</th>
+      <th class="text-center">Systems</th>
     </tr>
     </thead>
     <tr data-ng-repeat="savedPyramid in pyramid.savedPyramids" name="pyramid-row" data-ng-class="{'highlighted-pyramid': savedPyramid.highlight}">
-      <td name="pyramid-name"><a href="#" data-ng-bind="savedPyramid.name" ng-click="pyramid.draw($index)"></a></td>
+      <td name="pyramid-name"><a href="#" data-ng-bind="savedPyramid.name" ng-click="pyramid.draw($index)" class="pyramid-name-link"></a></td>
       <td name="pyramid-n-of-unit-tests" data-ng-bind="savedPyramid.unitTests.count" class="text-center"></td>
       <td name="pyramid-n-of-component-tests" data-ng-bind="savedPyramid.componentTests.count" class="text-center"></td>
       <td name="pyramid-n-of-system-tests" data-ng-bind="savedPyramid.systemTests.count" class="text-center"></td>
