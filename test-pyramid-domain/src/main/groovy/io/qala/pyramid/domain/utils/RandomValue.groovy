@@ -33,6 +33,10 @@ class RandomValue {
         return random(nOfSymbols(), SPECIAL_SYMBOLS.toCharArray())
     }
 
+    int integer() {
+        return RandomUtils.nextInt(from, to);
+    }
+
     private int nOfSymbols() {
         return RandomUtils.nextInt(from, to + 1)
     }

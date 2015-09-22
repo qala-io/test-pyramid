@@ -11,10 +11,16 @@ import org.junit.Test
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 
+/**
+ * The fact that on Component Tests level we configured MockMvc correctly doesn't mean that our app will be configured
+ * correctly in production. This includes configs like web.xml, app server descriptors, etc. Thus here we check whether
+ * those configs were properly made for REST services. We don't check the logic of the app itself - it was tested on
+ * Component and Unit levels.
+ * <p>Note, that we don't test HTML page here - that will be done in UI tests.</p>
+ */
 class PyramidRestSystemTest {
 
-    @Test
-    void 'add pyramid should allow to successfully retrieve the pyramid'() {
+    @Test void 'add pyramid should allow to successfully retrieve the pyramid'() {
         def json = pyramid()
         rest.post(path: '/pyramid', body: json.toString())
 
@@ -39,8 +45,7 @@ class PyramidRestSystemTest {
     // in reality we'd have it configurable, not hardcoded
     RESTClient rest = new RESTClient('http://localhost:8080/', 'application/json;charset=UTF-8')
 
-    @Before
-    void init() {
+    @Before void init() {
         rest.client.addRequestInterceptor(new HttpRequestInterceptor() {
             void process(HttpRequest httpRequest, HttpContext httpContext) {
                 httpRequest.addHeader('Content-Type', 'application/json;charset=UTF-8')

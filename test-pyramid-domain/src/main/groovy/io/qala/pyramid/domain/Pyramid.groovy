@@ -3,6 +3,7 @@ package io.qala.pyramid.domain
 import io.qala.pyramid.domain.utils.NotBlankSized
 import org.hibernate.validator.constraints.NotBlank
 
+import javax.validation.constraints.Min
 import javax.validation.constraints.Size
 
 import static io.qala.pyramid.domain.utils.RandomValue.from
@@ -12,9 +13,11 @@ class Pyramid {
     Long id
     @NotBlankSized(min = 1, max = 100)
     String name
-    // will put validation in the future - should not allow negative numbers
+    @Min(0L)
     int nOfUnitTests
+    @Min(0L)
     int nOfComponentTests
+    @Min(0L)
     int nOfSystemTests
 
     /**

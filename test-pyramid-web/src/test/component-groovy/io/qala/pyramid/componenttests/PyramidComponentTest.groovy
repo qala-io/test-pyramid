@@ -26,6 +26,10 @@ class PyramidComponentTest {
         pyramids.assertPyramidExists(pyramid)
     }
 
+    /**
+     * We don't do massive validation checks - that was done on Unit Tests level. Here the only thing we need to check
+     * is that validation is invoked. This ensures 100% coverage of the Back End validation.
+     */
     @Test(expected = MethodArgumentNotValidException)
     void 'service must return errors if validation fails'() {
         pyramids.create(Pyramid.random([name: '']))
