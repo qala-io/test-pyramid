@@ -19,23 +19,34 @@ import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEqua
 class PyramidDaoTest {
     @Autowired PyramidDao sut
 
-    @Test void 'must be possible to retrieve the Pyramid from DB after it was saved'() {
+    @Test
+    void 'must be possible to retrieve the Pyramid from DB after it was saved'() {
         Pyramid pyramid = sut.save(Pyramid.random())
         sut.flush().clearCache()
         assertReflectionEquals(pyramid, sut.list()[0])
     }
-    @Test void 'must treat SQL as string to eliminate SQL Injections'() {
+
+    @Test
+    void 'must treat SQL as string to eliminate SQL Injections'() {
         Pyramid pyramid = sut.save(Pyramid.random([name: '\'" drop table']))
         sut.flush().clearCache()
         assertReflectionEquals(pyramid, sut.list()[0])
     }
-    @Test void 'must allow to save max length name'() {
-        int maxBoundary = Pyramid.getDeclaredField('name').getAnnotation(NotBlankSized).max()
-        Pyramid pyramid = sut.save(Pyramid.random([name: randomAlphanumeric(maxBoundary)]))
+
+    @Test
+    void 'must allow to save max values of pyramid fields'() {
+        int nameMaxBoundary = Pyramid.getDeclaredField('name').getAnnotation(NotBlankSized).max()
+        Pyramid pyramid = sut.save(new Pyramid(
+                name: randomAlphanumeric(nameMaxBoundary),
+                nOfUnitTests: Integer.MAX_VALUE,
+                nOfComponentTests: Integer.MAX_VALUE,
+                nOfSystemTests: Integer.MAX_VALUE))
         sut.flush().clearCache()
         assertReflectionEquals(pyramid, sut.list()[0])
     }
-    @Test void 'must return an empty list of pyramids if there are actually none of them'() {
+
+    @Test
+    void 'must return an empty list of pyramids if there are actually none of them'() {
         assert 0 == sut.list().size()
     }
 }
