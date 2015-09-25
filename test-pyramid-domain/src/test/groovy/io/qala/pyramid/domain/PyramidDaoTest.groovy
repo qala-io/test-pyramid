@@ -1,6 +1,6 @@
 package io.qala.pyramid.domain
 
-import io.qala.pyramid.domain.utils.NotBlankSized
+import io.qala.pyramid.domain.utils.NotNullSized
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -35,7 +35,7 @@ class PyramidDaoTest {
 
     @Test
     void 'must allow to save max values of pyramid fields'() {
-        int nameMaxBoundary = Pyramid.getDeclaredField('name').getAnnotation(NotBlankSized).max()
+        int nameMaxBoundary = Pyramid.getDeclaredField('name').getAnnotation(NotNullSized).max()
         Pyramid pyramid = sut.save(new Pyramid(
                 name: randomAlphanumeric(nameMaxBoundary),
                 nOfUnitTests: Integer.MAX_VALUE,

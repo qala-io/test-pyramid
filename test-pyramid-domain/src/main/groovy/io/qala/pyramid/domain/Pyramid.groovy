@@ -1,17 +1,15 @@
 package io.qala.pyramid.domain
 
-import io.qala.pyramid.domain.utils.NotBlankSized
-import org.hibernate.validator.constraints.NotBlank
+import io.qala.pyramid.domain.utils.NotNullSized
 
 import javax.validation.constraints.Min
-import javax.validation.constraints.Size
 
 import static io.qala.pyramid.domain.utils.RandomValue.from
 import static org.apache.commons.lang3.RandomUtils.nextInt
 
 class Pyramid {
     Long id
-    @NotBlankSized(min = 1, max = 100)
+    @NotNullSized(min = 1, max = 100)
     String name
     @Min(0L)
     int nOfUnitTests

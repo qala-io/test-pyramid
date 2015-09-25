@@ -21,16 +21,16 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * is no annotation order in hibernate validator
  *
  * @see <a href="https://hibernate.atlassian.net/browse/HV-462">HV-462</a>
- * @see NotBlankSizedValidator
+ * @see NotNullSizedValidator
  *
  * @author Mikhail Stryzhonok
  */
-@Constraint(validatedBy = NotBlankSizedValidator.class)
+@Constraint(validatedBy = NotNullSizedValidator.class)
 @Target([METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER])
 @Retention(RUNTIME)
 @ReportAsSingleViolation
 @NotBlank
-@interface NotBlankSized {
+@interface NotNullSized {
 
     String message() default "{javax.validation.constraints.Size.message}";
 

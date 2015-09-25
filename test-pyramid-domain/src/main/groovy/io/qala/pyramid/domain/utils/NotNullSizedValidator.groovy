@@ -4,17 +4,17 @@ import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
 /**
- * Validator for {@link NotBlankSized} annotation
+ * Validator for {@link NotNullSized} annotation
  *
  * @author Mikhail Stryzhonok
  */
-public class NotBlankSizedValidator implements ConstraintValidator<NotBlankSized, String> {
+public class NotNullSizedValidator implements ConstraintValidator<NotNullSized, String> {
     int min
     int max
 
     /** {@inheritDoc} */
     @Override
-    public void initialize(NotBlankSized constraintAnnotation) {
+    public void initialize(NotNullSized constraintAnnotation) {
         min = constraintAnnotation.min()
         max = constraintAnnotation.max()
     }
@@ -22,7 +22,7 @@ public class NotBlankSizedValidator implements ConstraintValidator<NotBlankSized
     /**
      * Validates input string size
      *
-     * @param value string with {@link NotBlankSized} annotation
+     * @param value string with {@link NotNullSized} annotation
      * @param context validation context
      *
      * @return true if string not null and has size between the specified boundaries (included).

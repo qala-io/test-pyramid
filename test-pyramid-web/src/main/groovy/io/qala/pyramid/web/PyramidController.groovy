@@ -20,7 +20,7 @@ class PyramidController {
         pyramidService.save(new Pyramid(name: 'Two Squares', nOfUnitTests: 1, nOfSystemTests: 1))
         pyramidService.save(new Pyramid(name: 'System Square', nOfSystemTests: 1))
         pyramidService.save(new Pyramid(name: 'Diamond', nOfUnitTests: 1, nOfComponentTests: 2, nOfSystemTests: 1))
-        pyramidService.save(new Pyramid(name: 'Current Project Pyramid', nOfUnitTests: 71, nOfComponentTests: 26, nOfSystemTests: 4))
+        pyramidService.save(new Pyramid(name: 'Current Project Pyramid', nOfUnitTests: 85, nOfComponentTests: 26, nOfSystemTests: 4))
     }
 
     @RequestMapping(value = '/', method = RequestMethod.GET)
