@@ -14,6 +14,12 @@ To be short:
  Application Servers.
 - System Tests run against fully deployed app.
 
+# App functionality
+
+- Can create new Pyramids
+- Can list created Pyramids
+- Can draw different kinds of Pyramid
+
 # Project Structure
 
 - `test-pyramid-domain` contains logic to store/retrieve data to/from DB
