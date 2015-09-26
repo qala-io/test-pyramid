@@ -1,6 +1,7 @@
 package io.qala.pyramid.servicetests
 
 import groovy.json.JsonBuilder
+import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
 import org.apache.commons.lang3.RandomUtils
 import org.apache.http.HttpRequest
@@ -9,6 +10,7 @@ import org.apache.http.protocol.HttpContext
 import org.junit.Before
 import org.junit.Test
 
+import static groovy.test.GroovyAssert.shouldFail
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 
 /**
@@ -31,14 +33,22 @@ class PyramidRestSystemTest {
         assert pyramid.nOfComponentTests == expected.nOfComponentTests
         assert pyramid.nOfSystemTests == expected.nOfSystemTests
     }
+    @Test
+    void 'add invalid pyramid should result in validation errors'() {
+        def json = pyramid([name: ''])
+        Throwable error = shouldFail(HttpResponseException) {
+            rest.post(path: '/pyramid', body: json.toString())
+        }
+        assert error.message.contains('Bad Request')
+    }
 
-    private static Object pyramid() {
+    private static Object pyramid(Map<String, Object> props = [:]) {
         def builder = new JsonBuilder()
         builder {
-            name randomAlphanumeric(15)
-            nOfUnitTests RandomUtils.nextInt(0, 1000)
-            nOfComponentTests RandomUtils.nextInt(0, 1000)
-            nOfSystemTests RandomUtils.nextInt(0, 1000)
+            name props.get('name', randomAlphanumeric(15))
+            nOfUnitTests props.get('nOfUnitTests', RandomUtils.nextInt(0, 1000))
+            nOfComponentTests props.get('nOfComponentTests', RandomUtils.nextInt(0, 1000))
+            nOfSystemTests props.get('nOfSystemTests', RandomUtils.nextInt(0, 1000))
         }
         builder
     }
