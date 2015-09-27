@@ -22,7 +22,8 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
  */
 class PyramidRestSystemTest {
 
-    @Test void 'add pyramid should allow to successfully retrieve the pyramid'() {
+    @Test
+    void 'add pyramid should allow to successfully retrieve the pyramid'() {
         def json = pyramid()
         rest.post(path: '/pyramid', body: json.toString())
 

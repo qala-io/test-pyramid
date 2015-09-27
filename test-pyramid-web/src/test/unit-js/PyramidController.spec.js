@@ -34,11 +34,6 @@ describe('PyramidController', function () {
       sut.updatePercentage();
       expect(sut.currentPyramid[testType].label).toBe("100%");
     });
-    it('must set 0% to other test percentages if only count for ' + testType + ' was filled', function () {
-      sut.currentPyramid[testType].count = moreThanZero();
-      sut.updatePercentage();
-      expect(sut.currentPyramid[testType].label).toBe("100%");
-    });
     it('must update back to empty ' + testType + ' percents if count of all tests was updated back to empty', function () {
       sut.currentPyramid[testType].count = moreThanZero();
       sut.updatePercentage();
@@ -57,6 +52,12 @@ describe('PyramidController', function () {
       sut.updatePercentage();
       expect(sut.valid).toBeFalsy();
     });
+  });
+  it('must set empty to other test percentages if only count for system tests was filled', function () {
+    sut.currentPyramid.systemTests.count = moreThanZero();
+    sut.updatePercentage();
+    expect(sut.currentPyramid.componentTests.label).toBe('');
+    expect(sut.currentPyramid.unitTests.label).toBe('');
   });
   it('test percentage must be empty if sum is more than 0 and one of test counts is non-numeric', function () {
     sut.currentPyramid.unitTests.count = moreThanZero();
