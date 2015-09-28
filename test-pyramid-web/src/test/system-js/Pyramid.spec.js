@@ -8,7 +8,7 @@ describe('Pyramid', function () {
     homePage.assertContainsPyramid(pyramid);
   });
   /** This is done by server side when page is generated. */
-  it('shows item to the list of pyramids after refresh', function () {
+  it('shows item in the list of pyramids after refresh', function () {
     var pyramid = homePage.createPyramid();
     homePage.open();
     homePage.assertContainsPyramid(pyramid);
