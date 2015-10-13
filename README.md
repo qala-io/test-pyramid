@@ -7,7 +7,8 @@ Demonstrates how to build tests of different levels
 - Spring MVC, Hibernate; Groovy JUnit, Spock, Spring Test
 - AngularJS; Karma, Protractor
 
-To be short:
+If you want to read more about the ideology behind it, have a look at 
+[Building Test Pyramid to optimize automated testing](http://qala.io/blog/test-pyramid.html). Basic vocabulary:
 
 - Unit Tests - check how functions and classes work in isolation
 - Component Tests - initialize a big chunk of an app to test them together. Doesn't require real middleware like 
