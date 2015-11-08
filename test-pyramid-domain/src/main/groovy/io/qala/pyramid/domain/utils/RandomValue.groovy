@@ -1,12 +1,15 @@
 package io.qala.pyramid.domain.utils
 
-import org.apache.commons.lang3.RandomStringUtils
 import org.apache.commons.lang3.RandomUtils
 
 import static org.apache.commons.lang3.RandomStringUtils.random
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
 import static org.apache.commons.lang3.RandomStringUtils.randomNumeric
 
+/**
+ * Used for randomized testing so that we can generate input values randomly like this:
+ * {@code from(2).to(20).alphanumeric()}.
+ */
 class RandomValue {
     static final String SPECIAL_SYMBOLS = '!@#$%^&*()_+{}[]\'"|:?><~`§\\'
     int from
