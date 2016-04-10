@@ -3,7 +3,6 @@ package io.qala.pyramid.servicetests
 import groovy.json.JsonBuilder
 import groovyx.net.http.HttpResponseException
 import groovyx.net.http.RESTClient
-import org.apache.commons.lang3.RandomUtils
 import org.apache.http.HttpRequest
 import org.apache.http.HttpRequestInterceptor
 import org.apache.http.protocol.HttpContext
@@ -11,7 +10,8 @@ import org.junit.Before
 import org.junit.Test
 
 import static groovy.test.GroovyAssert.shouldFail
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
+import static io.qala.datagen.RandomValue.length
+import static io.qala.datagen.RandomShortApi.positiveInteger
 
 /**
  * The fact that on Component Tests level we configured MockMvc correctly doesn't mean that our app will be configured
@@ -46,10 +46,10 @@ class PyramidRestSystemTest {
     private static Object pyramid(Map<String, Object> props = [:]) {
         def builder = new JsonBuilder()
         builder {
-            name props.get('name', randomAlphanumeric(15))
-            nOfUnitTests props.get('nOfUnitTests', RandomUtils.nextInt(0, 1000))
-            nOfComponentTests props.get('nOfComponentTests', RandomUtils.nextInt(0, 1000))
-            nOfSystemTests props.get('nOfSystemTests', RandomUtils.nextInt(0, 1000))
+            name props.get('name', length(15).alphanumeric())
+            nOfUnitTests props.get('nOfUnitTests', positiveInteger())
+            nOfComponentTests props.get('nOfComponentTests', positiveInteger())
+            nOfSystemTests props.get('nOfSystemTests', positiveInteger())
         }
         builder
     }

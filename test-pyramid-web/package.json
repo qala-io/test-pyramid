@@ -28,11 +28,11 @@
     "escape-html": "1.0.2"
   },
   "scripts": {
-    "test": "karma start src/test/unit-js/karma.conf.js",
-    "component": "protractor src/test/component-js/protractor.component.conf.js",
-    "system": "protractor src/test/system-js/protractor.system.conf.js",
-    "wd-update": "webdriver-manager update",
-    "wd": "webdriver-manager start"
+    "test": "node_modules/karma/bin/karma start src/test/unit-js/karma.conf.js",
+    "component": "node_modules/protractor/bin/protractor src/test/component-js/protractor.component.conf.js",
+    "system": "node_modules/protractor/bin/protractor src/test/system-js/protractor.system.conf.js",
+    "wd-update": "node_modules/protractor/bin/webdriver-manager update",
+    "wd": "node_modules/protractor/bin/webdriver-manager start"
   },
   "author": "Stanislav Bashkyrtsev",
   "license": "ISC"

@@ -4,8 +4,8 @@ import io.qala.pyramid.domain.utils.NotNullSized
 
 import javax.validation.constraints.Min
 
-import static io.qala.pyramid.domain.utils.RandomValue.from
-import static org.apache.commons.lang3.RandomUtils.nextInt
+import static io.qala.datagen.RandomShortApi.alphanumeric
+import static io.qala.datagen.RandomShortApi.positiveInteger
 
 class Pyramid {
     Long id
@@ -28,10 +28,10 @@ class Pyramid {
      */
     static Pyramid random(Map<String, Object> overrideDefaults = [:]) {
         Map<String, Object> defaults = [
-                name             : from(1).to(100).alphanumeric(),
-                nOfUnitTests     : nextInt(0, 1000),
-                nOfComponentTests: nextInt(0, 1000),
-                nOfSystemTests   : nextInt(0, 1000)]
+            name             : alphanumeric(1, 100),
+            nOfUnitTests     : positiveInteger(),
+            nOfComponentTests: positiveInteger(),
+            nOfSystemTests   : positiveInteger()]
         defaults.putAll(overrideDefaults)
         return new Pyramid(defaults)
     }

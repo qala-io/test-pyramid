@@ -23,7 +23,7 @@
 
     <unit.be.tests.skip>false</unit.be.tests.skip>
     <unit.ui.tests.skip>false</unit.ui.tests.skip>
-    <component.ui.tests.skip>false</component.ui.tests.skip>
+    <component.ui.tests.skip>true</component.ui.tests.skip>
     <component.be.tests.skip>false</component.be.tests.skip>
     <system.be.tests.skip>true</system.be.tests.skip>
     <system.ui.tests.skip>true</system.ui.tests.skip>
@@ -147,6 +147,10 @@
       <groupId>org.objenesis</groupId>
       <artifactId>objenesis</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.qala.datagen</groupId>
+      <artifactId>qala-datagen</artifactId>
+    </dependency>
   </dependencies>
   <dependencyManagement>
     <dependencies>
@@ -154,6 +158,11 @@
         <groupId>io.qala.pyramid</groupId>
         <artifactId>test-pyramid-domain</artifactId>
         <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.qala.datagen</groupId>
+        <artifactId>qala-datagen</artifactId>
+        <version>1.0.0</version>
       </dependency>
       <dependency>
         <groupId>org.codehaus.groovy</groupId>
@@ -295,12 +304,6 @@
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
         <version>2.6.1</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-lang3</artifactId>
-        <version>3.4</version>
-        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.unitils</groupId>

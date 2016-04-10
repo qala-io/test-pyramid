@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 import org.springframework.transaction.annotation.Transactional
 
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphanumeric
+import static io.qala.datagen.RandomValue.length
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals
 
 @ContextConfiguration(locations = 'classpath:/io/qala/pyramid/domain/app-context-service.groovy')
@@ -37,7 +37,7 @@ class PyramidDaoTest {
     void 'must allow to save max values of pyramid fields'() {
         int nameMaxBoundary = Pyramid.getDeclaredField('name').getAnnotation(NotNullSized).max()
         Pyramid pyramid = sut.save(new Pyramid(
-                name: randomAlphanumeric(nameMaxBoundary),
+                name: length(nameMaxBoundary).alphanumeric(),
                 nOfUnitTests: Integer.MAX_VALUE,
                 nOfComponentTests: Integer.MAX_VALUE,
                 nOfSystemTests: Integer.MAX_VALUE))

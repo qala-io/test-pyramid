@@ -7,8 +7,8 @@ import javax.validation.ConstraintViolation
 import javax.validation.Validation
 import javax.validation.Validator
 
-import static io.qala.pyramid.domain.utils.RandomValue.from
-import static org.apache.commons.lang.RandomStringUtils.randomAlphanumeric
+import static io.qala.datagen.RandomShortApi.positiveInteger
+import static io.qala.datagen.RandomValue.*
 
 /**
  * While we use Hibernate Validator here and instantiate that object manually, it doesn't mean that our SUT will do the
@@ -25,11 +25,11 @@ class PyramidTest extends Specification {
           pyramid && 0 == violations.size()
         where:
           name                            | valueDescription
-          randomAlphanumeric(1)           | 'min boundary value'
-          from(2).to(99).alphanumeric()   | 'typical happy path value'
-          randomAlphanumeric(100)         | 'max boundary value'
-          from(1).to(99).numeric()        | 'numbers only'
-          from(1).to(99).specialSymbols() | 'special symbols'
+          length(1).alphanumeric()        | 'min boundary value'
+          between(2, 99).alphanumeric()   | 'typical happy path value'
+          length(100).alphanumeric()      | 'max boundary value'
+          between(1, 99).numeric()        | 'numbers only'
+          between(1, 99).specialSymbols() | 'special symbols'
     }
 
     @Unroll
@@ -41,10 +41,10 @@ class PyramidTest extends Specification {
           pyramid && 1 == violations.size()
           pyramid && violations.first().messageTemplate.contains(expectedError)
         where:
-          name                    | expectedError      | valueDescription
-          ''                      | 'constraints.Size' | 'empty value'
-          null                    | 'constraints.Size' | 'null value'
-          randomAlphanumeric(101) | 'constraints.Size' | 'more than max number of symbols'
+          name                       | expectedError      | valueDescription
+          ''                         | 'constraints.Size' | 'empty value'
+          null                       | 'constraints.Size' | 'null value'
+          length(101).alphanumeric() | 'constraints.Size' | 'more than max number of symbols'
     }
 
     @Unroll
@@ -56,10 +56,10 @@ class PyramidTest extends Specification {
         expect:
           pyramid && 0 == violations.size()
         where:
-          nOfTests                                | valueDescription
-          0                                       | 'min boundary value'
-          from(0).to(Integer.MAX_VALUE).integer() | 'typical happy path value'
-          Integer.MAX_VALUE                       | 'max boundary value'
+          nOfTests          | valueDescription
+          0                 | 'min boundary value'
+          positiveInteger() | 'typical happy path value'
+          Integer.MAX_VALUE | 'max boundary value'
 
     }
 
