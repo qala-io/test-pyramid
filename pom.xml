@@ -16,8 +16,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <springVersion>4.2.0.RELEASE</springVersion>
-    <restletVersion>2.3.4</restletVersion>
+    <springVersion>4.3.13.RELEASE</springVersion>
     <hibernateVersion>4.3.11.Final</hibernateVersion>
     <hibernateValidatorVersion>5.2.1.Final</hibernateValidatorVersion>
 
@@ -65,7 +64,6 @@
   </profiles>
   
   <build>
-    <sourceDirectory>${project.basedir}/src/main/groovy</sourceDirectory>
     <testSourceDirectory>${project.basedir}/src/test/groovy</testSourceDirectory>
     <plugins>
       <plugin>
@@ -97,20 +95,6 @@
                 <goal>compile</goal>
                 <goal>testCompile</goal>
               </goals>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.3</version>
-          <executions>
-            <execution>
-              <id>default-compile</id>
-              <phase>none</phase>
-            </execution>
-            <execution>
-              <id>default-testCompile</id>
-              <phase>none</phase>
             </execution>
           </executions>
         </plugin>
@@ -304,6 +288,12 @@
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
         <version>2.6.1</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.unitils</groupId>

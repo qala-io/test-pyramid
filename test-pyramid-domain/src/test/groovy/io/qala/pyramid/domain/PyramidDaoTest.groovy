@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 import static io.qala.datagen.RandomValue.length
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals
 
-@ContextConfiguration(locations = 'classpath:/io/qala/pyramid/domain/app-context-service.groovy')
+@ContextConfiguration(locations = 'classpath:/io/qala/pyramid/domain/app-context-service.xml')
 @Transactional(transactionManager = 'transactionManager')
 @Rollback
 @RunWith(SpringJUnit4ClassRunner)
@@ -28,7 +28,7 @@ class PyramidDaoTest {
 
     @Test
     void 'must treat SQL as string to eliminate SQL Injections'() {
-        Pyramid pyramid = sut.save(Pyramid.random([name: '\'" drop table']))
+        Pyramid pyramid = sut.save(Pyramid.random().setName('\'" drop table'));
         sut.flush().clearCache()
         assertReflectionEquals(pyramid, sut.list()[0])
     }

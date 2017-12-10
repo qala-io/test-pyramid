@@ -19,7 +19,7 @@ class PyramidTest extends Specification {
     @Unroll
     def 'validation for name must pass if #valueDescription specified (#name)'() {
         given:
-          Pyramid pyramid = Pyramid.random([name: name])
+          Pyramid pyramid = Pyramid.random().setName(name)
           Set violations = validator().validate(pyramid)
         expect:
           pyramid && 0 == violations.size()
@@ -35,7 +35,7 @@ class PyramidTest extends Specification {
     @Unroll
     def 'validation for name must fail if #valueDescription specified (#name)'() {
         given:
-          Pyramid pyramid = Pyramid.random([name: name])
+          Pyramid pyramid = Pyramid.random().setName(name)
           Set<ConstraintViolation> violations = validator().validate(pyramid)
         expect:
           pyramid && 1 == violations.size()
@@ -50,8 +50,10 @@ class PyramidTest extends Specification {
     @Unroll
     def 'validation for number of tests must pass if #valueDescription specified (#nOfTests)'() {
         given:
-          Pyramid pyramid = Pyramid.random(
-                  [nOfUnitTests: nOfTests, nOfComponentTests: nOfTests, nOfSystemTests: nOfTests])
+          Pyramid pyramid = Pyramid.random()
+              .setnOfUnitTests(nOfTests)
+              .setnOfComponentTests(nOfTests)
+              .setnOfSystemTests(nOfTests);
           Set violations = validator().validate(pyramid)
         expect:
           pyramid && 0 == violations.size()
@@ -66,8 +68,10 @@ class PyramidTest extends Specification {
     @Unroll
     def 'validation for number of tests must fail if #valueDescription specified (#nOfTests)'() {
         given:
-          Pyramid pyramid = Pyramid.random(
-                  [nOfUnitTests: nOfTests, nOfComponentTests: nOfTests, nOfSystemTests: nOfTests])
+          Pyramid pyramid = Pyramid.random()
+              .setnOfUnitTests(nOfTests)
+              .setnOfComponentTests(nOfTests)
+              .setnOfSystemTests(nOfTests);
           Set<ConstraintViolation> violations = validator().validate(pyramid)
         expect:
           pyramid && 3 == violations.size()

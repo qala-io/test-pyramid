@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress AutowiredDependenciesInspection -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+       default-autowire="constructor">
+  <aop:config proxy-target-class="true">
+    <aop:pointcut id="txPointcut" expression="within(io.qala.pyramid.domain.*Service)"/>
+    <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+  </aop:config>
+  <tx:advice id="txAdvice">
+    <tx:attributes>
+      <tx:method name="*" isolation="READ_COMMITTED" rollback-for="java.lang.Exception"/>
+    </tx:attributes>
+  </tx:advice>
+  <bean id="dataSource" class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+    <constructor-arg>
+      <bean class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="jdbcUrl" value="jdbc:hsqldb:mem:test_pyramid"/>
+        <property name="driverClass" value="org.hsqldb.jdbcDriver"/>
+        <property name="user" value="root"/>
+        <property name="acquireRetryAttempts" value="1"/>
+        <property name="idleConnectionTestPeriod" value="3600"/>
+        <property name="checkoutTimeout" value="10000"/>
+      </bean>
+    </constructor-arg>
+    <property name="defaultAutoCommit" value="false"/>
+  </bean>
+  <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+    <property name="dataSource" ref="dataSource"/>
+    <property name="mappingResources" value="/io/qala/pyramid/domain/Pyramid.hbm.xml"/>
+    <property name="hibernateProperties">
+      <props>
+        <prop key="hibernate.show_sql">true</prop>
+        <prop key="hibernate.format_sql">true</prop>
+        <prop key="hibernate.use_sql_comments">true</prop>
+        <prop key="hibernate.dialect">org.hibernate.dialect.HSQLDialect</prop>
+        <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+      </props>
+    </property>
+  </bean>
+  <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <property name="sessionFactory" ref="sessionFactory"/>
+    <property name="validateExistingTransaction" value="true"/>
+  </bean>
+  <bean class="io.qala.pyramid.domain.PyramidDao"/>
+  <bean class="io.qala.pyramid.domain.PyramidService"/>
+</beans>

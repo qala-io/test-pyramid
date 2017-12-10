@@ -1,4 +1,4 @@
-package io.qala.pyramid.domain.utils
+package io.qala.pyramid.domain.utils;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -26,17 +26,17 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author Mikhail Stryzhonok
  */
 @Constraint(validatedBy = NotNullSizedValidator.class)
-@Target([METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER])
+@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @ReportAsSingleViolation
 @NotBlank
-@interface NotNullSized {
+public @interface NotNullSized {
 
     String message() default "{javax.validation.constraints.Size.message}";
 
-    Class<?>[] groups() default [];
+    Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default [];
+    Class<? extends Payload>[] payload() default {};
 
     /** @return size the element must be higher or equal to   */
     int min() default 0;

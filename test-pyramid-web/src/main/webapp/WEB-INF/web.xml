@@ -9,8 +9,8 @@
     <init-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>
-        WEB-INF/spring-mvc-servlet.groovy
-        classpath:/io/qala/pyramid/domain/app-context-service.groovy
+        WEB-INF/spring-mvc-servlet.xml
+        classpath:/io/qala/pyramid/domain/app-context-service.xml
       </param-value>
     </init-param>
     <init-param>

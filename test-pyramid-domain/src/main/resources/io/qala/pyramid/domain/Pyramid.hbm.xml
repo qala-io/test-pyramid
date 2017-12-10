@@ -4,8 +4,8 @@
   "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping package="io.qala.pyramid.domain">
   <class name="Pyramid" table="PYRAMID">
-    <id name="id" unsaved-value="null">
-      <generator class="native"/>
+    <id name="id">
+      <generator class="uuid"/>
     </id>
     <property name="name"/>
     <property name="nOfUnitTests"/>

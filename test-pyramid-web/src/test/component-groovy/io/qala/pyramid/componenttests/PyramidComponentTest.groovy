@@ -14,9 +14,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 @ContextConfiguration(locations = [
         //WEB-INF is not in the classpath actually, but we added it as a testResourceDirectory in Maven
         //to overcome the limitations
-        'classpath:/io/qala/pyramid/domain/app-context-service.groovy',
-        'classpath:/spring-mvc-servlet.groovy',
-        'classpath:/app-context-component-tests.groovy'])
+        'classpath:/io/qala/pyramid/domain/app-context-service.xml',
+        'classpath:/spring-mvc-servlet.xml',
+        'classpath:/app-context-component-tests.xml'])
 class PyramidComponentTest {
     @Autowired Pyramids pyramids
 
@@ -32,6 +32,6 @@ class PyramidComponentTest {
      */
     @Test(expected = MethodArgumentNotValidException)
     void 'service must return errors if validation fails'() {
-        pyramids.create(Pyramid.random([name: '']))
+        pyramids.create(Pyramid.random().setName(""))
     }
 }

@@ -1,7 +1,7 @@
-package io.qala.pyramid.domain.utils
+package io.qala.pyramid.domain.utils;
 
-import javax.validation.ConstraintValidator
-import javax.validation.ConstraintValidatorContext
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 /**
  * Validator for {@link NotNullSized} annotation
@@ -9,14 +9,12 @@ import javax.validation.ConstraintValidatorContext
  * @author Mikhail Stryzhonok
  */
 public class NotNullSizedValidator implements ConstraintValidator<NotNullSized, String> {
-    int min
-    int max
+    private int min, max;
 
     /** {@inheritDoc} */
-    @Override
     public void initialize(NotNullSized constraintAnnotation) {
-        min = constraintAnnotation.min()
-        max = constraintAnnotation.max()
+        min = constraintAnnotation.min();
+        max = constraintAnnotation.max();
     }
 
     /**
@@ -28,8 +26,7 @@ public class NotNullSizedValidator implements ConstraintValidator<NotNullSized, 
      * @return true if string not null and has size between the specified boundaries (included).
      *         false otherwise
      */
-    @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return value != null && value.length() >= min && value.length() <= max
+        return value != null && value.length() >= min && value.length() <= max;
     }
 }
