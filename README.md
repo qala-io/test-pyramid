@@ -4,7 +4,7 @@ Test Pyramid
 Demonstrates how to build tests of different levels 
 ([unit, component, system](http://qala.io/blog/holes-in-test-terminology.html)) for apps with rich client. Technologies:
  
-- Spring MVC, Hibernate; Groovy JUnit, Spock, Spring Test
+- Spring MVC, Hibernate; JUnit, Spring Test
 - AngularJS; Karma, Protractor
 
 If you want to read more about the ideology behind it, have a look at 
@@ -28,7 +28,7 @@ If you want to read more about the ideology behind it, have a look at
  page (it's a template HTML is generated from) and JS (AngularJS folders _mostly_ follow 
  [generally accepted conventions](https://github.com/johnpapa/angular-styleguide)). 
 
-Both `test-pyramid-domain` and `test-pyramid-web` contain `src/test` folders with Groovy and JS tests. In IDE you should
+Both `test-pyramid-domain` and `test-pyramid-web` contain `src/test` folders with Java and JS tests. In IDE you should
 mark sub-folders of those as test sources if you want those to be treated respectively:
 
 - `test-pyramid-domain/src/test` contains Unit and Component tests
@@ -46,13 +46,5 @@ All the tests can be run via Maven (you need to have it installed):
 
 To work with UI separately and run its tests separately you should treat `tests-pyramid-web` as your home - it contains
 `package.json` which points to other test configs.
-
-# TBD
-
-- Write 
-- Mock to be started at random port when running component tests
-- Create Allure reports
-- Generate coverage metrics
-- Create sample CD Pipeline in Jenkins
 
 (c) [Qala](http://qala.io)
