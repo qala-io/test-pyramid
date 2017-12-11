@@ -18,7 +18,7 @@
     "karma-allure-reporter": "1.4.4",
     "karma-browserify": "4.3.0",
     "protractor": "5.1.2",
-    "phantom": "4.0.4",
+    "phantomjs": "2.1.1",
     "express": "4.13.3",
     "body-parser": "1.13.3",
     "velocity": "0.7.2",
