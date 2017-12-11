@@ -23,7 +23,7 @@
           return;
         }
         var ctx = canvasEl[0].getContext('2d');
-        ctx.fillStyle = 'rgb(23,166,163)';
+        ctx.fillStyle = '#1276B5';
         ctx.clearRect(0, 0, length, height);
         ctx.fill(getUnitTestsArea(testPercents[0], testPercents[1], testPercents[2]).toCanvasPath());
         ctx.fill(getComponentTestsArea(testPercents[0], testPercents[1], testPercents[2]).toCanvasPath());

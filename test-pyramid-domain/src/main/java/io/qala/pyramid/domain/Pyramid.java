@@ -12,12 +12,7 @@ public class Pyramid {
     @NotNullSized(min = 1, max = 100)
     private String name;
     @Min(0L)
-    private int nOfUnitTests;
-    @Min(0L)
-    private int nOfComponentTests;
-    @Min(0L)
-    private int nOfSystemTests;
-
+    private int unitTests, componentTests, systemTests;
     /**
      * Returns a pyramid with randomly generated data. This class is needed for testing only. This is not a typical
      * decision to put test-only logic into production code, but it looks nice here and apart from additional dependency
@@ -28,9 +23,9 @@ public class Pyramid {
     public static Pyramid random() {
         return new Pyramid()
                 .setName(alphanumeric(100))
-                .setnOfComponentTests(positiveInteger())
-                .setnOfUnitTests(positiveInteger())
-                .setnOfSystemTests(positiveInteger());
+                .setComponentTests(positiveInteger())
+                .setUnitTests(positiveInteger())
+                .setSystemTests(positiveInteger());
     }
 
     public String getId() {
@@ -51,30 +46,30 @@ public class Pyramid {
         return this;
     }
 
-    public int getnOfUnitTests() {
-        return nOfUnitTests;
+    public int getUnitTests() {
+        return unitTests;
     }
 
-    public Pyramid setnOfUnitTests(int nOfUnitTests) {
-        this.nOfUnitTests = nOfUnitTests;
+    public Pyramid setUnitTests(int unitTests) {
+        this.unitTests = unitTests;
         return this;
     }
 
-    public int getnOfComponentTests() {
-        return nOfComponentTests;
+    public int getComponentTests() {
+        return componentTests;
     }
 
-    public Pyramid setnOfComponentTests(int nOfComponentTests) {
-        this.nOfComponentTests = nOfComponentTests;
+    public Pyramid setComponentTests(int componentTests) {
+        this.componentTests = componentTests;
         return this;
     }
 
-    public int getnOfSystemTests() {
-        return nOfSystemTests;
+    public int getSystemTests() {
+        return systemTests;
     }
 
-    public Pyramid setnOfSystemTests(int nOfSystemTests) {
-        this.nOfSystemTests = nOfSystemTests;
+    public Pyramid setSystemTests(int systemTests) {
+        this.systemTests = systemTests;
         return this;
     }
 
@@ -83,9 +78,9 @@ public class Pyramid {
         return "Pyramid{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", nOfUnitTests=" + nOfUnitTests +
-                ", nOfComponentTests=" + nOfComponentTests +
-                ", nOfSystemTests=" + nOfSystemTests +
+                ", unitTests=" + unitTests +
+                ", componentTests=" + componentTests +
+                ", systemTests=" + systemTests +
                 '}';
     }
 }

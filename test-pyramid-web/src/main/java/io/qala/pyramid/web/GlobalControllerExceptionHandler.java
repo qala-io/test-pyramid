@@ -18,7 +18,7 @@ class GlobalControllerExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
-    List<ObjectError> handleValidationErrors(MethodArgumentNotValidException e) {
-        return e.getBindingResult().getAllErrors();
+    ErrorResponse handleValidationErrors(MethodArgumentNotValidException e) {
+        return new ErrorResponse(e.getBindingResult());
     }
 }

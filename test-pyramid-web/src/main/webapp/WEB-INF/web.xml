@@ -13,10 +13,6 @@
         classpath:/io/qala/pyramid/domain/app-context-service.xml
       </param-value>
     </init-param>
-    <init-param>
-      <param-name>contextClass</param-name>
-      <param-value>org.springframework.web.context.support.GroovyWebApplicationContext</param-value>
-    </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>spring-mvc</servlet-name>

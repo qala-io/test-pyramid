@@ -8,8 +8,8 @@
       <generator class="uuid"/>
     </id>
     <property name="name"/>
-    <property name="nOfUnitTests"/>
-    <property name="nOfComponentTests"/>
-    <property name="nOfSystemTests"/>
+    <property name="unitTests"/>
+    <property name="componentTests"/>
+    <property name="systemTests"/>
   </class>
 </hibernate-mapping>

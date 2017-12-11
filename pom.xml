@@ -64,7 +64,6 @@
   </profiles>
   
   <build>
-    <testSourceDirectory>${project.basedir}/src/test/groovy</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
@@ -74,29 +73,12 @@
     <pluginManagement>
       <plugins>
         <plugin>
-          <groupId>org.codehaus.gmavenplus</groupId>
-          <artifactId>gmavenplus-plugin</artifactId>
-          <version>1.5</version>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.3</version>
           <configuration>
-            <testSources>
-              <source>
-                <directory>${project.basedir}/src/test/groovy</directory>
-              </source>
-              <source>
-                <directory>${project.basedir}/src/test/system-groovy</directory>
-              </source>
-            </testSources>
+            <source>1.8</source>
+            <target>1.8</target>
           </configuration>
-          <executions>
-            <execution>
-              <goals>
-                <goal>addSources</goal>
-                <goal>addTestSources</goal>
-                <goal>compile</goal>
-                <goal>testCompile</goal>
-              </goals>
-            </execution>
-          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -120,18 +102,6 @@
       <artifactId>logback-core</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.codehaus.groovy</groupId>
-      <artifactId>groovy-all</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.spockframework</groupId>
-      <artifactId>spock-core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.objenesis</groupId>
-      <artifactId>objenesis</artifactId>
-    </dependency>
-    <dependency>
       <groupId>io.qala.datagen</groupId>
       <artifactId>qala-datagen</artifactId>
     </dependency>
@@ -146,30 +116,7 @@
       <dependency>
         <groupId>io.qala.datagen</groupId>
         <artifactId>qala-datagen</artifactId>
-        <version>1.0.0</version>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.groovy</groupId>
-        <artifactId>groovy-all</artifactId>
-        <version>2.4.4</version>
-      </dependency>
-      <dependency>
-        <groupId>org.spockframework</groupId>
-        <artifactId>spock-core</artifactId>
-        <version>1.0-groovy-2.4</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.objenesis</groupId>
-        <artifactId>objenesis</artifactId>
-        <version>2.1</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.codehaus.groovy.modules.http-builder</groupId>
-        <artifactId>http-builder</artifactId>
-        <version>0.7.1</version>
-        <scope>test</scope>
+        <version>2.2.1</version>
       </dependency>
       <dependency>
         <groupId>org.hibernate</groupId>
@@ -290,6 +237,12 @@
         <version>2.6.1</version>
       </dependency>
       <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>rest-assured</artifactId>
+        <version>3.0.6</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.12</version>
@@ -331,11 +284,4 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-  <repositories>
-    <repository>
-      <id>maven-restlet</id>
-      <name>Public online Restlet repository</name>
-      <url>http://maven.restlet.org</url>
-    </repository>
-  </repositories>
 </project>
