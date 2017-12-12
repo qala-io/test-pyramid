@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
         "classpath:/io/qala/pyramid/domain/app-context-service.xml",
         "classpath:/spring-mvc-servlet.xml",
         "classpath:/app-context-component-tests.xml"})
-public class PyramidComponentTest {
+public class PyramidMvcTest {
     @Autowired private Pyramids pyramids;
 
     @Test public void savesValidPyramid() {

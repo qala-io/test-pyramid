@@ -28,9 +28,8 @@ class PyramidDao {
         return this;
     }
 
-    PyramidDao clearCache() {
+    void clearCache() {
         getSession().clear();
-        return this;
     }
     private final SessionFactory sessionFactory;
 }

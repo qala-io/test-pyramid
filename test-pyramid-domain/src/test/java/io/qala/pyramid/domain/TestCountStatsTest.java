@@ -5,8 +5,7 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.List;
 
-import static io.qala.datagen.RandomShortApi.callOneOf;
-import static io.qala.datagen.RandomShortApi.sample;
+import static io.qala.datagen.RandomShortApi.*;
 import static org.junit.Assert.*;
 
 public class TestCountStatsTest {
@@ -47,12 +46,17 @@ public class TestCountStatsTest {
         assertEquals(150, stats.getMedian(), .1);
     }
     @Test public void modeReturnsMostFrequentElement() {
-        TestCountStats stats = new TestCountStats(testCount(100), testCount(100), testCount(200), testCount(300));
+        int mode1 = positiveInteger(), mode2 = positiveInteger();
+        TestCountStats stats = new TestCountStats(testCount(mode1), testCount(mode2), testCount(mode1), testCount(mode2));
+        assertEquals(mode1, stats.getMode(), .1);
+    }
+    @Test public void firstModeIsReturned_ifThereAreMoreThan1() {
+        TestCountStats stats = new TestCountStats(testCount(100), testCount(100), testCount(200), testCount(200));
         assertEquals(100, stats.getMode(), .1);
     }
 
-    private static Pyramid testCount(int sumOfTests) {
-        Pyramid pyramid = new Pyramid();
+    static Pyramid testCount(int sumOfTests) {
+        Pyramid pyramid = Pyramid.random().setUnitTests(0).setComponentTests(0).setSystemTests(0);//needed for anemic model demo
         callOneOf(
                 ()-> pyramid.setUnitTests     (sumOfTests),
                 ()-> pyramid.setComponentTests(sumOfTests),

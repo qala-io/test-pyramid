@@ -17,12 +17,12 @@ public class TestCountStats {
         if(pyramids == null || pyramids.isEmpty()) return;
 
         List<Integer> sums = new ArrayList<>(pyramids.size());
-        for(Pyramid p: pyramids)
-            sums.add(p.getSumOfTests());
-        Collections.sort(sums);
+        for(Pyramid p: pyramids) sums.add(p.getSumOfTests());
+
         this.mean   = getMean(sums);
-        this.median = getMedian(sums);
         this.mode   = getMode(sums);
+        Collections.sort(sums);
+        this.median = getMedian(sums);
     }
 
     private static double getMean(List<Integer> ints) {
@@ -39,7 +39,7 @@ public class TestCountStats {
         int maxValue = 0, maxCount = 0;
         for (int i = 0; i < ints.size(); ++i) {
             int count = 0;
-            for (Integer anInt : ints)
+            for (Integer anInt : ints)//O=n^2, but it's just a demo so no one cares
                 if (anInt.equals(ints.get(i))) ++count;
             if (count > maxCount) {
                 maxCount = count;

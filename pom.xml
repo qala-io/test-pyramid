@@ -250,6 +250,13 @@
         <version>3.4.2</version>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <!--We wouldn't need it at all if not for bad architectural decisions (anemic model)-->
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>2.13.0</version>
+        <scope>test</scope>
+      </dependency>
 
       <dependency>
         <groupId>org.slf4j</groupId>

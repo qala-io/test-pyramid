@@ -13,10 +13,7 @@ import static io.qala.datagen.RandomValue.length;
 import static org.junit.Assert.assertEquals;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
-@ContextConfiguration(locations = "classpath:/io/qala/pyramid/domain/app-context-service.xml")
-@Transactional(transactionManager = "transactionManager")
-@Rollback
-@RunWith(SpringJUnit4ClassRunner.class)
+@DaoTest @RunWith(SpringJUnit4ClassRunner.class)
 public class PyramidDaoTest {
 
     @Test public void canRetrievePyramidFromDbAfterItIsSaved() {

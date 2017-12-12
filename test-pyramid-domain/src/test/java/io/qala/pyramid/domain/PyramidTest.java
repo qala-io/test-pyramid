@@ -45,6 +45,12 @@ public class PyramidTest {
                 ()-> pyramid.setSystemTests(testCount));
         assertValidationFailed("constraints.Min", pyramid);
     }
+    @Test public void sumOfTests_addsAllTestTypesTogether() {
+        Pyramid pyramid = Pyramid.random();
+        int expected = pyramid.getUnitTests() + pyramid.getComponentTests() + pyramid.getSystemTests();
+        assertEquals(expected, pyramid.getSumOfTests());
+    }
+
     private static Pyramid getPyramidWithAllTestCount(int nOfTests) {
         return Pyramid.random()
                 .setUnitTests(nOfTests)
