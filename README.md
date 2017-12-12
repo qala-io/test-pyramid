@@ -40,7 +40,7 @@ All the tests can be run via Maven (you need to have it installed):
 
 - `mvn test` would run Unit and Component tests. It will also run UI Component Tests for which you should need to
  start Selenium WebDriver (sorry for that, maybe in the future it will get started automatically).
-- `mvn test -DrunSystemTests` will trigger Back End and UI System Tests, but before you run it you need to deploy the
+- `mvn test -PSystemTests` will trigger Back End and UI System Tests, but before you run it you need to deploy the
  app at http://localhost:8080 and run Selenium WebDriver. Issue `mvn package` from root folder to generate 
  `test-pyramid-web/target/test-pyramid-web***.war` that can be deployed onto Tomcat. Or use IDE.
 

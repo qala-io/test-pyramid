@@ -49,7 +49,7 @@ public class PyramidRestSystemTest {
     }
 
     private static Pyramid find(String id) {
-        Pyramid[] pyramids = get("/pyramid/list").andReturn().as(Pyramid[].class);
+        Pyramid[] pyramids = get("/pyramid").andReturn().as(Pyramid[].class);
         for(Pyramid next: pyramids) if(next.getId().equals(id)) return next;
         throw new IllegalStateException("Couldn't find Pyramid with ID " + id);
     }
