@@ -1,6 +1,7 @@
 package io.qala.pyramid.componenttests;
 
 import io.qala.pyramid.domain.Pyramid;
+import io.qala.pyramid.web.TestCountStats;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -40,5 +42,12 @@ public class PyramidComponentTest {
             assertTrue("Actual error: " + actualError,
                     actualError.contains("NotNullSized.pyramid.name"));
         }
+    }
+    @Test public void calculatesTestCountStats() {
+        pyramids.create(Pyramid.random());
+        TestCountStats stats = pyramids.getTestCountStats();
+        assertNotEquals(0, stats.getMean());
+        assertNotEquals(0, stats.getMedian());
+        assertNotEquals(0, stats.getMode());
     }
 }

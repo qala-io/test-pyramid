@@ -3,6 +3,7 @@ package io.qala.pyramid.componenttests;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import groovy.json.JsonBuilder;
 import io.qala.pyramid.domain.Pyramid;
+import io.qala.pyramid.web.TestCountStats;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -49,6 +50,14 @@ class Pyramids {
             assertReflectionEquals(pyramid, fetchedPyramid);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    TestCountStats getTestCountStats() {
+        try {
+            return mockMvc.perform(get("/pyramid/test-count-stats")).andReturn();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

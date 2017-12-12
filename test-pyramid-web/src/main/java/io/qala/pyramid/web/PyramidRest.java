@@ -13,10 +13,7 @@ import java.util.List;
 @RestController @Controller
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 class PyramidRest {
-
-    PyramidRest(PyramidService pyramidService) {
-        this.pyramidService = pyramidService;
-    }
+    PyramidRest(PyramidService pyramidService) { this.pyramidService = pyramidService; }
 
     @PostMapping("/pyramid")
     Pyramid save(@Valid @RequestBody Pyramid pyramid) {
@@ -26,6 +23,11 @@ class PyramidRest {
 
     @GetMapping("/pyramid/list")
     List<Pyramid> pyramids() { return pyramidService.list(); }
+
+    @GetMapping("/pyramid/test-count-stats")
+    TestCountStats getStatistics() {
+        return new TestCountStats();
+    }
 
     private final PyramidService pyramidService;
 }
