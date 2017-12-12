@@ -4,7 +4,11 @@ import io.qala.pyramid.domain.utils.NotNullSized;
 
 import javax.validation.constraints.Min;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static io.qala.datagen.RandomShortApi.alphanumeric;
+import static io.qala.datagen.RandomShortApi.integer;
 import static io.qala.datagen.RandomShortApi.positiveInteger;
 
 public class Pyramid {
@@ -22,10 +26,15 @@ public class Pyramid {
      */
     public static Pyramid random() {
         return new Pyramid()
-                .setName(alphanumeric(100))
-                .setComponentTests(positiveInteger())
-                .setUnitTests(positiveInteger())
-                .setSystemTests(positiveInteger());
+                .setName          (alphanumeric(100))
+                .setUnitTests     (integer(0, 1000000))
+                .setComponentTests(integer(0, 1000000))
+                .setSystemTests   (integer(0, 1000000));
+    }
+    public static List<Pyramid> random(int n) {
+        List<Pyramid> result = new ArrayList<>(n);
+        for(int i = 0; i < n; i++) result.add(Pyramid.random());
+        return result;
     }
 
     public String getId() {

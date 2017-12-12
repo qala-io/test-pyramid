@@ -2,7 +2,7 @@ package io.qala.pyramid.componenttests;
 
 import io.qala.pyramid.domain.Pyramid;
 import io.qala.pyramid.web.ErrorResponse;
-import io.qala.pyramid.web.TestCountStats;
+import io.qala.pyramid.domain.TestCountStats;
 import io.qala.pyramid.web.dto.PyramidDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,8 +42,8 @@ public class PyramidComponentTest {
     @Test public void calculatesTestCountStats() {
         pyramids.create();
         TestCountStats stats = pyramids.getTestCountStats();
-        assertNotEquals(0, stats.getMean());
-        assertNotEquals(0, stats.getMedian());
-        assertNotEquals(0, stats.getMode());
+        assertNotEquals(0, stats.getMean()  , .1);
+        assertNotEquals(0, stats.getMedian(), .1);
+        assertNotEquals(0, stats.getMode()  , .1);
     }
 }

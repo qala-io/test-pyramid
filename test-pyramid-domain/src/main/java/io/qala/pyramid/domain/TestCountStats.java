@@ -1,22 +1,25 @@
-package io.qala.pyramid.web;
-
-import io.qala.pyramid.domain.Pyramid;
+package io.qala.pyramid.domain;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 public class TestCountStats {
     private double mean, median, mode;//leaving them non-final to demo anemic model
 
-    public TestCountStats() {}
+    TestCountStats() {}
 
-    public TestCountStats(List<Pyramid> pyramids) {
+    TestCountStats(Pyramid ... pyramids) {
+        this(pyramids == null ? null: Arrays.asList(pyramids));
+    }
+    TestCountStats(List<Pyramid> pyramids) {
+        if(pyramids == null || pyramids.isEmpty()) return;
+
         List<Integer> sums = new ArrayList<>(pyramids.size());
         for(Pyramid p: pyramids)
             sums.add(p.getSumOfTests());
         Collections.sort(sums);
-
         this.mean   = getMean(sums);
         this.median = getMedian(sums);
         this.mode   = getMode(sums);

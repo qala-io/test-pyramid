@@ -2,7 +2,7 @@ package io.qala.pyramid.componenttests;
 
 import io.qala.pyramid.domain.Pyramid;
 import io.qala.pyramid.web.ErrorResponse;
-import io.qala.pyramid.web.TestCountStats;
+import io.qala.pyramid.domain.TestCountStats;
 import io.qala.pyramid.web.dto.PyramidDto;
 import io.restassured.http.ContentType;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;

@@ -11,12 +11,7 @@
   <logger name="org.hibernate.type.EnumType" level="INFO"/>
 
   <logger name="org.bson" level="WARN" />
-  <logger name="org.springframework" level="WARN" />
-  <!--Shows which filters, listeners and servlets get registered in Servlet Container. Useful to see them to
-  understand the app better.-->
-  <logger name="org.springframework.boot.web.servlet" level="INFO"/>
-  <!--Outputs info about which config file is used and which profiles are activated. Important stuff.-->
-  <logger name="org.springframework.boot.context.config" level="DEBUG"/>
+  <logger name="org.springframework" level="INFO" />
   <!--<logger name="org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod" level="TRACE"/>-->
   <logger name="org.apache.catalina.startup.DigesterFactory" level="WARN" />
   <logger name="org.apache" level="WARN" />
