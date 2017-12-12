@@ -16,10 +16,8 @@ module.exports = function(config){
       'src/test/unit-js/*.spec.js'
     ],
     frameworks: ['jasmine'],
-    browsers : ['PhantomJS'],
+    browsers : ['ChromeHeadless'],
     plugins : [
-      'karma-phantomjs-launcher',
-      'karma-phantomjs2-launcher',
       'karma-slimerjs-launcher',
       'karma-chrome-launcher',
       'karma-firefox-launcher',

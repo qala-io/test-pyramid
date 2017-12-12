@@ -39,9 +39,9 @@ module.exports = function () {
     pyramid = pyramid || new Pyramid();
     self.clickCreate();
     self.fillName(pyramid.name);
-    self.fillNumberOfTests('unit', pyramid.nOfUnitTests);
-    self.fillNumberOfTests('component', pyramid.nOfComponentTests);
-    self.fillNumberOfTests('system', pyramid.nOfSystemTests);
+    self.fillNumberOfTests('unit', pyramid.unitTests);
+    self.fillNumberOfTests('component', pyramid.componentTests);
+    self.fillNumberOfTests('system', pyramid.systemTests);
     return pyramid;
   };
 
@@ -65,13 +65,13 @@ module.exports = function () {
         fromPage.name = text;
       });
       element.element(by.css('[name="pyramid-n-of-unit-tests"]')).getText().then(function (text) {
-        fromPage.nOfUnitTests = +text;
+        fromPage.unitTests = +text;
       });
       element.element(by.css('[name="pyramid-n-of-component-tests"]')).getText().then(function (text) {
-        fromPage.nOfComponentTests = +text;
+        fromPage.componentTests = +text;
       });
       element.element(by.css('[name="pyramid-n-of-system-tests"]')).getText().then(function (text) {
-        fromPage.nOfSystemTests = +text;
+        fromPage.systemTests = +text;
       });
       return fromPage;
     });

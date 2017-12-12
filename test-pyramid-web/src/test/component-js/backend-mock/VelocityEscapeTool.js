@@ -1,5 +1,5 @@
 "use strict";
-var escape = require('escape-html');
+const escape = require('escape-html');
 module.exports = function EscapeTool() {
   this.html = function(htmlString) {
     return escape(htmlString);

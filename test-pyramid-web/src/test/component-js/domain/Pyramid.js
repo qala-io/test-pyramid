@@ -1,13 +1,13 @@
 "use strict";
-var random = require('random-ext');
+const random = require('random-ext');
 
 function Pyramid(fields) {
-  var self = this;
+  const self = this;
   fields = fields || {};
   this.name = fields.name === undefined ? randomAlphanumeric(100, 1) : fields.name;
-  this.nOfUnitTests = fields.nOfUnitTests === undefined ? random.integer(100, 0) : fields.nOfUnitTests;
-  this.nOfComponentTests = fields.nOfComponentTests === undefined ? random.integer(100, 0) : fields.nOfComponentTests;
-  this.nOfSystemTests = fields.nOfSystemTests === undefined ? random.integer(100, 0) : fields.nOfSystemTests;
+  this.unitTests = fields.unitTests === undefined ? random.integer(100, 0) : fields.unitTests;
+  this.componentTests = fields.componentTests === undefined ? random.integer(100, 0) : fields.componentTests;
+  this.systemTests = fields.systemTests === undefined ? random.integer(100, 0) : fields.systemTests;
 
   this.withSpecialSymbols = function () {
     this.name = random.restrictedString([random.CHAR_TYPE.SPECIAL], 100, 0);
@@ -18,16 +18,16 @@ function Pyramid(fields) {
   };
   this.isPresentIn = function (pyramids, trimName) {
     trimName = trimName || false;
-    var name = self.name;
+    let name = self.name;
     if(trimName){
       name = self.name.trim();
       name = name.replace(/ +/g, ' '); //In HTML multiple whitespaces are replaced with 1
     }
-    var found = pyramids.filter(function (el) {
+    const found = pyramids.filter(function (el) {
       return el.name === name
-        && el.nOfComponentTests === self.nOfComponentTests
-        && el.nOfSystemTests === self.nOfSystemTests
-        && el.nOfUnitTests === self.nOfUnitTests;
+        && el.componentTests === self.componentTests
+        && el.systemTests === self.systemTests
+        && el.unitTests === self.unitTests;
     });
     return found.length !== 0;
   };
@@ -39,28 +39,28 @@ function Pyramid(fields) {
 }
 
 Pyramid.fromJson = function (json) {
-  var obj = json;
+  let obj = json;
   if (typeof json === String) {
     obj = JSON.parse(json);
   }
-  var pyramid = new Pyramid();
+  const pyramid = new Pyramid();
   pyramid.name = obj.name;
-  pyramid.nOfUnitTests = +obj.nOfUnitTests;
-  pyramid.nOfComponentTests = +obj.nOfComponentTests;
-  pyramid.nOfSystemTests = +obj.nOfSystemTests;
+  pyramid.unitTests = +obj.unitTests;
+  pyramid.componentTests = +obj.componentTests;
+  pyramid.systemTests = +obj.systemTests;
   return pyramid;
 };
 Pyramid.empty = function () {
-  var pyramid = new Pyramid();
+  const pyramid = new Pyramid();
   pyramid.name = '';
-  pyramid.nOfUnitTests = '';
-  pyramid.nOfComponentTests = '';
-  pyramid.nOfSystemTests = '';
+  pyramid.unitTests = '';
+  pyramid.componentTests = '';
+  pyramid.systemTests = '';
   return pyramid;
 };
 
 function randomAlphanumeric(maxBoundary, minBoundary) {
-  var result = '';
+  let result = '';
   while (!result.trim()) {
     result = random.restrictedString([random.CHAR_TYPE.SPACE, random.CHAR_TYPE.LOWERCASE,
       random.CHAR_TYPE.UPPERCASE, random.CHAR_TYPE.NUMERIC], maxBoundary, minBoundary);

@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Controller @RestController
+@SuppressWarnings("UnusedReturnValue")
+@RestController @Controller
 @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 class PyramidRest {
 
@@ -17,13 +18,13 @@ class PyramidRest {
         this.pyramidService = pyramidService;
     }
 
-    @PostMapping(value = "/pyramid")
+    @PostMapping("/pyramid")
     Pyramid save(@Valid @RequestBody Pyramid pyramid) {
         pyramidService.save(pyramid);
         return pyramid;
     }
 
-    @GetMapping(value = "/pyramid/list")
+    @GetMapping("/pyramid/list")
     List<Pyramid> pyramids() { return pyramidService.list(); }
 
     private final PyramidService pyramidService;

@@ -5,7 +5,7 @@
 
   function PyramidCanvas($document, canvasSize) {
     return new function () {
-      var self = this;
+      const self = this;
       this.draw = draw;
       this.canvasLength = canvasSize.width;
       this.canvasHeight = canvasSize.height;
@@ -15,14 +15,14 @@
       this.getSystemTestsArea = getSystemTestsArea;
 
       function draw(testPercents) {
-        var length = self.canvasLength;
-        var height = self.canvasHeight;
-        var canvasEl = $document.find('canvas');
+        const length = self.canvasLength;
+        const height = self.canvasHeight;
+        const canvasEl = $document.find('canvas');
         if (!canvasEl.length || !canvasEl[0].getContext) {
           console.warn('No context is available in canvas: ' + canvasEl);
           return;
         }
-        var ctx = canvasEl[0].getContext('2d');
+        const ctx = canvasEl[0].getContext('2d');
         ctx.fillStyle = '#1276B5';
         ctx.clearRect(0, 0, length, height);
         ctx.fill(getUnitTestsArea(testPercents[0], testPercents[1], testPercents[2]).toCanvasPath());
@@ -31,14 +31,14 @@
       }
 
       function getUnitTestsArea(unitProportion, componentProportion, systemProportion) {
-        var area = new CanvasArea();
+        const area = new CanvasArea();
         if (!unitProportion) {
           return area;
         }
-        var length = self.canvasLength;
-        var bottomHeight = self.canvasHeight;
-        var topHeight = self.canvasHeight * 0.666;
-        var topTestsProportion = componentProportion || systemProportion;
+        const length = self.canvasLength;
+        const bottomHeight = self.canvasHeight;
+        const topHeight = self.canvasHeight * 0.666;
+        const topTestsProportion = componentProportion || systemProportion;
 
         if (greaterOrEqual(unitProportion, topTestsProportion)) {
           area.push(
@@ -74,16 +74,16 @@
       }
 
       function getComponentTestsArea(unitProportion, componentProportion, systemProportion) {
-        var area = new CanvasArea();
+        const area = new CanvasArea();
         if (!componentProportion) {
           return area;
         }
-        var unitArea = getUnitTestsArea(unitProportion, componentProportion, systemProportion);
-        var systemArea = getSystemTestsArea(unitProportion, componentProportion, systemProportion);
+        const unitArea = getUnitTestsArea(unitProportion, componentProportion, systemProportion);
+        const systemArea = getSystemTestsArea(unitProportion, componentProportion, systemProportion);
 
-        var length = self.canvasLength;
-        var bottomHeight = self.canvasHeight * 0.666;
-        var topHeight = self.canvasHeight * 0.333;
+        const length = self.canvasLength;
+        const bottomHeight = self.canvasHeight * 0.666;
+        const topHeight = self.canvasHeight * 0.333;
 
         if (!unitProportion && !greaterOrEqual(componentProportion, systemProportion)) {
           area.push({x: 0.5 * length, y: bottomHeight});
@@ -92,8 +92,8 @@
             {x: (0.5 - componentProportion / 2) * length, y: bottomHeight},
             {x: (0.5 + componentProportion / 2) * length, y: bottomHeight});
         } else {
-          for (var i = unitArea.points.length - 1; i >= 0; i--) {
-            var point = unitArea.points[i];
+          for (let i = unitArea.points.length - 1; i >= 0; i--) {
+            const point = unitArea.points[i];
             equal(unitArea.points[i].y, bottomHeight) && area.push(point);
           }
         }
@@ -105,8 +105,8 @@
             {x: (0.5 + componentProportion / 2) * length, y: topHeight},
             {x: (0.5 - componentProportion / 2) * length, y: topHeight});
         } else {
-          for (i = systemArea.points.length - 1; i >= 0; i--) {
-            point = systemArea.points[i];
+          for (let i = systemArea.points.length - 1; i >= 0; i--) {
+            const point = systemArea.points[i];
             equal(point.y, topHeight) && area.push(point);
           }
         }
@@ -114,13 +114,13 @@
       }
 
       function getSystemTestsArea(unitProportion, componentProportion, systemProportion) {
-        var bottomHeight = self.canvasHeight * 0.333;
-        var topHeight = 0;
-        var area = new CanvasArea();
+        const bottomHeight = self.canvasHeight * 0.333;
+        const topHeight = 0;
+        const area = new CanvasArea();
         // logic is the same as unit tests, so getting unit area and then updating y's to system's height
-        var flippedArea = getUnitTestsArea(systemProportion, componentProportion, unitProportion);
-        for (var i = flippedArea.points.length - 1; i >= 0; i--) {
-          var point = flippedArea.points[i];
+        const flippedArea = getUnitTestsArea(systemProportion, componentProportion, unitProportion);
+        for (let i = flippedArea.points.length - 1; i >= 0; i--) {
+          const point = flippedArea.points[i];
           if (equal(point.y, self.canvasHeight)) {
             area.push({x: point.x, y: topHeight});
           } else {
@@ -139,18 +139,18 @@
       // Not using slice() because:
       // You should not slice on arguments because it prevents optimizations in JavaScript engines (V8 for example).
       // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments
-      for (var i = 0; i < arguments.length; i++) {
+      for (let i = 0; i < arguments.length; i++) {
         this.points.push(arguments[i]);
       }
     };
 
     this.toCanvasPath = function () {
-      var path = new Path2D();
+      const path = new Path2D();
       if (this.points.length === 0) {
         return path;
       }
       path.moveTo(this.points[0].x, this.points[0].y);
-      for (var i = 1; i < this.points.length; i++) {
+      for (let i = 1; i < this.points.length; i++) {
         path.lineTo(this.points[i].x, this.points[i].y);
       }
       return path;

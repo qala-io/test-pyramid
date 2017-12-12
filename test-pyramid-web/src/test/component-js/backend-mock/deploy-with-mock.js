@@ -1,2 +1,2 @@
-var backend = new (require('./Backend'))('../../../../');
+const backend = new (require('./Backend'))('../../../../');
 backend.init();

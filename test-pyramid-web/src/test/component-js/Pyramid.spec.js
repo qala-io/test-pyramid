@@ -23,9 +23,9 @@ describe('Pyramid', function () {
     homePage.fillPyramid(); // we need to clean the name field afterwards to get error
     homePage.fillPyramid(new Pyramid({
       name: '',
-      nOfUnitTests: alphabetic(5, 1),
-      nOfComponentTests: alphabetic(5, 1),
-      nOfSystemTests: alphabetic(5, 1)
+      unitTests: alphabetic(5, 1),
+      componentTests: alphabetic(5, 1),
+      systemTests: alphabetic(5, 1)
     }));
     homePage.assertNumberOfValidationErrors(4);
   });

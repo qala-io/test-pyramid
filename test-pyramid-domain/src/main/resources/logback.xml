@@ -1,0 +1,28 @@
+<configuration>
+  <property name="LOG_PATTERN" value="${LOG_PATTERN:-%d{yyyy-MM-dd HH:mm:ss} [%X{user}] [%thread] %-5level %logger{36} - %msg%n}" />
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder><pattern>${LOG_PATTERN}</pattern></encoder>
+  </appender>
+
+  <!--Next two can be changed to TRACE to see what values Hibernate uses when executing queries-->
+  <logger name="org.hibernate.SQL" level="INFO"/>
+  <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="INFO"/>
+  <logger name="org.hibernate.type.EnumType" level="INFO"/>
+
+  <logger name="org.bson" level="WARN" />
+  <logger name="org.springframework" level="WARN" />
+  <!--Shows which filters, listeners and servlets get registered in Servlet Container. Useful to see them to
+  understand the app better.-->
+  <logger name="org.springframework.boot.web.servlet" level="INFO"/>
+  <!--Outputs info about which config file is used and which profiles are activated. Important stuff.-->
+  <logger name="org.springframework.boot.context.config" level="DEBUG"/>
+  <!--<logger name="org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod" level="TRACE"/>-->
+  <logger name="org.apache.catalina.startup.DigesterFactory" level="WARN" />
+  <logger name="org.apache" level="WARN" />
+
+  <root level="INFO">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE" />
+  </root>
+</configuration>
