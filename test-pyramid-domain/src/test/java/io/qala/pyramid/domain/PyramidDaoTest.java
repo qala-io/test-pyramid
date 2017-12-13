@@ -22,7 +22,7 @@ public class PyramidDaoTest {
         assertReflectionEquals(pyramid, sut.list().get(0));
     }
 
-    @Test public void SqlIsTreatedAsStringToEliminateSqlInjections() {
+    @Test public void sqlIsTreatedAsStringToEliminateSqlInjections() {
         Pyramid pyramid = sut.save(Pyramid.random().setName("\"' drop table"));
         sut.flush().clearCache();
         assertReflectionEquals(pyramid, sut.list().get(0));

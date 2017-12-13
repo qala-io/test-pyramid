@@ -1,7 +1,7 @@
 "use strict";
-var homePage = new (require('./page/HomePage'));
-var Pyramid = require('./domain/Pyramid');
-var random = require('random-ext');
+const homePage = new (require('./page/HomePage'));
+const Pyramid = require('./domain/Pyramid');
+const random = require('random-ext');
 
 describe('Pyramid', function () {
   beforeEach(function () {
@@ -30,34 +30,34 @@ describe('Pyramid', function () {
     homePage.assertNumberOfValidationErrors(4);
   });
   it('adds newly added item to the list of pyramids w/o page reload', function () {
-    var pyramid = homePage.fillPyramid(new Pyramid());
+    const pyramid = homePage.fillPyramid(new Pyramid());
     homePage.clickSave();
     homePage.assertContainsPyramid(pyramid);
   });
   it('escapes HTML-relevant symbols in name w/o page reload', function () {
-    var pyramid = homePage.fillPyramid(new Pyramid({name: '\'">'}));
+    const pyramid = homePage.fillPyramid(new Pyramid({name: '\'">'}));
     homePage.clickSave();
     homePage.assertContainsPyramid(pyramid);
   });
   it('shows item to the list of pyramids after refresh', function () {
-    var pyramid = homePage.fillPyramid(new Pyramid());
+    const pyramid = homePage.fillPyramid(new Pyramid());
     homePage.clickSave();
     homePage.open();
     homePage.assertContainsPyramid(pyramid);
   });
   it('escapes HTML-relevant symbols in name after refresh', function () {
-    var pyramid = homePage.fillPyramid(new Pyramid({name: '\'">'}));
+    const pyramid = homePage.fillPyramid(new Pyramid({name: '\'">'}));
     homePage.clickSave();
     homePage.open();
     homePage.assertContainsPyramid(pyramid);
   });
   it('empty name does not allow saving pyramids', function () {
-    var pyramid = new Pyramid({name: ''});
+    const pyramid = new Pyramid({name: ''});
     homePage.fillPyramid(pyramid);
     homePage.assertSaveIsNotClickable();
   });
   it('space-only name does not allow saving pyramids', function () {
-    var pyramid = new Pyramid({name: '  '});
+    const pyramid = new Pyramid({name: '  '});
     homePage.fillPyramid(pyramid);
     homePage.assertSaveIsNotClickable();
   });
@@ -87,13 +87,13 @@ describe('Pyramid', function () {
     homePage.assertFormIsEmpty();
   });
   it('cannot type more than max length of name', function () {
-    var pyramid = new Pyramid();
+    const pyramid = new Pyramid();
     pyramid.name = random.string(101, 101);
     homePage.fillPyramid(pyramid);
     homePage.assertNameEquals(pyramid.name.slice(0, -1));
   });
   it('highlights just created pyramid', function () {
-    var pyramid = homePage.createPyramid();
+    const pyramid = homePage.createPyramid();
     homePage.assertPyramidIsHighlighted(pyramid);
   });
   xit('must clear picture if creating canceled since no pyramid is selected (manual test case)');

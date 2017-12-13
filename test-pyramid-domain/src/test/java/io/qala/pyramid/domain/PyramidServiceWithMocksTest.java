@@ -25,7 +25,7 @@ public class PyramidServiceWithMocksTest {
         assertEquals(0, stats.getMode()  , .1);
     }
     @Test public void statsAreEqualForOnePyramid() {
-        doReturn(Collections.singletonList(Pyramid.random())).when(dao).list();
+        doReturn(Pyramid.random(1)).when(dao).list();
         TestCountStats stats = service.getCountStats2();
 
         assertNotEquals(0, stats.getMean(), .1);

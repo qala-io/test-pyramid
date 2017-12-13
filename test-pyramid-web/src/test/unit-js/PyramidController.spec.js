@@ -1,7 +1,7 @@
 'use strict';
 
 describe('PyramidController', function () {
-  var sut, $httpBackend;
+``  let sut, $httpBackend;
   beforeEach(angular.mock.module('app.pyramid'));
   beforeEach(angular.mock.inject(function ($injector, $controller) {
     $httpBackend = $injector.get('$httpBackend');
@@ -71,7 +71,7 @@ describe('PyramidController', function () {
     expect(sut.valid).toBeFalsy();
   });
   it('must highlight created pyramid', function(){
-    var pyramidResponse = {};
+    const pyramidResponse = {};
     $httpBackend.when('POST', '/pyramid').respond(pyramidResponse);
 
     sut.savePyramid();
@@ -79,7 +79,7 @@ describe('PyramidController', function () {
     expect(sut.savedPyramids[0].highlight).toBeTruthy();
   });
   it('must unhighlight pyramids that were previously saved', function(){
-    var pyramidResponse = {};
+    const pyramidResponse = {};
     $httpBackend.when('POST', '/pyramid').respond(pyramidResponse);
 
     sut.savePyramid();

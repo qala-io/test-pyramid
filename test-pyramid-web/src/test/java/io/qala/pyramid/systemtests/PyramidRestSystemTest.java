@@ -3,26 +3,22 @@ package io.qala.pyramid.systemtests;
 import io.qala.pyramid.domain.Pyramid;
 import io.qala.pyramid.web.ErrorResponse;
 import io.restassured.response.Response;
-import org.hibernate.validator.internal.engine.ConstraintViolationImpl;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 
-import javax.validation.ConstraintViolation;
 
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.post;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 /**
- * The fact that on Component Tests level we configured MockMvc correctly doesn"t mean that our app will be configured
+ * The fact that on Component Tests level we configured MockMvc correctly doesn't mean that our app will be configured
  * correctly in production. This includes configs like web.xml, app server descriptors, etc. Thus here we check whether
  * those configs were properly made for REST services. We don"t check the logic of the app itself - it was tested on
  * Component and Unit levels.

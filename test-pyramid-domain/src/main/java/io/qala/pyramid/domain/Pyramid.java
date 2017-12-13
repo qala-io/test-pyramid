@@ -82,8 +82,7 @@ public class Pyramid {
         return this;
     }
 
-    public int
-    getSumOfTests() {
+    public int getSumOfTests() {
         return unitTests + componentTests + systemTests;
     }
 

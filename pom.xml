@@ -32,7 +32,7 @@
     <profile>
       <id>AllTests</id>
       <properties>
-        <component.be.tests.skip>false</component.be.tests.skip>
+        <component.ui.tests.skip>false</component.ui.tests.skip>
         <system.be.tests.skip>false</system.be.tests.skip>
         <system.ui.tests.skip>false</system.ui.tests.skip>
       </properties>

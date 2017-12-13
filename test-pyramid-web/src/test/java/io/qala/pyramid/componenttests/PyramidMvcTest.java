@@ -3,6 +3,7 @@ package io.qala.pyramid.componenttests;
 import io.qala.pyramid.domain.Pyramid;
 import io.qala.pyramid.web.ErrorResponse;
 import io.qala.pyramid.domain.TestCountStats;
+import io.qala.pyramid.web.ErrorResponse.ValidationError;
 import io.qala.pyramid.web.dto.PyramidDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +36,7 @@ public class PyramidMvcTest {
      */
     @Test public void returnsErrorsIfValidationFails() {
         ErrorResponse errors = pyramids.createWithError(Pyramid.random().setName(""));
-        ErrorResponse.ValidationError error = errors.getErrors().iterator().next();
+        ValidationError error = errors.getErrors().iterator().next();
         assertEquals(error.getField(), "name");
         assertTrue("Actual error: " + error, error.getMessage().contains("size must be between"));
     }
