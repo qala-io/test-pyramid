@@ -9,7 +9,6 @@ import java.util.List;
 
 import static io.qala.datagen.RandomShortApi.alphanumeric;
 import static io.qala.datagen.RandomShortApi.integer;
-import static io.qala.datagen.RandomShortApi.positiveInteger;
 
 public class Pyramid {
     private String id;

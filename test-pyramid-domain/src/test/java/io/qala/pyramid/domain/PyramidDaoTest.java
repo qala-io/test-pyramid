@@ -4,10 +4,7 @@ import io.qala.pyramid.domain.utils.NotNullSized;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import static io.qala.datagen.RandomValue.length;
 import static org.junit.Assert.assertEquals;
@@ -17,15 +14,15 @@ import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEqua
 public class PyramidDaoTest {
 
     @Test public void canRetrievePyramidFromDbAfterItIsSaved() {
-        Pyramid pyramid = sut.save(Pyramid.random());
-        sut.flush().clearCache();
-        assertReflectionEquals(pyramid, sut.list().get(0));
+        Pyramid pyramid = dao.save(Pyramid.random());
+        dao.flush().clearCache();
+        assertReflectionEquals(pyramid, dao.list().get(0));
     }
 
     @Test public void sqlIsTreatedAsStringToEliminateSqlInjections() {
-        Pyramid pyramid = sut.save(Pyramid.random().setName("\"' drop table"));
-        sut.flush().clearCache();
-        assertReflectionEquals(pyramid, sut.list().get(0));
+        Pyramid pyramid = dao.save(Pyramid.random().setName("\"' drop table"));
+        dao.flush().clearCache();
+        assertReflectionEquals(pyramid, dao.list().get(0));
     }
 
     @Test public void allowsToSaveMaxValuesOfPyramidFields() {
@@ -34,12 +31,12 @@ public class PyramidDaoTest {
                 .setUnitTests(Integer.MAX_VALUE)
                 .setComponentTests(Integer.MAX_VALUE)
                 .setSystemTests(Integer.MAX_VALUE);
-        sut.save(pyramid);
-        sut.flush();
+        dao.save(pyramid);
+        dao.flush();
     }
 
     @Test public void returnsEmptyListIfThereAreNoPyramidsInDb() {
-        assertEquals(0, sut.list().size());
+        assertEquals(0, dao.list().size());
     }
 
     private static int getNameMaxBoundary() {
@@ -50,5 +47,5 @@ public class PyramidDaoTest {
         }
     }
 
-    @Autowired private PyramidDao sut;
+    @Autowired private PyramidDao dao;
 }

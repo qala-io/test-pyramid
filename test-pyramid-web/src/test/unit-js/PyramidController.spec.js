@@ -1,7 +1,7 @@
 'use strict';
 
 describe('PyramidController', function () {
-``  let sut, $httpBackend;
+  let sut, $httpBackend;
   beforeEach(angular.mock.module('app.pyramid'));
   beforeEach(angular.mock.inject(function ($injector, $controller) {
     $httpBackend = $injector.get('$httpBackend');
@@ -98,7 +98,7 @@ describe('PyramidController', function () {
     expect(sut.currentPyramid.componentTests.label).toBe('25%');
     expect(sut.currentPyramid.systemTests.label).toBe('25%');
   });
-  it('must round to 2 decimals', function () {
+  it('must round to 1 decimal', function () {
     sut.currentPyramid.unitTests.count = 1;
     sut.currentPyramid.componentTests.count = 1;
     sut.currentPyramid.systemTests.count = 1;
