@@ -13,8 +13,8 @@ public class PyramidService {
     public List<Pyramid> list()       { return pyramidDao.list(); }
 
     public TestCountStats getCountStats2() {//Anemic Model demo - example of bad architectural decisions
-        List<Pyramid> pyramids = pyramidDao.list();
         TestCountStats result = new TestCountStats();
+        List<Pyramid> pyramids = pyramidDao.list();
         if(pyramids.isEmpty()) return result;
 
         List<Integer> testCounts = new ArrayList<>(pyramids.size());

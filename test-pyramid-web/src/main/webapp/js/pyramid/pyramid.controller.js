@@ -69,11 +69,6 @@
       });
     }
 
-    function highlightAndDraw(pyramid) {
-      pyramid.highlight = true;
-
-    }
-
     /**
      * Returns test info by its test-type id.
      * @param testType string id of test-type (see {@see vm.testTypes})
@@ -113,11 +108,8 @@
       }, 0);
       self.tests.forEach(function (it) {
         it.proportion = sum ? it.count / sum : 0;
-        if (!it.count || isNaN(it.count)) {
-          it.label = '';
-        } else {
-          it.label = +(it.proportion * 100).toFixed(1) + '%';
-        }
+        if (!it.count || isNaN(it.count)) it.label = '';
+        else it.label = +(it.proportion * 100).toFixed(1) + '%';
       });
       return [self.unitTests.proportion, self.componentTests.proportion, self.systemTests.proportion];
     }
