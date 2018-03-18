@@ -1,5 +1,6 @@
 package io.qala.pyramid.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,6 +12,29 @@ public class PyramidService {
 
     public void save(Pyramid pyramid) { pyramidDao.save(pyramid); }
     public List<Pyramid> list()       { return pyramidDao.list(); }
+
+    /**
+     * Value from 0 to 1 which tells how good the pyramid is.
+     *
+     * @return 0 - for worse pyramid ever, 1 - for the best pyramid
+     */
+    public double getScore2(Serializable pyramidId) {//Anemic Model demo - example of bad architectural decisions
+        Pyramid p = pyramidDao.get(pyramidId);
+        double unitTestScore = p.getUnitTests(),
+               componentTestScore = p.getComponentTests();
+        if(p.getComponentTests() + p.getSystemTests() != 0)
+            unitTestScore /= (p.getComponentTests() + p.getSystemTests());
+        if(p.getSystemTests() != 0)
+            componentTestScore /= p.getSystemTests();
+
+        if(componentTestScore == 0 && unitTestScore == 0) return 0;
+        //   1
+        //-------- where s is score which gets bigger if pyramid is better. This allows the score to be between 0 and 1.
+        // 1 + e⁻ˢ
+        double firstHalf = 1./((1 + Math.exp(-1 * componentTestScore)));
+        double secondHalf = 1./((1 + Math.exp(-1 * unitTestScore)));
+        return (firstHalf+secondHalf)/2;
+    }
 
     public TestCountStats getCountStats2() {//Anemic Model demo - example of bad architectural decisions
         TestCountStats result = new TestCountStats();
@@ -50,6 +74,11 @@ public class PyramidService {
         return maxValue;
     }
 
+    public double getScore(Serializable pyramidId) {//Rich Model demo
+        Pyramid pyramid = pyramidDao.get(pyramidId);
+        if(pyramid != null) return pyramid.getScore();
+        throw new IllegalArgumentException("There is no pyramid with such ID: " + pyramidId);
+    }
     public TestCountStats getCountStats() {//Rich Model demo
         return new TestCountStats(pyramidDao.list());
     }

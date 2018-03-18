@@ -3,6 +3,7 @@ package io.qala.pyramid.domain;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.io.Serializable;
 import java.util.List;
 
 class PyramidDao {
@@ -16,7 +17,11 @@ class PyramidDao {
     }
 
     List<Pyramid> list() {
+        //noinspection unchecked
         return getSession().createQuery("from Pyramid").list();
+    }
+    Pyramid get(Serializable id) {
+        return (Pyramid) getSession().get(Pyramid.class, id);
     }
 
     Session getSession() {

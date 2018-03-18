@@ -16,13 +16,13 @@ public class PyramidDaoTest {
     @Test public void canRetrievePyramidFromDbAfterItIsSaved() {
         Pyramid pyramid = dao.save(Pyramid.random());
         dao.flush().clearCache();
-        assertReflectionEquals(pyramid, dao.list().get(0));
+        assertReflectionEquals(pyramid, dao.get(pyramid.getId()));
     }
 
     @Test public void sqlIsTreatedAsStringToEliminateSqlInjections() {
         Pyramid pyramid = dao.save(Pyramid.random().setName("\"' drop table"));
         dao.flush().clearCache();
-        assertReflectionEquals(pyramid, dao.list().get(0));
+        assertReflectionEquals(pyramid, dao.get(pyramid.getId()));
     }
 
     @Test public void allowsToSaveMaxValuesOfPyramidFields() {

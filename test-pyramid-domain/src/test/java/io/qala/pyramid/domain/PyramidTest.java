@@ -18,6 +18,39 @@ import static org.junit.Assert.assertTrue;
  * same. But we still need to check that this happens - it will be tested in Component Tests.
  */
 public class PyramidTest {
+
+    @Test public void scoreWorsensIfThereAreMoreSystemTests() {
+        Pyramid p = Pyramid.random();
+        double initialScore = p.getScore();
+        double eventualScore = p.setSystemTests(p.getSumOfTests()).getScore();
+        assertTrue("Initial: " + initialScore + ", eventual: " + eventualScore, initialScore > eventualScore);
+    }
+    @Test public void scoreWorsensIfThereAreMoreComponentTestsComparedToUnitTests() {
+        Pyramid p = Pyramid.random().setSystemTests(0);
+        double initialScore = p.getScore();
+        double eventualScore = p.setComponentTests(p.getSumOfTests()).getScore();
+        assertTrue("Initial: " + initialScore + ", eventual: " + eventualScore, initialScore > eventualScore);
+    }
+    @Test public void scoreWorsensIfThereAreLessComponentTestsComparedToSystemTests() {
+        Pyramid p = Pyramid.random().setUnitTests(0);
+        double initialScore = p.getScore();
+        double eventualScore = p.setComponentTests(0).getScore();
+        assertTrue("Initial: " + initialScore + ", eventual: " + eventualScore, initialScore > eventualScore);
+    }
+    @Test public void scoreIs0_ifNoTestsAtAll() {
+        Pyramid p = Pyramid.random().setUnitTests(0).setComponentTests(0).setSystemTests(0);
+        assertEquals(0D, p.getScore(), .0001);
+    }
+    @Test public void scoreIs1_ifThereAreManyUnitAndLessOfComponentTests() {
+        Pyramid p = Pyramid.random().setUnitTests(1000).setComponentTests(112).setSystemTests(5);
+        assertEquals(1D, p.getScore(), .0001);
+    }
+    @Test public void scoreIsAlwaysBetween0And1() {
+        Pyramid p = Pyramid.random();
+        assertTrue(1D >= p.getScore());
+        assertTrue(0 <= p.getScore());
+    }
+
     @Test public void validationPasses_forValidNames() {
         Pyramid pyramid = Pyramid.random();
         assertValidationPassed("min boundary"            , pyramid.setName(length(1).alphanumeric()));

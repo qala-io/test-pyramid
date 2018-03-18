@@ -3,7 +3,6 @@ package io.qala.pyramid.domain;
 import io.qala.pyramid.domain.utils.NotNullSized;
 
 import javax.validation.constraints.Min;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,6 +82,25 @@ public class Pyramid {
 
     public int getSumOfTests() {
         return unitTests + componentTests + systemTests;
+    }
+
+    /**
+     * Value from 0 to 1 which tells how good the pyramid is.
+     *
+     * @return 0 - for worse pyramid ever, 1 - for the best pyramid
+     */
+    public double getScore() {
+        double unitTestScore = unitTests, componentTestScore = componentTests;
+        if(componentTests + systemTests != 0) unitTestScore /= (componentTests + systemTests);
+        if(systemTests != 0)                  componentTestScore /= systemTests;
+
+        if(componentTestScore == 0 && unitTestScore == 0) return 0;
+        //   1
+        //-------- where s is score which gets bigger if pyramid is better. This allows the score to be between 0 and 1.
+        // 1 + e⁻ˢ
+        double firstHalf = 1./((1 + Math.exp(-1 * componentTestScore)));
+        double secondHalf = 1./((1 + Math.exp(-1 * unitTestScore)));
+        return (firstHalf+secondHalf)/2;
     }
 
     @Override

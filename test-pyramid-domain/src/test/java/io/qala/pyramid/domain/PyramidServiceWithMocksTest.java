@@ -6,15 +6,64 @@ import org.mockito.Mockito;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static io.qala.datagen.RandomShortApi.alphanumeric;
 import static io.qala.datagen.RandomShortApi.positiveInteger;
 import static io.qala.pyramid.domain.TestCountStatsTest.testCount;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
 
 /** Example of how bad architectural decisions (anemic model) impact testing. */
 public class PyramidServiceWithMocksTest {
     private final PyramidDao dao = Mockito.mock(PyramidDao.class);
     private final PyramidService service = new PyramidService(dao);
+
+    @Test public void scoreWorsensIfThereAreMoreSystemTests() {
+        Pyramid p = Pyramid.random();
+        doReturn(p).when(dao).get(anyString());
+        double initialScore = service.getScore2(alphanumeric(10));
+
+        p.setSystemTests(p.getSumOfTests());
+        double eventualScore = service.getScore2(alphanumeric(10));
+        assertTrue("Initial: " + initialScore + ", eventual: " + eventualScore, initialScore > eventualScore);
+    }
+    @Test public void scoreWorsensIfThereAreMoreComponentTestsComparedToUnitTests() {
+        Pyramid p = Pyramid.random().setSystemTests(0);
+        doReturn(p).when(dao).get(anyString());
+        double initialScore = service.getScore2(alphanumeric(10));
+
+        p.setComponentTests(p.getSumOfTests());
+        double eventualScore = service.getScore2(alphanumeric(10));
+        assertTrue("Initial: " + initialScore + ", eventual: " + eventualScore, initialScore > eventualScore);
+    }
+    @Test public void scoreWorsensIfThereAreLessComponentTestsComparedToSystemTests() {
+        Pyramid p = Pyramid.random().setUnitTests(0);
+        doReturn(p).when(dao).get(anyString());
+        double initialScore = service.getScore2(alphanumeric(10));
+
+        p.setComponentTests(0).getScore();
+        double eventualScore = service.getScore2(alphanumeric(10));
+        assertTrue("Initial: " + initialScore + ", eventual: " + eventualScore, initialScore > eventualScore);
+    }
+    @Test public void scoreIs0_ifNoTestsAtAll() {
+        Pyramid p = Pyramid.random().setUnitTests(0).setComponentTests(0).setSystemTests(0);
+        doReturn(p).when(dao).get(anyString());
+        double score = service.getScore2(alphanumeric(10));
+        assertEquals(0D, score, .0001);
+    }
+    @Test public void scoreIs1_ifThereAreManyUnitAndLessOfComponentTests() {
+        Pyramid p = Pyramid.random().setUnitTests(1000).setComponentTests(112).setSystemTests(5);
+        doReturn(p).when(dao).get(anyString());
+        double score = service.getScore2(alphanumeric(10));
+        assertEquals(1D, score, .0001);
+    }
+    @Test public void scoreIsAlwaysBetween0And1() {
+        Pyramid p = Pyramid.random();
+        doReturn(p).when(dao).get(anyString());
+        double score = service.getScore2(alphanumeric(10));
+        assertTrue(1D >= score);
+        assertTrue(0 <= score);
+    }
 
     @Test public void statsAreEmpty_ifNoPyramidsExist() {
         doReturn(Collections.emptyList()).when(dao).list();
