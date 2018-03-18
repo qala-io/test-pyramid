@@ -12,7 +12,7 @@ class PyramidDao {
     }
 
     Pyramid save(Pyramid pyramid) {
-        getSession().save(pyramid);
+        getSession().saveOrUpdate(pyramid);
         return pyramid;
     }
 
