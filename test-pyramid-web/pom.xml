@@ -102,6 +102,17 @@
               </configuration>
             </execution>
             <execution>
+              <id>UI System Tests (No Selenium)</id>
+              <goals>
+                <goal>npm</goal>
+              </goals>
+              <phase>test</phase>
+              <configuration>
+                <arguments>run system-no-se</arguments>
+                <skip>${system.ui.tests.skip}</skip>
+              </configuration>
+            </execution>
+            <execution>
               <id>UI System Tests</id>
               <goals>
                 <goal>npm</goal>
@@ -212,6 +223,12 @@
     <dependency>
       <groupId>io.rest-assured</groupId>
       <artifactId>spring-mock-mvc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tomcat</groupId>
+      <artifactId>tomcat-catalina</artifactId>
+      <version>8.0.30</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 </project>

@@ -56,7 +56,12 @@
     }
 
     function savePyramid() {
-      $http.post(vm.baseUrl + '/pyramid', vm.currentPyramid.toServerJson()).then(function (res) {
+      const req = {
+        method: 'POST', url: ''+vm.baseUrl + '/pyramid',
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
+        data: vm.currentPyramid.toServerJson()
+      };
+      return $http(req).then(function (res) {
         vm.savedPyramids.forEach(function (el) {
           el.highlight = false;
         });
@@ -65,7 +70,7 @@
         pyramid.highlight = true;
         showList();
       }).catch(function (error) {
-        console.warn(error);
+        console.warn("error when saving the pyramid", error);
       });
     }
 

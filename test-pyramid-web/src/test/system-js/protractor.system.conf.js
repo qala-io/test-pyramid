@@ -4,7 +4,7 @@ exports.config = {
   framework: 'jasmine2',
   seleniumAddress: 'http://localhost:4444/wd/hub',
   baseUrl: 'http://localhost:8080/',
-  specs: ['**.spec.js'],
+  specs: ['Pyramid.spec.js'],
   capabilities: {
     //'browserName': 'phantomjs',
     'browserName': 'chrome',
